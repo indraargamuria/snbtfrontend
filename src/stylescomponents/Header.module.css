@@ -7,7 +7,7 @@
     grid-template-columns: 10vw 40vw 40vw 10vw;
 }
 .topleft {
-    /* background-color: red; */
+    background-color: none;
 }
 .topmid {
     /* background-color: yellow; */
@@ -62,4 +62,25 @@
 .pfp img {
     width: 40px;
     border-radius: 40px;
+}
+
+@media (max-width: 900px) {
+    .top {
+        height: 60px;
+        display: grid;
+        grid-template-columns: 100vw;
+        background-color: #0058A7;
+    }
+    .topleft {
+        display: none;
+    }
+    .topright {
+        display: none;
+    }
+    .topmid {
+        display: grid;
+        grid-template-columns: 50vw 50vw;
+        /* place-items: center; */
+    }
+
 }

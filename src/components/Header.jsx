@@ -54,7 +54,7 @@ function Header() {
             <div className={styles.top}>
                 <div className={styles.topleftblankspace}></div>
                 <div className={styles.topleft}>
-                    <div className={styles.socialmedia}>
+                    {/* <div className={styles.socialmedia}>
                         <div className={styles.socialmediabadge}>
                             <img src='https://png.pngtree.com/pngvector/20221018/ourmid/pngtreeinstagramiconpngimage_6315974.png' alt='' />
                         </div>
@@ -70,7 +70,7 @@ function Header() {
                         <div className={styles.socialmediablankspace}>
 
                         </div>
-                    </div>
+                    </div> */}
                 </div>
                 <div className={styles.topmid}>
                     <div className={styles.user}>

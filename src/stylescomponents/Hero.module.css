@@ -1,0 +1,150 @@
+
+.hero {
+    /* background-color: red; */
+    /* height: 500px; */
+    width: 100vw;
+    /* margin-top: 10px;kk */
+    padding: 20px 0px;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 10vw 50vw 30vw 10vw;
+    
+}
+.heromid {
+    display: none;
+}
+.heroleft {
+    /* background-color: yellow; */
+    overflow-wrap: break-word;
+}
+.maintagline {
+    font-size: 40px;
+}
+.maintagline i {
+    color: #0058A7;
+}
+.maintaglineoutlined {
+    background-color: #0058A7;
+    color: white;
+    padding: 2px 5px;
+    border-radius: 4px;
+}
+.secondarytagline {
+    margin-top: 40px;
+    font-size: 25px;
+}
+.secondarytaglineoutlined {
+    background-color: #0058A7;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+.secondarytagline i {
+    /* font-size: 35px; */
+    color: #0058A7;
+}
+.tagpointtitle {
+    margin-top: 40px;
+    font-size: 20px;
+}
+.tagpointlist {
+    /* background-color: red; */
+    display: grid;
+    margin-top: 20px;
+    grid-template-columns: repeat(2,  1fr);
+}
+.tagpointlistcontent {
+    display: grid;
+    padding: 10px 0px;
+    font-size: 15px;
+    grid-template-columns: 30px 1fr;
+}
+.tagpointlistbullet {
+    color: #0058A7;
+    font-size: 20px;
+    display: grid;
+    place-items: center left;
+}
+.tagpointlistdescription {
+    display: grid;
+    place-items: center left;
+}
+.heroright {
+    display: grid;
+    place-items: center;
+}
+/* .heroright img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+} */
+.heroimage{
+    width: 100%;
+    height: 100%;
+}
+.heroimage img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+@media (max-width: 900px) {
+    .hero {
+        /* background-color: red; */
+        height: auto;
+        width: 100vw;
+        /* margin-top: 10px;kk */
+        padding: 10px 0px;
+        box-sizing: border-box;
+        display: grid;
+        grid-template-columns: 5vw 90vw 5vw;
+        
+    }
+    .heroright {
+        display: none;
+    }
+    .heroleft {
+        display: none;
+    }
+    .heromid {
+        padding-left: 10px;
+        display: block;
+    }
+    .maintagline {
+        font-size: 20px;
+    }
+    .secondarytagline {
+        margin-top: 20px;
+        font-size: 20px;
+    }
+    .tagpoint-title {
+        margin-top: 20px;
+        font-size: 15px;
+    }
+    .tagpoint-list {
+        /* background-color: red; */
+        display: grid;
+        grid-template-columns: repeat(1,  1fr);
+    }
+    .tagpoint-listcontent {
+        display: grid;
+        padding: 5px 0px;
+        font-size: 10px;
+        grid-template-columns: 30px 1fr;
+    }
+    .heroimage{
+        /* background-color: #000; */
+        width: 100%;
+        height: auto;
+        display: grid;
+        place-items: center;
+        margin-bottom: 10px;
+    }
+    .heroimage img {
+        width: 200px;
+        /* height: 50px; */
+        object-fit: cover;
+        object-position: center;
+    }
+}

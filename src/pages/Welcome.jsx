@@ -1,12 +1,14 @@
 import React, {Fragment} from 'react'
 import styles from '../stylespages/Welcome.module.css'
 import { Link } from 'react-router-dom';
+import HeroComponent from '../components/Hero';
+import CredentialComponent from '../components/Credential';
 
 function Welcome(){
     return (
         <Fragment>
-            <h1 className={styles.test} >Welcome</h1>
-            <Link to='/'>A</Link>
+            <CredentialComponent/>
+            <HeroComponent/>
         </Fragment>
     )
 }
