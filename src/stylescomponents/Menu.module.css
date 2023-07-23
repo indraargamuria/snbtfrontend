@@ -1,0 +1,97 @@
+
+.nav {
+    height: 100px;
+    width: 100vw;
+    /* background-color: #093139; */
+    display: grid;
+    grid-template-columns: 10vw 20vw 60vw 10vw;
+}
+.navleft {
+    display: grid;
+    place-items: center left ;
+    /* background-color: red; */
+}
+.logo img {
+    height: 80px;
+    cursor: pointer;
+}
+.navmid {
+    /* background-color: green; */
+    display: none;
+}
+.navright {
+    /* background-color: yellow; */
+    display: grid;
+    place-items: center end;
+}
+.navright ul {
+    margin: 0;
+    padding: 0;
+}
+.navright ul li {
+    display: inline-block;
+    margin-left: 10px;
+}
+.navright ul li {
+    text-decoration: none;
+    cursor: pointer;
+}
+.navbuttonactive {
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: 0.3s;
+    color: #FFFFFF;
+    text-decoration: none;
+    background-color: #0058A7;
+}
+.navbuttoninactive {
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: 0.3s;
+    color: #0058A7;
+    text-decoration: none;
+    background-color: #FFFFFF;
+}
+.navbuttoninactive:hover {
+    color: #FFFFFF;
+    background-color: #0058A7;
+}
+
+.navicon {
+    display: none;
+    color: #FFFFFF;
+}
+
+
+@media (max-width: 900px) {
+
+    .nav {
+        height: 60px;
+        width: 100vw;
+        /* background-color: #093139; */
+        display: grid;
+        grid-template-columns: 5vw 45vw 45vw 5vw;
+        /* border-bottom: 1px solid #0058A7; */
+    }
+    .navmenu {
+        display: none;
+
+    }
+    .navright ul li i {
+        padding: 5px 10px;
+        color: #0058A7;
+        border: 1px solid #0058A7;
+        border-radius: 10px;
+        cursor: pointer;
+
+    }
+    .navright ul li i:hover {
+        color: white;
+        background-color: #0058A7;
+
+    }
+    .navicon {
+        display: block;
+        font-size: 30px;
+    }
+}

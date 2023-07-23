@@ -1,25 +1,32 @@
 import logo from './logo.svg';
 import './App.css';
+import React, {useState, useEffect} from 'react';
+import TimelineComponent from './components/Timeline';
+import TimelineLoadingComponent from './components/TimelineLoading';
 
 function App() {
+  const TimelineLoading = TimelineLoadingComponent(TimelineComponent);
+  const [timelineState, setTimelineState] = useState({
+    loading: false,
+    timeline: null,
+  });
+
+  useEffect(()=>{
+    setTimelineState({loading:true});
+    const apiUrl = 'http://127.0.0.1:8000/api/timeline/';
+    fetch(apiUrl)
+      .then((data)=>data.json())
+      .then((timelinedata)=>{
+        setTimelineState({loading: false, timeline: timelinedata});
+      })
+  }, [setTimelineState])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Timeline</h1>
+      <TimelineLoading isLoading={timelineState.loading} timeline={timelineState.timeline}/>
     </div>
-  );
+  )
 }
 
 export default App;

@@ -1,0 +1,65 @@
+
+.top {
+    height: 60px;
+    width: 100vw;
+    background-color: #0058A7;
+    display: grid;
+    grid-template-columns: 10vw 40vw 40vw 10vw;
+}
+.topleft {
+    /* background-color: red; */
+}
+.topmid {
+    /* background-color: yellow; */
+    display: none;
+}
+.topright {
+    display: grid;
+    grid-template-columns: 1fr 60px;
+    /* background-color: green; */
+}
+.socialmedia {
+    display: grid;
+    height: 100%;
+    grid-template-columns: 40px 40px 40px 40px 1fr;
+}
+.socialmediabadge {
+    background-color: #FFFFFF;
+    display: grid;
+    place-items: center;
+    font-size: 12px;
+    margin: 15px 5px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.socialmediabadge img {
+    width: 20px;
+    
+
+}
+
+.user {
+    display: grid;
+    place-content: center end;
+    /* background-color: brown; */
+    color: white;
+    font-size: 14px;
+    padding-right: 5px;
+}
+.user a {
+    text-decoration: none;
+    color: white;
+}
+.pfp {
+    background-color: white;
+    margin: 7.5px;
+    width: 45px;
+    height: 45px;
+    display: grid;
+    border-radius: 50px;
+    place-items: center;
+}
+.pfp img {
+    width: 40px;
+    border-radius: 40px;
+}
