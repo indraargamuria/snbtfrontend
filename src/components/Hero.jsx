@@ -1,8 +1,9 @@
-import React, { Component, Fragment } from 'react';
-import styles from '../stylescomponents/Hero.module.css';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faBoxesStacked, faCalendarAlt, faGraduationCap, faStar, faThumbsUp, faUniversity, faUserGraduate } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {library} from '@fortawesome/fontawesome-svg-core';
-import { faBoxesStacked, faCalendarAlt, faCalendarCheck, faCalendarPlus, faCartPlus, faGraduationCap, faHamburger, faStar, faThumbsUp, faUniversity, faUserGraduate } from '@fortawesome/free-solid-svg-icons';
+import React, { Fragment } from 'react';
+import styles from '../stylescomponents/Hero.module.css';
+import SectionImage from './SectionImage';
 
 function Hero(){
     library.add(faCalendarAlt,faBoxesStacked, faUserGraduate,faUniversity,faStar)
@@ -73,7 +74,8 @@ function Hero(){
             </div>
             <div className={styles.heroright}>
                 <div className={styles.heroimage}>
-                    <img src='https://img.freepik.com/free-vector/focused-tiny-people-reading-books_74855-5836.jpg?w=900&t=st=1676313889~exp=1676314489~hmac=69551bd2c4e33214bd7dd1262676d179fba4f4bd862606c0524157db2dbe146c' alt='' />
+                    <SectionImage url='https://img.freepik.com/free-vector/focused-tiny-people-reading-books_74855-5836.jpg?w=900&t=st=1676313889~exp=1676314489~hmac=69551bd2c4e33214bd7dd1262676d179fba4f4bd862606c0524157db2dbe146c'/>
+                
                 </div>
             </div>
             <div className={styles.herorightblankspace}></div>

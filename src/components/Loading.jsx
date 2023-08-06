@@ -1,7 +1,7 @@
 import React from "react";
 
-function TimelineLoading(Component){
-    return function TimelineLoadingComponent({isLoading, ...props}){
+function Loading(Component){
+    return function LoadingComponent({isLoading, ...props}){
         if(!isLoading)return <Component {...props}/>;   
         return (
             <h4>Loading Bro</h4>
@@ -9,4 +9,4 @@ function TimelineLoading(Component){
     }
 }
 
-export default TimelineLoading
+export default Loading;

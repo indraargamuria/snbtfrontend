@@ -11,6 +11,10 @@
     place-items: center left ;
     /* background-color: red; */
 }
+.navtitle {
+    /* color: #ff7b53; */
+    color: #0058A7;
+}
 .logo img {
     height: 80px;
     cursor: pointer;

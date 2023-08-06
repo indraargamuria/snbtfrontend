@@ -1,8 +1,7 @@
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
-import React, {useState, useEffect} from 'react';
-import TimelineComponent from './components/Timeline';
-import TimelineLoadingComponent from './components/TimelineLoading';
+import TimelineComponent from './components/TimelineWrapper';
+import TimelineLoadingComponent from './components/Loading';
 
 function App() {
   const TimelineLoading = TimelineLoadingComponent(TimelineComponent);

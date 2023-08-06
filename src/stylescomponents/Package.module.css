@@ -1,0 +1,38 @@
+
+.package {
+    margin-top: 60px;
+    /* height: 200px; */
+    display: grid;
+    grid-template-columns: 10vw 80vw 10vw;
+}
+.packageleft {
+    display: none;
+}
+.packageright {
+    display: none;
+}
+.packagetitle {
+    /* background-color: yellow; */
+    height: 30px;
+    display: grid;
+    place-items: center;
+    font-size: 30px;
+}
+.packagecontent {
+    /* background-color: green; */
+    margin-top: 40px;
+    height: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+
+@media (max-width: 900px) {
+
+    .packagecontent {
+        /* background-color: green; */
+        height: auto;
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+    }
+}

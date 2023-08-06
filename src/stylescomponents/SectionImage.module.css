@@ -1,0 +1,28 @@
+
+.sectionimage{
+    width: 100%;
+    height: 100%;
+}
+.sectionimage img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+@media (max-width: 900px) {
+
+    .sectionimage{
+        /* background-color: #000; */
+        width: 100%;
+        height: auto;
+        display: grid;
+        place-items: center;
+        margin-bottom: 10px;
+    }
+    .sectionimage img {
+        width: 200px;
+        /* height: 50px; */
+        object-fit: cover;
+        object-position: center;
+    }
+}

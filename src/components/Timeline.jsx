@@ -1,19 +1,45 @@
-import React from 'react';
-
-const Timeline = (props) => {
-    const {timeline} = props;
-    if(!timeline || timeline.length === 0) return <p>Data tidak ada</p>
+import React,{Fragment} from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendarCheck } from '@fortawesome/free-solid-svg-icons';
+import styles from '../stylescomponents/Timeline.module.css';
+function Timeline(props) {
     return (
-        <React.Fragment>
-            <ul>
-                {timeline.map(todo => {
-                    return (
-                        <li key={todo.id} href="#">{todo.name}</li>
-                    )
-                })}
-            </ul>
-        </React.Fragment>
-    )
-};
+        <Fragment>
+            <div className={styles.timeline}>
+                <div className={styles.timelineicon}>
+                    <i><FontAwesomeIcon icon={faCalendarCheck}></FontAwesomeIcon></i>
+                </div>
+                <div className={styles.timelinestatus}>
+                    <span className={props.status === 'Sedang Berjalan' ? styles.timelinestatusactive :  styles.timelinestatusinactive}>{props.status}</span>
+                </div>
+                <div className={styles.timelineheader}>
+                    {props.header}
 
-export default Timeline;
+                </div>
+                <div className={styles.timelinecontent}>
+                    <div className={styles.timelinecontentlist}>
+                        <span>Pendaftaran TO</span>
+                        <span>:</span>
+                        <span>{props.register}</span>
+                    </div>
+                    <div className={styles.timelinecontentlist}>
+                        <span>Pengerjaan TO</span>
+                        <span>:</span>
+                        <span>{props.activity}</span>
+                    </div>
+                    <div className={styles.timelinecontentlist}>
+                        <span>Pengumuman Nilai TO</span>
+                        <span>:</span>
+                        <span>{props.announcement}</span>
+                    </div>
+                    <div className={styles.timelinecontentlist}>
+                        <span>Pembahasan Live Class</span>
+                        <span>:</span>
+                        <span>{props.liveclass}</span>
+                    </div>
+                </div>
+            </div>
+        </Fragment>
+    )
+}
+export default Timeline

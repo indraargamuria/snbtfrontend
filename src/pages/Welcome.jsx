@@ -1,14 +1,14 @@
-import React, {Fragment} from 'react'
-import styles from '../stylespages/Welcome.module.css'
-import { Link } from 'react-router-dom';
-import HeroComponent from '../components/Hero';
+import React, { Fragment } from 'react';
 import CredentialComponent from '../components/Credential';
+import HeroComponent from '../components/Hero';
+import InfoComponent from '../components/Info';
 
 function Welcome(){
     return (
         <Fragment>
-            <CredentialComponent/>
             <HeroComponent/>
+            <CredentialComponent/>
+            <InfoComponent/>
         </Fragment>
     )
 }

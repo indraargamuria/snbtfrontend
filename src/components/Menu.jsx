@@ -38,13 +38,13 @@ function Menu() {
                 <div className={styles.navright}>
                     {location.pathname === '/welcome' ? 
                         <div>
-                            DAFTAR DAN GABUNG SEKARANG
+                            <h1 className={styles.navtitle}>SNBT TRY OUT</h1>
                         </div> :
                         <div>
                             <ul className={styles.navmenu}>
                                 {menu.map(menu => {
                                     return (
-                                        <li><Link to={menu.path} className={location.pathname === menu.path ? styles.navbuttonactive : styles.navbuttoninactive}>{menu.label}</Link></li>                    
+                                        <li key={menu.label}><Link to={menu.path} className={location.pathname === menu.path ? styles.navbuttonactive : styles.navbuttoninactive}>{menu.label}</Link></li>                    
                                     )
                                 })}
                             </ul>

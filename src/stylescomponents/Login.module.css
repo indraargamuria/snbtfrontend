@@ -1,0 +1,57 @@
+.logincontainer {
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    padding: 80px 80px;
+    display: grid;
+    border-radius: 5px;
+    /* height: 250px; */
+}
+.logintitle {
+    font-size: 24px;
+    font-weight: bold;
+    place-self: center;
+    margin-bottom: 24px;
+}
+.logininputwrapper {
+    border-bottom: 1px solid #454545;
+    display: grid;
+    grid-template-columns: 15% 85%;
+    margin-bottom: 16px;
+    padding: 10px 0px;
+}
+.logininputwrapper i {
+    font-size: 26px;
+    color: #ff7b53;
+}
+.logininputwrapper input {
+    font-size: 16px;
+    outline: none;
+    border: none;
+}
+.loginbuttonwrapper {
+    margin-top: 32px;
+}
+.loginbuttonsignin {
+    background-color: #0058A7;
+    color: #FFF;
+    padding: 10px 20px;
+    border: none;
+    font-size: 16px;
+    border-radius: 5px;
+    outline:none;
+    transition: 0.5s;
+
+}
+.loginbuttonsignin:hover {
+    background-color: #ff7b53;
+    cursor: pointer;
+}
+.loginbuttonregister {
+    background-color: #FFF;
+    margin-left:16px;
+    font-size: 16px;
+    border:none;
+    cursor: pointer;
+}
+.loginbuttonregister:hover {
+    text-decoration: underline;
+}

@@ -1,13 +1,12 @@
-import React, {Fragment} from 'react'
-import styles from '../stylespages/Homepage.module.css'
-import { Link } from 'react-router-dom';
-import HeroComponent from '../components/Hero'
+import React, { Fragment, useEffect, useState} from 'react';
+import HeroComponent from '../components/Hero';
+import PackageComponent from '../components/Package';
 
 function Homepage(){
     return (
         <Fragment>
             <HeroComponent/>
-
+            <PackageComponent/>
         </Fragment>
     )
 }
