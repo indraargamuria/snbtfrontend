@@ -35,7 +35,11 @@ function Login(props) {
                 axiosInstance.defaults.headers['Authorization'] = 
                     'JWT ' + localStorage.getItem('access_token');
                     navigate('/');
-            });
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+                alert("Kredensial Tidak Terdaftar")
+            });;
     }
     return (
         <Fragment>

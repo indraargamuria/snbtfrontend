@@ -21,7 +21,7 @@ function Menu() {
         }
     ]
     useEffect(() => {
-      console.log(location.pathname)
+    //   console.log(location.pathname)
       // console.log(allQuestion);
     } ,[location]);
 

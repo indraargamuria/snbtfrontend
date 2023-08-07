@@ -7,19 +7,21 @@ import Menu from './components/Menu';
 import './index.css';
 import Homepage from './pages/Homepage';
 import Welcome from './pages/Welcome';
+import Catalog from './pages/Catalog';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Router>
-    <React.StrictMode>
+    {/* <React.StrictMode> */}
       <Header/>
       <Menu/>
       <Routes>
         <Route exact path="/welcome" element={<Welcome/>}/>
         <Route exact path="/" element={<Homepage/>}/>
+        <Route exact path="/catalog" element={<Catalog/>}/>
       </Routes>
       {/* <Footer/> */}
-    </React.StrictMode>
+    {/* </React.StrictMode> */}
   </Router>
 );
 reportWebVitals();

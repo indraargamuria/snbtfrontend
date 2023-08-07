@@ -9,6 +9,7 @@ const PackageBoxWrapper = (props) => {
         <Fragment>{content.map(t => {
                     return <PackageBoxComponent 
                         key={t.id}
+                        id={t.id}
                         name={t.name}
                         price={30000}
                     />
