@@ -1,14 +1,14 @@
 import React,{Fragment} from 'react';
-import PackageAttributeComponent from './PackageAttribute'
+import TryOutComponent from './TryOut'
 
-const PackageAttributeWrapper = (props) => {
+const TryOutWrapper = (props) => {
     const {content} = props;
     if(!content || content.length === 0) return <p>Tidak ada Package Active</p>
     // console.log(Package.length);
     return (
-        <Fragment>{<PackageAttributeComponent content={content}/>}
+        <Fragment>{<TryOutComponent content={content}/>}
         </Fragment>
     )
 };
 
-export default PackageAttributeWrapper;
+export default TryOutWrapper;
