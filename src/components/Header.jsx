@@ -1,8 +1,10 @@
 import React, {Fragment, useEffect} from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styles from '../stylescomponents/Header.module.css'
 function Header() {
     const location = useLocation();
+
+    const navigate = useNavigate();
 
     useEffect(() => {
     //   console.log(location.pathname)
@@ -36,7 +38,7 @@ function Header() {
                 </div>
                 <div className={styles.topmid}>
                     <div className={styles.user}>
-                        <a href='/login'>ARGA</a>
+                        <a onClick={()=>navigate('/')}>ARGA</a>
                     </div>
                     <div className={styles.pfp}>
                         {/* <img src='https://media.licdn.com/dms/image/C4D03AQFBEmwpP5mIeA/profiledisplayphotoshrink_800_800/0/1655984562589?e=2147483647&v=beta&t=UrYK3RJ8LiJ70_eUUrESWb3_zVYaOv8VsWJdNcPcvYc' alt='' /> */}
@@ -44,7 +46,7 @@ function Header() {
                 </div>
                 <div className={styles.topright}>
                     <div className={styles.user}>
-                        <a href='/login'>ARGA</a>
+                        <a onClick={()=>navigate('/')}>ARGA</a>
                     </div>
                     <div className={styles.pfp}>
                         {/* <img src='https://media.licdn.com/dms/image/C4D03AQFBEmwpP5mIeA/profiledisplayphotoshrink_800_800/0/1655984562589?e=2147483647&v=beta&t=UrYK3RJ8LiJ70_eUUrESWb3_zVYaOv8VsWJdNcPcvYc' alt='' /> */}

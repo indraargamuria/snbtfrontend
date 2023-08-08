@@ -18,6 +18,10 @@ function Menu() {
         {
             path: '/result',
             label: 'DASBOR SISWA'
+        },
+        {
+            path: '/exam',
+            label: 'TRY OUT'
         }
     ]
     useEffect(() => {
@@ -39,19 +43,47 @@ function Menu() {
                     {location.pathname === '/welcome' ? 
                         <div>
                             <h1 className={styles.navtitle}>SNBT TRY OUT</h1>
-                        </div> :
-                        <div>
-                            <ul className={styles.navmenu}>
-                                {menu.map(menu => {
-                                    return (
-                                        <li key={menu.label}><Link to={menu.path} className={location.pathname === menu.path ? styles.navbuttonactive : styles.navbuttoninactive}>{menu.label}</Link></li>                    
-                                    )
-                                })}
-                            </ul>
-                            <ul className={styles.navicon}>
-                                <li><i><FontAwesomeIcon icon={faHamburger}></FontAwesomeIcon></i></li>
-                            </ul>
-                        </div>
+                        </div> 
+                        
+                        :
+                        <Fragment>
+                            {location.pathname === '/exam' ?
+                            
+                            <div>
+                                <ul className={styles.navmenu}>
+                                    {menu.map(menu => {
+                                        return (
+                                            <Fragment key={menu.path}>
+                                                {menu.path === '/exam' ? 
+                                                 <li key={menu.label}><Link to={menu.path} className={location.pathname === menu.path ? styles.navbuttonactive : styles.navbuttoninactive}>{menu.label}</Link></li>                    
+                                                : //<li key={menu.label}><Link onClick={() => alert("Try Out masih berlangsung, mau kemana?")} className={location.pathname === menu.path ? styles.navbuttonactive : styles.navbuttoninactive}>{menu.label}</Link></li>                    
+                                                <span></span>
+                                            }
+                                               
+                                            </Fragment>
+                                            )
+                                    })}
+                                </ul>
+                                <ul className={styles.navicon}>
+                                    <li><i><FontAwesomeIcon icon={faHamburger}></FontAwesomeIcon></i></li>
+                                </ul>
+                            </div>
+                            :
+                            <div>
+                                <ul className={styles.navmenu}>
+                                    {menu.filter(a=>a.path!=='/exam').map(menu => {
+                                        return (
+                                            <li key={menu.label}>
+                                                <Link to={menu.path} className={location.pathname === menu.path ? styles.navbuttonactive : styles.navbuttoninactive}>{menu.label}</Link></li>                    
+                                        )
+                                    })}
+                                </ul>
+                                <ul className={styles.navicon}>
+                                    <li><i><FontAwesomeIcon icon={faHamburger}></FontAwesomeIcon></i></li>
+                                </ul>
+                            </div>
+                            }
+                        </Fragment>  
                     }
                 </div>
                 <div className={styles.navrightblankspace}></div>

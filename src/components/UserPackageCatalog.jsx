@@ -1,8 +1,9 @@
 import React, { Fragment, useEffect, useState} from 'react';
 import styles from '../stylescomponents/UserPackageCatalog.module.css';
+import { useNavigate } from 'react-router-dom';
 
 function UserPackageCatalog(props){
-    
+    const navigate = useNavigate();
     const userPackageList = props.content;
     const [displayUserPackageList, setDisplayUserPackageList] = useState([]);
     const filterTab = ['package','user'];
@@ -19,18 +20,6 @@ function UserPackageCatalog(props){
         }
     ]
 
-    // useEffect(()=>{
-    //     if(userPackageList !== undefined){
-    //         setDisplayUserPackageList(userPackageList.filter(a => a.status === activeTab));
-    //     }
-    // }, [userPackageList])
-    
-    // useEffect(()=>{
-    //     if(displayUserPackageList.length !== 0){
-    //         console.log(displayUserPackageList);
-    //     }
-    // }, [displayUserPackageList])
-
 
     
     useEffect(()=>{
@@ -40,82 +29,12 @@ function UserPackageCatalog(props){
     }, [activeTab,userPackageList])
 
     function handleChangeTab(id){
-        // console.log(id);
         setActiveTab(id);
-
-        // setDisplayUserPackage(userPackageList.filter(a => a.status === activeTab));
-
-        // console.log(displayUserPackage);
-    
-        
-        // console.log(userPackageList.filter(a => a.status === activeTab));
     }
-    // const filterTab = ['kode','nama','subtes','durasi'];
-    // const userPackageList = [
-    //     {
-    //         id: 1,
-    //         kode: '23_001_SNBT.6',
-    //         nama: 'SNBT #6',
-    //         subtes: '4 Skolastik & 3 Literasi',
-    //         durasi: '1 Jam 20 Menit',
-    //         status: 1
-    //     },
-    //     {
-    //         id: 2,
-    //         kode: '23_002_SNBT.7',
-    //         nama: 'SNBT #7',
-    //         subtes: '4 Skolastik',
-    //         durasi: '1 Jam 20 Menit',
-    //         status: 1
-    //     },
-    //     {
-    //         id: 3,
-    //         kode: '23_003_SNBT.2',
-    //         nama: 'SNBT #3',
-    //         subtes: '4 Skolastik & 4 Akademik',
-    //         durasi: '1 Jam 20 Menit',
-    //         status: 2
-    //     }]
-    
-    // const [activeTab, setActiveTab] = useState(1);
-    // const [displayUserPackage, setDisplayUserPackage] = useState(userPackageList.filter(a => a.status === activeTab));
-    // const tabList = [
-    //     {
-    //         tabID: 1,
-    //         tabName: 'Siap Try Out'
-    //     },
-    //     {
-    //         tabID: 2,
-    //         tabName: 'Siap Try Out'
-    //     }
-    // ]
-    // function handleChangeTab(id){
-    //     // console.log(id);
-    //     setActiveTab(id);
 
-    //     // setDisplayUserPackage(userPackageList.filter(a => a.status === activeTab));
-
-    //     // console.log(displayUserPackage);
-    
-        
-    //     // console.log(userPackageList.filter(a => a.status === activeTab));
-    // }
-
-
-
-    
-    // useEffect(()=>{
-    //     console.log(activeTab);
-    //     setDisplayUserPackage(userPackageList.filter(a => a.status === activeTab));
-
-    // }, [activeTab])
-
-    // useEffect(()=>{
-    //     console.log(displayUserPackage);
-
-    // }, [displayUserPackage])
-
-    
+    function startTryOut(){
+        navigate('/exam');
+    }
     
     return (
         <Fragment>
@@ -147,7 +66,7 @@ function UserPackageCatalog(props){
                                         {filterTab.map((key, index) => {
                                             return <td key={row[key]}>{row[key]}</td>
                                         })}
-                                        <td className={activeTab === 1 ? '' : styles.hide}><a href='/tryoutprepare'>MULAI TRY OUT</a></td>
+                                        <td className={activeTab === 1 ? '' : styles.hide}><a onClick={()=> startTryOut()}>MULAI TRY OUT</a></td>
                                     </tr>
                                 })}
                             </tbody>
