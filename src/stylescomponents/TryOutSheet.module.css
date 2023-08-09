@@ -302,6 +302,7 @@
 }
 .questioncontentmain {
     line-height: 30px;
+    margin-bottom: 20px;
     text-align: justify;
 }
 .questiontitle {
@@ -316,6 +317,9 @@
     padding: 0;
 }
 .questioncontentsub ul li {
+    list-style: none;
+}
+.questioncontentsub span ul li {
     list-style: none;
 }
 .answerradiowrapper input {

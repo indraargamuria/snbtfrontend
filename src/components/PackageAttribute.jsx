@@ -7,7 +7,7 @@ function PackageAttribute(props) {
     const tryOutDisplayData = props.tryOutContent;
 
     useEffect(()=>{
-        console.log(tryOutDisplayData.section_related);
+        // console.log(tryOutDisplayData.section_related);
     },[tryOutDisplayData])
 
     return <Fragment>
