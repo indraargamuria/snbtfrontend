@@ -69,7 +69,8 @@ function QuestionBox(props){
                                 return <li key={d.id}>
                                     {stateData!==undefined&&stateData.length!==0?
                                     <div className={styles.answertruefalsewrapper}>
-                                        <span className={styles.answertruefalsecontent}>{d.name}-{i}</span>
+                                        <span className={styles.answertruefalsecontent}>
+                                            {d.name}-{i}</span>
                                         <label className={styles.answertruefalseradiowrapper}>
                                             <input  onChange={e => props.handleChangeAnswer(questionData.id,d.id,questionData.type,1)} 
                                             checked={stateData[i].isSelected===1?1:0}
@@ -117,7 +118,8 @@ function QuestionBox(props){
                                         </div>
                                     </label>
                                     <span className={styles.answermultiplecheckcontent}>
-                                        {stateData[i].isSelected===0 && stateData.filter(f=>f.isSelected===1).length === 2 ? '[Opsi dinonaktifkan] ' +d.name:d.name}
+                                        {stateData[i].isSelected===0 && stateData.filter(f=>f.isSelected===1).length === 2 ? 
+                                        '[Opsi dinonaktifkan] ' +d.name:d.name}
                                         </span>
                                 </div>
                                 :
