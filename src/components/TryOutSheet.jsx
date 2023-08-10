@@ -72,19 +72,45 @@ function TryOutSheet(props) {
         // console.log(stateExam.filter(a=>a.questionID===9));
     },[stateExam])
 
-    function changeAnswer(selectedQuestionID, selectedAnswerID){
+    function changeAnswer(selectedQuestionID, selectedAnswerID, selectedQuestionType, selectedFlag){
         // console.log(questionID, answerID)
-        setStateExam(currentState => {
-          return currentState.map(state => {
-            if(state.questionID === selectedQuestionID && state.answerID === selectedAnswerID){
-              return { ...state, isSelected:1}
-            }
-            else if(state.questionID === selectedQuestionID && state.answerID !== selectedAnswerID){
-              return { ...state, isSelected:0}
-            }
-            return state
-          })
-        })
+        console.log(selectedQuestionType)
+        if (selectedQuestionType === 1 ){
+            setStateExam(currentState => {
+              return currentState.map(state => {
+                if(state.questionID === selectedQuestionID && state.answerID === selectedAnswerID){
+                  return { ...state, isSelected:selectedFlag}
+                }
+                else if(state.questionID === selectedQuestionID && state.answerID !== selectedAnswerID){
+                  return { ...state, isSelected:0}
+                }
+                return state
+              })
+            })
+        }
+        else if (selectedQuestionType === 2){
+            setStateExam(currentState => {
+              return currentState.map(state => {
+                if(state.questionID === selectedQuestionID && state.answerID === selectedAnswerID){
+                  return { ...state, isSelected:selectedFlag}
+                }
+                return state
+              })
+            })
+        }
+        else if (selectedQuestionType === 3){
+            setStateExam(currentState => {
+              return currentState.map(state => {
+                if(state.questionID === selectedQuestionID && state.answerID === selectedAnswerID && state.isSelected === 0){
+                  return { ...state, isSelected:1}
+                }
+                else if(state.questionID === selectedQuestionID && state.answerID === selectedAnswerID && state.isSelected === 1){
+                  return { ...state, isSelected:0}
+                }
+                return state
+              })
+            })
+        }
       }
     function nextSubTest(){
         const previousSubTestSelected = subTestSelected;
@@ -121,17 +147,20 @@ function TryOutSheet(props) {
         <div className={styles.tryout}>
             <div className={styles.tryoutblank}></div>
             <div className={styles.tryoutleft}>
-                {/* <div dangerouslySetInnerHTML={{ __html: tryOutDisplayData.subtest_related[subTestSelected].question_related[questionSelected].name.replace('<img>','<img src="').replace('</img>','"/>')}}></div> */}
-                <QuestionBoxComponent stateContent={stateExam.filter(f=>f.questionID===tryOutDisplayData.subtest_related[subTestSelected].question_related[questionSelected].id)} handleChangeAnswer={changeAnswer} key={tryOutDisplayData.subtest_related[subTestSelected].question_related[questionSelected].id} questionContent={tryOutDisplayData.subtest_related[subTestSelected].question_related[questionSelected]}/>
-                {/* {this.state.displayed_question.map(datalist => {
-                    return  datalist.question_type === "multiplechoice" ? <QuestionMultipleChoice key={datalist.question_id} questionID={datalist.question_id} questionDescription={datalist.question_description} displayedAnswer={this.state.displayed_answer}/> : 
-                    datalist.question_type === "truefalse" ? <QuestionTrueFalse key={datalist.question_id} questionID={datalist.question_id} questionDescription={datalist.question_description} displayedAnswer={this.state.displayed_answer}/> : 
-                    datalist.question_type === "multiplecheck" ? <QuestionMultipleCheck key={datalist.question_id} questionID={datalist.question_id} questionDescription={datalist.question_description} displayedAnswer={this.state.displayed_answer}/> : <div>Hahaha</div>
-                })} */}
+                <QuestionBoxComponent 
+                    stateContent={stateExam.filter(f=>f.questionID===tryOutDisplayData.subtest_related[subTestSelected].question_related[questionSelected].id)} 
+                    handleChangeAnswer={changeAnswer} 
+                    key={tryOutDisplayData.subtest_related[subTestSelected].question_related[questionSelected].id} 
+                    questionContent={tryOutDisplayData.subtest_related[subTestSelected].question_related[questionSelected]}/>
+          
             </div>
             <div className={styles.tryoutmid}>
-                <QuestionBoxComponent handleChangeAnswer={changeAnswer} key={tryOutDisplayData.subtest_related[subTestSelected].question_related[questionSelected].id} questionContent={tryOutDisplayData.subtest_related[subTestSelected].question_related[questionSelected]}/>
-                
+                {/* <QuestionBoxComponent 
+                        stateContent={stateExam.filter(f=>f.questionID===tryOutDisplayData.subtest_related[subTestSelected].question_related[questionSelected].id)} 
+                        handleChangeAnswer={changeAnswer} 
+                        key={tryOutDisplayData.subtest_related[subTestSelected].question_related[questionSelected].id} 
+                        questionContent={tryOutDisplayData.subtest_related[subTestSelected].question_related[questionSelected]}/> */}
+            
                 <div className={styles.questionnavwrapper}>
 
                     <div className={styles.questionnavtitle}>Navigasi</div>

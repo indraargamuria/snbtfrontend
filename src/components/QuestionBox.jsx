@@ -6,6 +6,7 @@ import styles from '../stylescomponents/TryOutSheet.module.css';
 function QuestionBox(props){
     const questionData = props.questionContent;
     const stateData = props.stateContent;
+    const prefixEmbedImage = '<img src="';
     // const [ref,setRef] = useState([]);
 
     // useEffect(()=>{
@@ -37,11 +38,16 @@ function QuestionBox(props){
                             
                             {stateData!==undefined&&stateData.length!==0?
                             <label className={styles.answerradiowrapper} >
-                                <input onChange={e => props.handleChangeAnswer(questionData.id,d.id)} 
+                                <input onChange={e => props.handleChangeAnswer(questionData.id,d.id,questionData.type, 1)} 
                                 checked={stateData[i].isSelected===1?1:0} 
                                 type="radio" name="answer"/>
                                 <span className={styles.answerradiobutton}>
-                                    {d.name}{/*-{d.id}_{stateData[i].isSelected}*/}
+                                    {d.name.substring(0, 5)==='https'?
+                                        <div dangerouslySetInnerHTML={{ __html: prefixEmbedImage.concat(d.name,'"/>')}}></div>
+                                        :
+                                        <div>{d.name}</div>
+                                    }
+                                    {/* <div dangerouslySetInnerHTML={{ __html: questionData.name.replace('<img>','<img src="').replace('</img>','"/>')}}></div>-{d.id}_{stateData[i].isSelected} */}
                                 </span>
                             </label>:<div></div>}
                             
@@ -59,23 +65,31 @@ function QuestionBox(props){
                                     <span><i><FontAwesomeIcon icon={faRectangleTimes}></FontAwesomeIcon></i></span>
                                 </div>
                             </li>
-                            {questionData.answer_related.map(d => {
+                            {questionData.answer_related.map((d,i) => {
                                 return <li key={d.id}>
+                                    {stateData!==undefined&&stateData.length!==0?
                                     <div className={styles.answertruefalsewrapper}>
-                                        <span className={styles.answertruefalsecontent}>{d.name}</span>
+                                        <span className={styles.answertruefalsecontent}>{d.name}-{i}</span>
                                         <label className={styles.answertruefalseradiowrapper}>
-                                            <input type="radio" name={'answer' + d.id}/>
+                                            <input  onChange={e => props.handleChangeAnswer(questionData.id,d.id,questionData.type,1)} 
+                                            checked={stateData[i].isSelected===1?1:0}
+                                            type="radio" name={'answer' + d.id}/>
                                             <div className={styles.answertruefalseradiobuttontrue}>
                                                 <i><FontAwesomeIcon icon={faCheckCircle}></FontAwesomeIcon></i>
                                             </div>
                                         </label>
                                         <label className={styles.answertruefalseradiowrapper}>
-                                            <input type="radio" name={'answer' + d.id}/>
+                                            <input  onChange={e => props.handleChangeAnswer(questionData.id,d.id,questionData.type,2)} 
+                                            checked={stateData[i].isSelected===2?1:0}
+                                            type="radio" name={'answer' + d.id}/>
                                             <div className={styles.answertruefalseradiobuttonfalse}>
                                                 <i><FontAwesomeIcon icon={faRectangleTimes}></FontAwesomeIcon></i>
                                             </div>
                                         </label>
                                     </div>
+                                    :
+                                    <div></div>
+                                    }
                                 </li>
 
                             })}
@@ -88,23 +102,27 @@ function QuestionBox(props){
                                 <span>PERNYATAAN</span>
                             </div>
                         </li>
-                        {questionData.answer_related.map(d => {
+                        {questionData.answer_related.map((d,i) => {
                             return <li key={d.id}>
-                                {/* <label className={styles.answer-radio-wrapper}>
-                                    <input type="radio" name="answer"/>
-                                    <span className={styles.answer-radio-button}>
-                                        {datalist.answer_description}
-                                    </span>
-                                </label> */}
+                            
+                                {stateData!==undefined&&stateData.length!==0?
                                 <div className={styles.answermultiplecheckwrapper}>
                                     <label className={styles.answermultiplecheckcheckboxwrapper}>
-                                        <input type="checkbox" name={'answer' + d.id}/>
+                                        <input  
+                                            onChange={e => props.handleChangeAnswer(questionData.id,d.id,questionData.type,1)} 
+                                            disabled={stateData[i].isSelected===0 && stateData.filter(f=>f.isSelected===1).length === 2 ? 1:0}
+                                            checked={stateData[i].isSelected===1?1:0}type="checkbox" name={'answer' + d.id}/>
                                         <div className={styles.answermultiplecheckcheckboxbutton}>
                                             <i><FontAwesomeIcon icon={faCheckCircle}></FontAwesomeIcon></i>
                                         </div>
                                     </label>
-                                    <span className={styles.answermultiplecheckcontent}>{d.name}</span>
+                                    <span className={styles.answermultiplecheckcontent}>
+                                        {stateData[i].isSelected===0 && stateData.filter(f=>f.isSelected===1).length === 2 ? '[Opsi dinonaktifkan] ' +d.name:d.name}
+                                        </span>
                                 </div>
+                                :
+                                <div></div>
+                                }
                             </li>
 
                         })}
