@@ -251,40 +251,122 @@
     position: relative;
     cursor: pointer;
 }
-.questionanswertypeone {
+.questionanswerbasestate {
     font-size: 12px;
     cursor: pointer;
     border: 1px solid #dfdfdf;
     width: 30px;
     color: #0058A7;
+    background-color: #FFF;
     height: 30px;
     display: grid;
     place-items: center;
     border-radius: 5px;
 }
-.questionnumberactive {
+.questionanswercompleted {
+    font-size: 12px;
+    cursor: pointer;
+    border: 1px solid #00ff6e;
+    width: 30px;
+    color: #007a35;
+    background-color: #ccffe2;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    border-radius: 5px;
+}
+.questionanswerinprogress {
+    font-size: 12px;
+    cursor: pointer;
+    border: 1px solid #ffd000;
+    width: 30px;
+    color: #7a5100;
+    background-color: #fff1cc;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    border-radius: 5px;
+}
+.questionnumberactivemultiplechoice {
     position: absolute;
     font-size: 10px;
-    top: -9px;
-    right: -9px;
-    background-color: #0058A7;
-    width: 18px;
+    top: -12px;
+    right: -18px;
+    border: 1px solid #0058A7;
+    background-color: #0088ff;
+    width: 36px;
     height: 18px;
     color: white;
     display: grid;
     place-items: center;
     border-radius: 15px;
 }
-.questionnumberinactive {
+.questionnumberactivetruefalse {
     position: absolute;
     font-size: 10px;
-    top: -9px;
-    right: -9px;
+    top: -12px;
+    right: -18px;
+    border: 1px solid #a70038;
+    background-color: #ff0055;
+    width: 36px;
+    height: 18px;
+    color: white;
+    display: grid;
+    place-items: center;
+    border-radius: 15px;
+}
+.questionnumberactivemultiplecheck {
+    position: absolute;
+    font-size: 10px;
+    top: -12px;
+    right: -18px;
+    border: 1px solid #00a708;
+    background-color: #00d10a;
+    width: 36px;
+    height: 18px;
+    color: white;
+    display: grid;
+    place-items: center;
+    border-radius: 15px;
+}
+.questionnumberinactivemultiplechoice {
+    position: absolute;
+    font-size: 10px;
+    top: -12px;
+    right: -18px;
     background-color: white;
     border: 1px solid #0058A7;
-    width: 18px;
+    width: 36px;
     height: 18px;
     color: #0058A7;
+    display: grid;
+    place-items: center;
+    border-radius: 15px;
+}
+.questionnumberinactivetruefalse {
+    position: absolute;
+    font-size: 10px;
+    top: -12px;
+    right: -18px;
+    background-color: white;
+    border: 1px solid #a70038;
+    width: 36px;
+    height: 18px;
+    color: #a70038;
+    display: grid;
+    place-items: center;
+    border-radius: 15px;
+}
+.questionnumberinactivemultiplecheck {
+    position: absolute;
+    font-size: 10px;
+    top: -12px;
+    right: -18px;
+    background-color: white;
+    border: 1px solid #00a708;
+    width: 36px;
+    height: 18px;
+    color: #00a708;
     display: grid;
     place-items: center;
     border-radius: 15px;

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Fragment } from "react";
 import styles from '../stylescomponents/TryOutSheet.module.css';
 
-function QuestionBox(props){
+function QuestionBoxMobile(props){
     const questionData = props.questionContent;
     const stateData = props.stateContent;
     const prefixEmbedImage = '<img src="';
@@ -40,7 +40,7 @@ function QuestionBox(props){
                             <label className={styles.answerradiowrapper} >
                                 <input onChange={e => props.handleChangeAnswer(questionData.id,d.id,questionData.type, 1)} 
                                 checked={stateData[i].isSelected===1?1:0} 
-                                type="radio" name="answer"/>
+                                type="radio" name="answermobile"/>
                                 <span className={styles.answerradiobutton}>
                                     {d.name.substring(0, 5)==='https'?
                                         <div dangerouslySetInnerHTML={{ __html: prefixEmbedImage.concat(d.name,'"/>')}}></div>
@@ -80,7 +80,7 @@ function QuestionBox(props){
                                         <label className={styles.answertruefalseradiowrapper}>
                                             <input  onChange={e => props.handleChangeAnswer(questionData.id,d.id,questionData.type,1)} 
                                             checked={stateData[i].isSelected===1?1:0}
-                                            type="radio" name={'answer' + d.id}/>
+                                            type="radio" name={'answermobile' + d.id}/>
                                             <div className={styles.answertruefalseradiobuttontrue}>
                                                 <i><FontAwesomeIcon icon={faCheckCircle}></FontAwesomeIcon></i>
                                             </div>
@@ -88,7 +88,7 @@ function QuestionBox(props){
                                         <label className={styles.answertruefalseradiowrapper}>
                                             <input  onChange={e => props.handleChangeAnswer(questionData.id,d.id,questionData.type,2)} 
                                             checked={stateData[i].isSelected===2?1:0}
-                                            type="radio" name={'answer' + d.id}/>
+                                            type="radio" name={'answermobile' + d.id}/>
                                             <div className={styles.answertruefalseradiobuttonfalse}>
                                                 <i><FontAwesomeIcon icon={faRectangleTimes}></FontAwesomeIcon></i>
                                             </div>
@@ -118,7 +118,7 @@ function QuestionBox(props){
                                         <input  
                                             onChange={e => props.handleChangeAnswer(questionData.id,d.id,questionData.type,1)} 
                                             disabled={stateData[i].isSelected===0 && stateData.filter(f=>f.isSelected===1).length === 2 ? 1 : 0}
-                                            checked={stateData[i].isSelected===1? 1 : 0}type="checkbox" name={'answer' + d.id}/>
+                                            checked={stateData[i].isSelected===1? 1 : 0}type="checkbox" name={'answermobile' + d.id}/>
                                         <div className={styles.answermultiplecheckcheckboxbutton}>
                                             <i><FontAwesomeIcon icon={faCheckCircle}></FontAwesomeIcon></i>
                                         </div>
@@ -152,13 +152,13 @@ function QuestionBox(props){
                         <div className={styles.answertruefalsewrapper}>
                             <span className={styles.answertruefalsecontent}>{datalist.answer_description}</span>
                             <label className={styles.answertruefalseradiowrapper}>
-                                <input type="radio" name={'answer' + datalist.answer_id}/>
+                                <input type="radio" name={'answermobile' + datalist.answer_id}/>
                                 <div className={styles.answertruefalseradiobutton-true}>
                                     <i><FontAwesomeIcon icon={faCheckCircle}></FontAwesomeIcon></i>
                                 </div>
                             </label>
                             <label className={styles.answertruefalseradiowrapper}>
-                                <input type="radio" name={'answer' + datalist.answer_id}/>
+                                <input type="radio" name={'answermobile' + datalist.answer_id}/>
                                 <div className={styles.answertruefalseradiobutton-false}>
                                     <i><FontAwesomeIcon icon={faRectangleTimes}></FontAwesomeIcon></i>
                                 </div>
@@ -174,4 +174,4 @@ function QuestionBox(props){
     </Fragment>
 }
 
-export default QuestionBox;
+export default QuestionBoxMobile;

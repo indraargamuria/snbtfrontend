@@ -3,6 +3,7 @@ import styles from "../stylescomponents/TryOutSheet.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightToBracket } from "@fortawesome/free-solid-svg-icons";
 import QuestionBoxComponent from "./QuestionBox";
+import QuestionBoxMobileComponent from "./QuestionBoxMobile";
 
 function TryOutSheet(props) {
     const tryOutData = props.tryOutContent;
@@ -155,21 +156,84 @@ function TryOutSheet(props) {
           
             </div>
             <div className={styles.tryoutmid}>
-                {/* <QuestionBoxComponent 
-                        stateContent={stateExam.filter(f=>f.questionID===tryOutDisplayData.subtest_related[subTestSelected].question_related[questionSelected].id)} 
-                        handleChangeAnswer={changeAnswer} 
-                        key={tryOutDisplayData.subtest_related[subTestSelected].question_related[questionSelected].id} 
-                        questionContent={tryOutDisplayData.subtest_related[subTestSelected].question_related[questionSelected]}/> */}
-            
+                <QuestionBoxMobileComponent 
+                    stateContent={stateExam.filter(f=>f.questionID===tryOutDisplayData.subtest_related[subTestSelected].question_related[questionSelected].id)} 
+                    handleChangeAnswer={changeAnswer} 
+                    key={tryOutDisplayData.subtest_related[subTestSelected].question_related[questionSelected].id} 
+                    questionContent={tryOutDisplayData.subtest_related[subTestSelected].question_related[questionSelected]}/>
+          
                 <div className={styles.questionnavwrapper}>
 
                     <div className={styles.questionnavtitle}>Navigasi</div>
                     <div className={styles.questionnavcontent}>
+
                         {tryOutDisplayData.subtest_related[subTestSelected].question_related.map((c,i)=>{
                             return <div className={styles.questionnavbox} onClick={() => changeQuestion(i)} key={c.id} >
                             <div className={styles.questionnavboxwrapper}>
-                                <div className={styles.questionanswertypeone}>-</div>
-                                <div className={i === questionSelected ? styles.questionnumberactive : styles.questionnumberinactive}>{c.number}</div>
+                                
+                                
+                                {stateExam!==undefined ?
+                                    // stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length+'-'+
+                                    // tryOutDisplayData.subtest_related[subTestSelected].question_related[i].answer_related.length
+                                    <div className={
+                                        stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length === 0 ? 
+                                        styles.questionanswerbasestate :
+                                            c.type === 1 ?
+                                            stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length !== 0 ?
+                                                styles.questionanswercompleted :
+                                                styles.questionanswerbasestate :
+                                            c.type === 2 ?
+                                            stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length === c.answer_related.length ?
+                                                styles.questionanswercompleted :
+                                                stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length !== 0 && stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length !== c.answer_related.length ?
+                                                styles.questionanswerinprogress : styles.questionanswerbasestate :
+                                            c.type === 3 ?
+                                            stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length === 2 ?
+                                                styles.questionanswercompleted :
+                                                stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length !== 0 && stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length !== 2 ?
+                                                styles.questionanswerinprogress : styles.questionanswerbasestate :
+                                                undefined
+
+                                                
+                                            
+                                        }>
+                                            {
+                                                
+                                                stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length === 0 ? 
+                                                '-' :
+                                                    c.type === 1 ?
+                                                    stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length !== 0 ?
+                                                        'OK' :
+                                                        '-' :
+                                                    c.type === 2 ?
+                                                    stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length === c.answer_related.length ?
+                                                        'OK' :
+                                                        stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length !== 0 && stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length !== c.answer_related.length ?
+                                                        stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length + '/' + c.answer_related.length : '-' :
+                                                    c.type === 3 ?
+                                                    stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length === 2 ?
+                                                        'OK' :
+                                                        stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length !== 0 && stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length !== 2 ?
+                                                        stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length + '/' + 2 : '-' :
+                                                        '-'
+                                            }
+                                    </div>
+                                    :'-'
+                                
+                                }
+
+                                <div className={i === questionSelected ? 
+                                    c.type === 1 ? styles.questionnumberactivemultiplechoice : 
+                                    c.type === 2 ? styles.questionnumberactivetruefalse :
+                                    styles.questionnumberactivemultiplecheck
+                                    : 
+                                    c.type === 1 ? styles.questionnumberinactivemultiplechoice : 
+                                    c.type === 2 ? styles.questionnumberinactivetruefalse :
+                                    styles.questionnumberinactivemultiplecheck}>{c.number}-{
+                                    c.type === 1 ? 'MC' :
+                                    c.type === 2 ? 'TF' :
+                                    'SC'}
+                                </div>
                             </div>
                         </div>
                         })}
@@ -191,13 +255,79 @@ function TryOutSheet(props) {
                         {tryOutDisplayData.subtest_related[subTestSelected].question_related.map((c,i)=>{
                             return <div className={styles.questionnavbox} onClick={() => changeQuestion(i)} key={c.id} >
                             <div className={styles.questionnavboxwrapper}>
-                                <div className={styles.questionanswertypeone}>-</div>
-                                <div className={i === questionSelected ? styles.questionnumberactive : styles.questionnumberinactive}>{c.number}</div>
+                                
+                                
+                                {stateExam!==undefined ?
+                                    // stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length+'-'+
+                                    // tryOutDisplayData.subtest_related[subTestSelected].question_related[i].answer_related.length
+                                    <div className={
+                                        stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length === 0 ? 
+                                        styles.questionanswerbasestate :
+                                            c.type === 1 ?
+                                            stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length !== 0 ?
+                                                styles.questionanswercompleted :
+                                                styles.questionanswerbasestate :
+                                            c.type === 2 ?
+                                            stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length === c.answer_related.length ?
+                                                styles.questionanswercompleted :
+                                                stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length !== 0 && stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length !== c.answer_related.length ?
+                                                styles.questionanswerinprogress : styles.questionanswerbasestate :
+                                            c.type === 3 ?
+                                            stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length === 2 ?
+                                                styles.questionanswercompleted :
+                                                stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length !== 0 && stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length !== 2 ?
+                                                styles.questionanswerinprogress : styles.questionanswerbasestate :
+                                                undefined
+
+                                                
+                                            
+                                        }>
+                                            {
+                                                
+                                                stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length === 0 ? 
+                                                '-' :
+                                                    c.type === 1 ?
+                                                    stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length !== 0 ?
+                                                        'OK' :
+                                                        '-' :
+                                                    c.type === 2 ?
+                                                    stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length === c.answer_related.length ?
+                                                        'OK' :
+                                                        stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length !== 0 && stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length !== c.answer_related.length ?
+                                                        stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length + '/' + c.answer_related.length : '-' :
+                                                    c.type === 3 ?
+                                                    stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length === 2 ?
+                                                        'OK' :
+                                                        stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length !== 0 && stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length !== 2 ?
+                                                        stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length + '/' + 2 : '-' :
+                                                        '-'
+                                            }
+                                    </div>
+                                    :'-'
+                                
+                                }
+
+                                <div className={i === questionSelected ? 
+                                    c.type === 1 ? styles.questionnumberactivemultiplechoice : 
+                                    c.type === 2 ? styles.questionnumberactivetruefalse :
+                                    styles.questionnumberactivemultiplecheck
+                                    : 
+                                    c.type === 1 ? styles.questionnumberinactivemultiplechoice : 
+                                    c.type === 2 ? styles.questionnumberinactivetruefalse :
+                                    styles.questionnumberinactivemultiplecheck}>{c.number}-{
+                                    c.type === 1 ? 'MC' :
+                                    c.type === 2 ? 'TF' :
+                                    'SC'}
+                                </div>
                             </div>
                         </div>
                         })}
                             
                     </div>
+{/*                     
+                {stateExam.map((d,i)=>{
+                                    return <div key={i}>{d.subTestID+'-'+d.questionID+'-'+d.answerID+'-'+d.isSelected}</div>
+                                })} */}
                     <div className={styles.questionnavchangepage}>
                         <button onClick={() => nextSubTest()} className={styles.nextpage}>
                              <i><FontAwesomeIcon icon={faArrowRightToBracket}></FontAwesomeIcon></i>
@@ -205,9 +335,6 @@ function TryOutSheet(props) {
                     </div>
                 </div>
                 
-                {/* {stateExam.map((m,i)=>{
-                    return <span key={i}>{m.questionID}-{m.answerID}-{m.isSelected}<br/></span>
-                })} */}
             </div>
             <div className={styles.tryoutblank}></div>
         </div>
