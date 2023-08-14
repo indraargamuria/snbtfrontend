@@ -1,7 +1,7 @@
 import { faCheckCircle, faRectangleTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Fragment } from "react";
-import styles from '../stylescomponents/TryOutSheet.module.css';
+import styles from '../stylescomponents/QuestionBox.module.css';
 
 function QuestionBox(props){
     const questionData = props.questionContent;

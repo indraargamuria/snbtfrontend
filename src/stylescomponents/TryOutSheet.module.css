@@ -341,6 +341,25 @@
     place-items: center;
     border-radius: 15px;
 }
+.nextpage {
+    border: none;
+    outline: none;
+    color: #FF6961;
+    border: 1px solid #FF6961;
+    height: 50px;
+    width: 50%;
+    background-color: #FFF;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 5px;
+    font-size: 14px;
+}
+.nextpage:hover {
+    background-color: #FF6961;
+    color: #FFF;
+    width: 75%;
+
+}
 .questionnumberinactivetruefalse {
     position: absolute;
     font-size: 10px;
@@ -368,184 +387,6 @@
     display: grid;
     place-items: center;
     border-radius: 15px;
-}
-.questionwrapper {
-    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    border-radius: 5px;
-    overflow: hidden;
-    margin-bottom: 30px;
-
-}
-.questioncontent {
-    padding: 20px 50px 20px 50px;
-    font-size: 14px;
-}
-.questioncontentmain {
-    line-height: 30px;
-    margin-bottom: 20px;
-    text-align: justify;
-}
-.questiontitle {
-    background-color: #0058A7;
-    color: white;
-    padding: 10px;
-    text-align: center;
-    font-size: 14px;
-}
-.questioncontentsub ul {
-    margin: 0;
-    padding: 0;
-}
-.questioncontentsub ul li {
-    list-style: none;
-}
-.questioncontentsub span ul li {
-    list-style: none;
-}
-.answerradiowrapper input {
-    display: none;
-}
-.answerradiobutton {
-    /* background-color: yellow; */
-    display: block;
-    cursor: pointer;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #dfdfdf;
-    border-radius: 5px;
-    transition: 0.3s;
-}
-.answerradiowrapper input:checked + .answerradiobutton {
-    background-color: #FF6961;
-    border: 1px solid #FF6961;
-    color: #FFF;
-}
-.questionnavchangepage {
-    padding: 30px;
-    display: grid;
-    place-items: end;
-}
-.nextpage {
-    border: none;
-    outline: none;
-    color: #FF6961;
-    border: 1px solid #FF6961;
-    height: 50px;
-    width: 50%;
-    background-color: #FFF;
-    cursor: pointer;
-    transition: 0.3s;
-    border-radius: 5px;
-    font-size: 14px;
-}
-.nextpage:hover {
-    background-color: #FF6961;
-    color: #FFF;
-    width: 75%;
-
-}
-.answermultiplecheckwrapper {
-    display: grid;
-    grid-template-columns: 1fr 95%;
-    margin-bottom: 10px;
-
-}
-.answermultiplecheckwrappertitle {
-    display: grid;
-    grid-template-columns: 1fr 95%;
-    margin-bottom: 10px;
-
-}
-.answermultiplecheckcheckboxwrapper input {
-    display: none;
-}
-.answermultiplecheckcheckboxbutton {
-    /* background-color: yellow; */
-    display: grid;
-    cursor: pointer;
-    height: 30px;
-    border: 1px solid #dfdfdf;
-    border-radius: 5px;
-    transition: 0.3s;
-    color: #FFF;
-    place-content: center;
-    font-size: 14px;
-    margin-right: 10px;
-}
-.answermultiplecheckcheckboxwrapper input:checked + .answermultiplecheckcheckboxbutton {
-    background-color: #20ad6b;
-    border: 1px solid #20ad6b;
-    color: #FFF;
-}
-.answertruefalsewrapper {
-    display: grid;
-    grid-template-columns: 80% 1fr 1fr;
-    margin-bottom: 10px;
-    border-bottom: 1px solid #dfdfdf;
-    padding-bottom: 10px;
-}
-.answertruefalsewrappertitle {
-    display: grid;
-    grid-template-columns: 80% 1fr 1fr;
-    margin-bottom: 10px;
-
-}
-.answertruefalsewrappertitle span {
-    display: grid;
-    place-items: center;
-    padding: 10px;
-    background-color: #0058A7;
-    color:  #FFFFFF;
-    font-size: 14px;
-}
-.answertruefalsewrapper span{
-    display: grid;
-    place-content: center left;
-    text-align: left;
-}
-.answertruefalseradiowrapper input {
-    display: none;
-}
-.answertruefalseradiobuttonfalse {
-    /* background-color: yellow; */
-    display: grid;
-    cursor: pointer;
-    height: 30px;
-    border: 1px solid #dfdfdf;
-    border-radius: 5px;
-    transition: 0.3s;
-    color: #FFF;
-    place-content: center;
-    font-size: 14px;
-    margin: 0px 5px;
-}
-.answertruefalseradiowrapper input:checked + .answertruefalseradiobuttonfalse {
-    background-color: #FF6961;
-    border: 1px solid #FF6961;
-    color: #FFF;
-}
-.answertruefalseradiobuttontrue {
-    /* background-color: yellow; */
-    display: grid;
-    cursor: pointer;
-    height: 30px;
-    border: 1px solid #dfdfdf;
-    border-radius: 5px;
-    transition: 0.3s;
-    color: #FFF;
-    place-content: center;
-    font-size: 14px;
-    margin: 0px 5px;
-}
-.answertruefalseradiowrapper input:checked + .answertruefalseradiobuttontrue {
-    background-color: #20ad6b;
-    border: 1px solid #20ad6b;
-    color: #FFF;
-}
-.border {
-    border: 1px  solid #dfdfdf;
-    border-radius: 5px;
-    padding: 20px;
 }
 @media (max-width: 900px) {
     .tryout {
