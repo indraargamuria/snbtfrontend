@@ -8,14 +8,24 @@ import QuestionBoxMobileComponent from "./QuestionBoxMobile";
 function TryOutSheet(props) {
     const tryOutData = props.tryOutContent;
     const tryOutDisplayData = props.tryOutContent.section_related.filter(a=>a.id === props.tryOutSection)[0];
-    const [subTestSelected, setSubTestSelected] = useState(0);
-    const [questionSelected, setQuestionSelected] = useState(0);
-    const [stateExam, setStateExam] = useState([])
+    // const [subTestSelected, setSubTestSelected] = useState(0);
+    // const [questionSelected, setQuestionSelected] = useState(0);
+    // const [stateExam, setStateExam] = useState([])
+    
+    const [subTestSelected, setSubTestSelected] = useState(()=>{
+        const localValue = localStorage.getItem("subTestSelected")
+        if(localValue == null) return 0
 
-    useEffect(()=>{
-        // Math.min(...tryOutDisplayData.subtest_related.map(item => item.id))
-        // console.log(tryOutDisplayData.subtest_related[0].name);
-        // console.log(tryOutDisplayData.subtest_related[subTestSelected]);
+        return JSON.parse(localValue)
+    })
+    const [questionSelected, setQuestionSelected] = useState(()=>{
+        const localValue = localStorage.getItem("questionSelected")
+        if(localValue == null) return 0
+
+        return JSON.parse(localValue)
+    })
+    const [stateExam, setStateExam] = useState(()=>{
+        
         let lengthSubTest = tryOutDisplayData.subtest_related.length;
         let lengthQuestion = 0;
         let lengthAnswer = 0;
@@ -65,13 +75,88 @@ function TryOutSheet(props) {
             loopStateSubTest++;
         }
         loopStateSubTest = 0;
-        setStateExam(compileArray);
-        // console.log(compileArray.filter(a=>a.questionID===9));
-    },[tryOutData,tryOutDisplayData])
+
+        // setStateExam(compileArray);
+        const localValue = localStorage.getItem("stateExam")
+        if(localValue == null) return compileArray
+    
+        return JSON.parse(localValue)
+      })
+
+    // useEffect(()=>{
+    //     // Math.min(...tryOutDisplayData.subtest_related.map(item => item.id))
+    //     // console.log(tryOutDisplayData.subtest_related[0].name);
+    //     // console.log(tryOutDisplayData.subtest_related[subTestSelected]);
+        
+    //     // let lengthSubTest = tryOutDisplayData.subtest_related.length;
+    //     // let lengthQuestion = 0;
+    //     // let lengthAnswer = 0;
+    //     // let loopStateSubTest = 0;
+    //     // let loopStateQuestion = 0;
+    //     // let loopStateAnswer = 0;
+    //     // let totalData = 0;
+    //     // let loopData = 0;
+
+    //     // while (loopStateSubTest < lengthSubTest) {
+    //     //     lengthQuestion = tryOutDisplayData.subtest_related[loopStateSubTest].question_related.length;
+    //     //     while (loopStateQuestion < lengthQuestion) {
+    //     //         lengthAnswer = tryOutDisplayData.subtest_related[loopStateSubTest].question_related[loopStateQuestion].answer_related.length
+    //     //         while(loopStateAnswer < lengthAnswer){
+    //     //             totalData++
+    //     //             loopStateAnswer++
+    //     //         }
+    //     //         loopStateAnswer = 0;
+    //     //         loopStateQuestion++
+    //     //     }
+    //     //     loopStateQuestion = 0;
+    //     //     loopStateSubTest++;
+    //     // }
+    //     // loopStateSubTest = 0;
+
+    //     // // console.log(totalData);
+    //     // let compileArray = new Array(totalData);
+        
+    //     // while (loopStateSubTest < lengthSubTest) {
+    //     //     lengthQuestion = tryOutDisplayData.subtest_related[loopStateSubTest].question_related.length;
+    //     //     while (loopStateQuestion < lengthQuestion) {
+    //     //         lengthAnswer = tryOutDisplayData.subtest_related[loopStateSubTest].question_related[loopStateQuestion].answer_related.length
+    //     //         while(loopStateAnswer < lengthAnswer){
+    //     //             compileArray[loopData] = {
+    //     //                         'subTestID':tryOutDisplayData.subtest_related[loopStateSubTest].id,
+    //     //                         'questionID':tryOutDisplayData.subtest_related[loopStateSubTest].question_related[loopStateQuestion].id,
+    //     //                         'answerID':tryOutDisplayData.subtest_related[loopStateSubTest].question_related[loopStateQuestion].answer_related[loopStateAnswer].id,
+    //     //                         'isSelected':0
+    //     //                     }
+    //     //             loopData++
+    //     //             loopStateAnswer++
+    //     //         }
+    //     //         loopStateAnswer = 0;
+    //     //         loopStateQuestion++
+    //     //     }
+    //     //     loopStateQuestion = 0;
+    //     //     loopStateSubTest++;
+    //     // }
+    //     // loopStateSubTest = 0;
+
+    //     // setStateExam(compileArray);
+    //     // console.log(compileArray.filter(a=>a.questionID===9));
+    // },[tryOutData,tryOutDisplayData])
 
     useEffect(()=>{
         // console.log(stateExam.filter(a=>a.questionID===9));
+        localStorage.setItem("stateExam", JSON.stringify(stateExam))
     },[stateExam])
+
+    
+    useEffect(()=>{
+        // console.log(stateExam.filter(a=>a.questionID===9));
+        localStorage.setItem("questionSelected", JSON.stringify(questionSelected))
+    },[questionSelected])
+    
+    useEffect(()=>{
+        // console.log(stateExam.filter(a=>a.questionID===9));
+        localStorage.setItem("subTestSelected", JSON.stringify(subTestSelected))
+    },[subTestSelected])
 
     function changeAnswer(selectedQuestionID, selectedAnswerID, selectedQuestionType, selectedFlag){
         // console.log(questionID, answerID)
@@ -229,10 +314,11 @@ function TryOutSheet(props) {
                                     : 
                                     c.type === 1 ? styles.questionnumberinactivemultiplechoice : 
                                     c.type === 2 ? styles.questionnumberinactivetruefalse :
-                                    styles.questionnumberinactivemultiplecheck}>{c.number}-{
+                                    styles.questionnumberinactivemultiplecheck}>{c.number}
+                                    {/* -{
                                     c.type === 1 ? 'MC' :
                                     c.type === 2 ? 'TF' :
-                                    'SC'}
+                                    'SC'} */}
                                 </div>
                             </div>
                         </div>
@@ -241,7 +327,7 @@ function TryOutSheet(props) {
                     </div>
                     <div className={styles.questionnavchangepage}>
                         <button onClick={() => nextSubTest()} className={styles.nextpage}>
-                             <i><FontAwesomeIcon icon={faArrowRightToBracket}></FontAwesomeIcon></i>
+                             <i><FontAwesomeIcon icon={faArrowRightToBracket}></FontAwesomeIcon> {subTestSelected + 1 === tryOutDisplayData.subtest_related.length ? 'Submit Ujian' : 'Sub Test Berikutnya'}</i>
                         </button>
                     </div>
                 </div>
@@ -314,10 +400,11 @@ function TryOutSheet(props) {
                                     : 
                                     c.type === 1 ? styles.questionnumberinactivemultiplechoice : 
                                     c.type === 2 ? styles.questionnumberinactivetruefalse :
-                                    styles.questionnumberinactivemultiplecheck}>{c.number}-{
+                                    styles.questionnumberinactivemultiplecheck}>{c.number}
+                                    {/* -{
                                     c.type === 1 ? 'MC' :
                                     c.type === 2 ? 'TF' :
-                                    'SC'}
+                                    'SC'} */}
                                 </div>
                             </div>
                         </div>
@@ -330,7 +417,7 @@ function TryOutSheet(props) {
                                 })} */}
                     <div className={styles.questionnavchangepage}>
                         <button onClick={() => nextSubTest()} className={styles.nextpage}>
-                             <i><FontAwesomeIcon icon={faArrowRightToBracket}></FontAwesomeIcon></i>
+                             <i><FontAwesomeIcon icon={faArrowRightToBracket}></FontAwesomeIcon> {subTestSelected + 1 === tryOutDisplayData.subtest_related.length ? 'Submit Ujian' : 'Sub Test Berikutnya'}</i>
                         </button>
                     </div>
                 </div>

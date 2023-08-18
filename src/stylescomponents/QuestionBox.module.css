@@ -50,11 +50,6 @@
     border: 1px solid #FF6961;
     color: #FFF;
 }
-.questionnavchangepage {
-    padding: 30px;
-    display: grid;
-    place-items: end;
-}
 .answermultiplecheckwrapper {
     display: grid;
     grid-template-columns: 1fr 95%;

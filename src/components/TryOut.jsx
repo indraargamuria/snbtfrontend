@@ -6,15 +6,37 @@ import TryOutSheetComponent from './TryOutSheet';
 function TryOut(props) {
         
     const tryOutData = props.content;
-    const [isExamEngaged, setIsExamEngaged] = useState(0);
-    const [goSectionID, setGoSectionID] = useState(0);
+    // const [isExamEngaged, setIsExamEngaged] = useState(1);
+    // const [goSectionID, setGoSectionID] = useState(6);
 
     function engageExam(engageFlag, sectionID){
+        // localStorage.setItem("engageFlag", JSON.stringify(engageFlag))
+        // alert(engageFlag+'-'+sectionID)
         setIsExamEngaged(engageFlag);
         setGoSectionID(sectionID);
     }
+    const [isExamEngaged, setIsExamEngaged] = useState(()=>{
+      const localValue = localStorage.getItem("engageFlag")
+      if(localValue == null) return 0
+  
+      return JSON.parse(localValue)
+    })
+    const [goSectionID, setGoSectionID] = useState(()=>{
+      const localValue = localStorage.getItem("sectionID")
+      if(localValue == null) return 0
+  
+      return JSON.parse(localValue)
+    })
 
+    // useEffect(()=>{
+    //     if(stateData!==undefined&&stateData.length!==0){
+    //         console.log(stateData[3].subTestID)
+    //         setRef(stateData);
+    //     }
+    // },[stateData])
     useEffect(()=>{
+        localStorage.setItem("engageFlag", JSON.stringify(isExamEngaged))
+        localStorage.setItem("sectionID", JSON.stringify(goSectionID))
         // console.log(isExamEngaged);
         // console.log(props.content);
     },[isExamEngaged])

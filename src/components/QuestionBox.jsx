@@ -25,7 +25,7 @@ function QuestionBox(props){
 
     return <Fragment><div className={styles.questionwrapper}>
                 
-    <div className={styles.questiontitle}>Potensi Kognitif Soal No {questionData.number}</div>
+    <div className={styles.questiontitle}>Soal No {questionData.number}</div>
     <div className={styles.questioncontent}>
         <div className={styles.questioncontentmain}>
             <div dangerouslySetInnerHTML={{ __html: questionData.name.replace('<img>','<img src="').replace('</img>','"/>')}}></div>

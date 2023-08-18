@@ -341,6 +341,11 @@
     place-items: center;
     border-radius: 15px;
 }
+.questionnavchangepage {
+    padding: 30px;
+    display: grid;
+    place-items: end;
+}
 .nextpage {
     border: none;
     outline: none;
