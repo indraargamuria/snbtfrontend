@@ -8,10 +8,7 @@ import QuestionBoxMobileComponent from "./QuestionBoxMobile";
 function TryOutSheet(props) {
     const tryOutData = props.tryOutContent;
     const tryOutDisplayData = props.tryOutContent.section_related.filter(a=>a.id === props.tryOutSection)[0];
-    // const [subTestSelected, setSubTestSelected] = useState(0);
-    // const [questionSelected, setQuestionSelected] = useState(0);
-    // const [stateExam, setStateExam] = useState([])
-    
+
     const [subTestSelected, setSubTestSelected] = useState(()=>{
         const localValue = localStorage.getItem("subTestSelected")
         if(localValue == null) return 0
@@ -24,6 +21,14 @@ function TryOutSheet(props) {
 
         return JSON.parse(localValue)
     })
+    const [subTestSelectedTimer, setSubTestSelectedTimer] = useState(()=>{
+        const localValue = localStorage.getItem("subTestSelectedTimer")
+        if(localValue == null) return tryOutDisplayData.subtest_related[subTestSelected].duration
+
+        return JSON.parse(localValue)
+    })
+    // const [subTestSelectedTimer, setSubTestSelectedTimer] = useState(tryOutDisplayData.subtest_related[subTestSelected].duration)
+    
     const [stateExam, setStateExam] = useState(()=>{
         
         let lengthSubTest = tryOutDisplayData.subtest_related.length;
@@ -83,65 +88,7 @@ function TryOutSheet(props) {
         return JSON.parse(localValue)
       })
 
-    // useEffect(()=>{
-    //     // Math.min(...tryOutDisplayData.subtest_related.map(item => item.id))
-    //     // console.log(tryOutDisplayData.subtest_related[0].name);
-    //     // console.log(tryOutDisplayData.subtest_related[subTestSelected]);
-        
-    //     // let lengthSubTest = tryOutDisplayData.subtest_related.length;
-    //     // let lengthQuestion = 0;
-    //     // let lengthAnswer = 0;
-    //     // let loopStateSubTest = 0;
-    //     // let loopStateQuestion = 0;
-    //     // let loopStateAnswer = 0;
-    //     // let totalData = 0;
-    //     // let loopData = 0;
-
-    //     // while (loopStateSubTest < lengthSubTest) {
-    //     //     lengthQuestion = tryOutDisplayData.subtest_related[loopStateSubTest].question_related.length;
-    //     //     while (loopStateQuestion < lengthQuestion) {
-    //     //         lengthAnswer = tryOutDisplayData.subtest_related[loopStateSubTest].question_related[loopStateQuestion].answer_related.length
-    //     //         while(loopStateAnswer < lengthAnswer){
-    //     //             totalData++
-    //     //             loopStateAnswer++
-    //     //         }
-    //     //         loopStateAnswer = 0;
-    //     //         loopStateQuestion++
-    //     //     }
-    //     //     loopStateQuestion = 0;
-    //     //     loopStateSubTest++;
-    //     // }
-    //     // loopStateSubTest = 0;
-
-    //     // // console.log(totalData);
-    //     // let compileArray = new Array(totalData);
-        
-    //     // while (loopStateSubTest < lengthSubTest) {
-    //     //     lengthQuestion = tryOutDisplayData.subtest_related[loopStateSubTest].question_related.length;
-    //     //     while (loopStateQuestion < lengthQuestion) {
-    //     //         lengthAnswer = tryOutDisplayData.subtest_related[loopStateSubTest].question_related[loopStateQuestion].answer_related.length
-    //     //         while(loopStateAnswer < lengthAnswer){
-    //     //             compileArray[loopData] = {
-    //     //                         'subTestID':tryOutDisplayData.subtest_related[loopStateSubTest].id,
-    //     //                         'questionID':tryOutDisplayData.subtest_related[loopStateSubTest].question_related[loopStateQuestion].id,
-    //     //                         'answerID':tryOutDisplayData.subtest_related[loopStateSubTest].question_related[loopStateQuestion].answer_related[loopStateAnswer].id,
-    //     //                         'isSelected':0
-    //     //                     }
-    //     //             loopData++
-    //     //             loopStateAnswer++
-    //     //         }
-    //     //         loopStateAnswer = 0;
-    //     //         loopStateQuestion++
-    //     //     }
-    //     //     loopStateQuestion = 0;
-    //     //     loopStateSubTest++;
-    //     // }
-    //     // loopStateSubTest = 0;
-
-    //     // setStateExam(compileArray);
-    //     // console.log(compileArray.filter(a=>a.questionID===9));
-    // },[tryOutData,tryOutDisplayData])
-
+      
     useEffect(()=>{
         // console.log(stateExam.filter(a=>a.questionID===9));
         localStorage.setItem("stateExam", JSON.stringify(stateExam))
@@ -157,6 +104,21 @@ function TryOutSheet(props) {
         // console.log(stateExam.filter(a=>a.questionID===9));
         localStorage.setItem("subTestSelected", JSON.stringify(subTestSelected))
     },[subTestSelected])
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+          setSubTestSelectedTimer(progress => progress - 1);
+          localStorage.setItem("subTestSelectedTimer", JSON.stringify(subTestSelectedTimer-1))
+        }, 1000);
+        if (subTestSelectedTimer === 0) {
+          clearTimeout(timeout);
+          nextSubTest();
+        }
+        return () => clearTimeout(timeout);
+      }, [subTestSelectedTimer]);
+    // console.log(progress);
+
+
 
     function changeAnswer(selectedQuestionID, selectedAnswerID, selectedQuestionType, selectedFlag){
         // console.log(questionID, answerID)
@@ -202,9 +164,16 @@ function TryOutSheet(props) {
         const previousSubTestSelected = subTestSelected;
         if(previousSubTestSelected + 1 === tryOutDisplayData.subtest_related.length){
             alert('Submit');
+            localStorage.removeItem('questionSelected');
+            localStorage.removeItem('subTestSelected');
+            localStorage.removeItem('stateExam');
+            props.handleEngageExam(0,0);
+
         }
         else {
             setSubTestSelected(previousSubTestSelected+1);
+            setSubTestSelectedTimer(tryOutDisplayData.subtest_related[subTestSelected].duration);
+            localStorage.setItem("subTestSelectedTimer", JSON.stringify(subTestSelectedTimer))
             setQuestionSelected(0);
 
         }
@@ -212,6 +181,7 @@ function TryOutSheet(props) {
     function changeQuestion(index){
         setQuestionSelected(index)
     }
+    
 
     return <Fragment>
         <div className={styles.prepare}>
@@ -224,6 +194,10 @@ function TryOutSheet(props) {
                         <li className={styles.breadcrumbsdivider}>&#62;</li>
                         <li className={styles.breadcrumbsmenu}>PENGERJAAN</li>
                     </ul>
+                </div>
+                
+                <div className={styles.timerwrapper}>
+                    {new Date(subTestSelectedTimer * 1000).toISOString().slice(14, 19)}
                 </div>
                 
             </div>
@@ -331,8 +305,11 @@ function TryOutSheet(props) {
                         </button>
                     </div>
                 </div>
+                
             </div>
             <div className={styles.tryoutright}>
+                
+                {/* <button>Batalkan</button> */}
                 <div className={styles.questionnavwrapper}>
 
                     <div className={styles.questionnavtitle}>{tryOutDisplayData.subtest_related[subTestSelected].name}</div>

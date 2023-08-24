@@ -12,7 +12,7 @@ function Info() {
 
     useEffect(()=>{
         setTimelineState({loading:true});
-        const apiUrl = 'http://127.0.0.1:8000/api/timeline/';
+        const apiUrl = 'http://uss-snbt.com:8000/api/timeline/';
         fetch(apiUrl)
         .then((data)=>data.json())
         .then((timelinedata)=>{

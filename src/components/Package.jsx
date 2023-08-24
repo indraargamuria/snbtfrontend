@@ -13,7 +13,7 @@ function Package(props) {
 
     useEffect(()=>{
         setDataState({loading:true});
-        const apiUrl = 'http://127.0.0.1:8000/api/package/';
+        const apiUrl = 'http://uss-snbt.com:8000/api/package/';
         fetch(apiUrl)
         .then((data)=>data.json())
         .then((content)=>{

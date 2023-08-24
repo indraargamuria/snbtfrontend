@@ -393,6 +393,11 @@
     place-items: center;
     border-radius: 15px;
 }
+.timerwrapper{
+    text-align: center;
+    font-size: 36px;
+    margin-bottom: 24px;
+}
 @media (max-width: 900px) {
     .tryout {
         display: grid;

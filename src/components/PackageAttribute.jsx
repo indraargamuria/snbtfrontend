@@ -37,8 +37,8 @@ function PackageAttribute(props) {
                     </div>
                 </div>
                 <div className={styles.preparepackageinfo}>
-                    {tryOutDisplayData.section_related.map(section => {
-                        return <div key={section.id} className={section.name === 'Skolastik' ? 
+                    {tryOutDisplayData.section_related.map((section,index) => {
+                        return <div key={section.id} className={section.id === props.sectionActive ? 
                         styles.preparepackageinfoboxactive :  styles.preparepackageinfoboxinactive}>
                         <div className={styles.preparepackageinfosection}>{section.name}</div>
                         <div className={styles.preparepackageinfocomponent}>
@@ -63,9 +63,14 @@ function PackageAttribute(props) {
                         </div>
                         <div className={styles.preparepackageinfonav}>
                             <a onClick={() => props.handleEngageExam(1,section.id)}>
-                                <i><FontAwesomeIcon icon={section.name === 'Skolastik' ? faPlay : faClose}></FontAwesomeIcon></i>
+                                <i><FontAwesomeIcon icon={section.id === props.sectionActive ? faPlay : faClose}></FontAwesomeIcon></i>
                                 <Fragment>
-                                    {section.name === 'Skolastik' ? <span>Mulai Try Out</span>:<span>Selesaikan Skolastik</span>}
+                                    {section.id === props.sectionActive ? 
+                                    
+                                    <span>Mulai Try Out</span>:
+                                    index !== 0 ?
+                                    <span>Selesaikan Skolastik</span>:
+                                    <span>Sub Test sudah Selesai</span>}
                                 </Fragment></a>
                         </div>
                     </div>
