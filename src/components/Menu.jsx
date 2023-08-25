@@ -15,10 +15,10 @@ function Menu() {
             path: '/catalog',
             label: 'KATALOG'
         },
-        {
-            path: '/result',
-            label: 'DASBOR SISWA'
-        },
+        // {
+        //     path: '/result',
+        //     label: 'DASBOR SISWA'
+        // },
         {
             path: '/exam',
             label: 'TRY OUT'

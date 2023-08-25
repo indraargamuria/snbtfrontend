@@ -4,24 +4,50 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartPlus } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import jwt from 'jwt-decode';
+import { useState } from 'react';
 function PackageBox(props) {
         
     
     const navigate = useNavigate();
+    
+    const [sessionUserID, setSessionUserID] = useState(()=>{
+        const localValue = localStorage.getItem("access_token")
+        if(localValue == null) return "Unauthorized"
+  
+      //   return JSON.parse(jwt(localValue))
+          return jwt(localStorage.getItem("access_token")).user_id;
+      })
     function addUserPackage(id){
-        console.log(id);
-        axios
-            .post(process.env.REACT_APP_BACKEND_URL + '/api/userpackage/', {
-                package: id,
-                user: 1,
-                status: 1
-            })
-            .then((response) => {
-            //   setPosts([response.data, ...posts]);
-            alert('Paket Berhasil Ditambahkan!')
-            navigate('/catalog')
 
-            });
+        
+        const apiUrl = process.env.REACT_APP_BACKEND_URL + '/api/userpackage/';
+        fetch(apiUrl)
+        .then((data)=>data.json())
+        .then((content)=>{
+            console.log(content.filter(c=>c.user === sessionUserID && c.package === id));
+            // alert(content.filter(c=>c.user === sessionUserID && c.package === id).length)
+            const packageRegistered = content.filter(c=>c.user === sessionUserID && c.package === id).length;
+            if(packageRegistered===1){
+                alert('Paket Sudah Kamu Pesan Sebelumnya dan Statusnya Masih Aktif, Yuk Langsung Try Out!')
+                navigate('/catalog')
+            }
+            else {
+                axios
+                    .post(process.env.REACT_APP_BACKEND_URL + '/api/userpackage/', {
+                        package: id,
+                        user: sessionUserID,
+                        status: 1
+                    })
+                    .then((response) => {
+                    //   setPosts([response.data, ...posts]);
+                    alert('Paket Berhasil Ditambahkan!')
+                    navigate('/catalog')
+        
+                    });
+            }
+        })
+        // console.log(id);
     }
     // const addUserPackage = (props) => {
     //     console.log(props);

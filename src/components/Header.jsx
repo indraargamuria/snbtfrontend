@@ -1,6 +1,8 @@
 import React, {Fragment, useEffect} from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from '../stylescomponents/Header.module.css'
+import { useState } from 'react';
+import jwt from 'jwt-decode';
 function Header() {
     const location = useLocation();
 
@@ -10,7 +12,30 @@ function Header() {
     //   console.log(location.pathname)
       // console.log(allQuestion);
     } ,[location]);
+    
+    const [sessionUserID, setSessionUserID] = useState(()=>{
+        const localValue = localStorage.getItem("access_token")
+        if(localValue == null) return "Unauthorized"
+  
+      //   return JSON.parse(jwt(localValue))
+          return jwt(localStorage.getItem("access_token")).user_id;
+      })
+    
+    const [sessionUserInformation, setSessionUserInformation] = useState();
 
+    useEffect(()=>{
+        const apiUrl = process.env.REACT_APP_BACKEND_URL + '/api/useraccount/' + sessionUserID;
+        fetch(apiUrl)
+        .then((data)=>data.json())
+        .then((content)=>{
+            // console.log(content);
+            setSessionUserInformation(content);
+        })
+    }, [sessionUserID])
+
+    useEffect(()=>{
+        // console.log(sessionUserInformation.fullname);
+    },[sessionUserInformation])
     return (
         <Fragment>
             { location.pathname === '/welcome' ? 
@@ -38,7 +63,7 @@ function Header() {
                 </div>
                 <div className={styles.topmid}>
                     <div className={styles.user}>
-                        <a onClick={()=>navigate('/')}>ARGA</a>
+                        <a onClick={()=>navigate('/')}>{sessionUserInformation !== undefined ? sessionUserInformation.fullname : 'User Loading'}</a>
                     </div>
                     <div className={styles.pfp}>
                         {/* <img src='https://media.licdn.com/dms/image/C4D03AQFBEmwpP5mIeA/profiledisplayphotoshrink_800_800/0/1655984562589?e=2147483647&v=beta&t=UrYK3RJ8LiJ70_eUUrESWb3_zVYaOv8VsWJdNcPcvYc' alt='' /> */}
@@ -46,12 +71,15 @@ function Header() {
                 </div>
                 <div className={styles.topright}>
                     <div className={styles.user}>
-                        <a onClick={()=>navigate('/')}>ARGA</a>
+                        <a onClick={()=>navigate('/')}>{sessionUserInformation !== undefined ? sessionUserInformation.fullname : 'User Loading'}</a>
+                        
                     </div>
                     <div className={styles.pfp}>
                         {/* <img src='https://media.licdn.com/dms/image/C4D03AQFBEmwpP5mIeA/profiledisplayphotoshrink_800_800/0/1655984562589?e=2147483647&v=beta&t=UrYK3RJ8LiJ70_eUUrESWb3_zVYaOv8VsWJdNcPcvYc' alt='' /> */}
                     </div>
+                    
                 </div>
+                
                 <div className={styles.toprightblankspace}></div>
             </div>
             }

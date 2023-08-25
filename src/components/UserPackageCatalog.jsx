@@ -66,7 +66,7 @@ function UserPackageCatalog(props){
                                         {filterTab.map((key, index) => {
                                             return <td key={row[key]}>{row[key]}</td>
                                         })}
-                                        <td className={activeTab === 1 ? '' : styles.hide}><a onClick={()=> startTryOut()}>MULAI TRY OUT</a></td>
+                                        <td className={activeTab === 1 ? '' : styles.hide}><a onClick={()=> startTryOut(row.id)}>MULAI TRY OUT</a></td>
                                     </tr>
                                 })}
                             </tbody>
@@ -91,7 +91,7 @@ function UserPackageCatalog(props){
                                 {displayUserPackageList.map((row, index) => {
                                     return <tr key={index}>
                                         {filterTab.map((key, index) => {
-                                            return <td className='mobilecatalogcontentpackage' key={row[key]}>{row[key]}</td>
+                                            return <td key={row[key]}>{row[key]}</td>
                                         })}
                                         <td className={activeTab === 1 ? '' : styles.hide}><a onClick={()=> startTryOut()}>MULAI TRY OUT</a></td>
                                     </tr>

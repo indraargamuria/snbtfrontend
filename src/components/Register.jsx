@@ -34,7 +34,11 @@ function Register(props) {
             .then((res)=>{
                 navigate('/');
                 console.log(res);
-            });
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+                alert("Kredensial Sudah Terdaftar, Harap Login")
+            });;
     }
     return (
         <Fragment>
