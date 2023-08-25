@@ -11,7 +11,7 @@ function PackageBox(props) {
     function addUserPackage(id){
         console.log(id);
         axios
-            .post('http://127.0.0.1:8000/api/userpackage/', {
+            .post(process.env.REACT_APP_BACKEND_URL + '/api/userpackage/', {
                 package: id,
                 user: 1,
                 status: 1

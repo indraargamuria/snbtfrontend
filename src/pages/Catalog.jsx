@@ -11,7 +11,7 @@ function Catalog(){
     
     useEffect(()=>{
         setDataState({loading:true});
-        const apiUrl = 'http://127.0.0.1:8000/api/userpackage/';
+        const apiUrl = process.env.REACT_APP_BACKEND_URL + '/api/userpackage/';
         fetch(apiUrl)
         .then((data)=>data.json())
         .then((content)=>{

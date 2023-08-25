@@ -11,7 +11,7 @@ function Exam(){
     
     useEffect(()=>{
         setDataState({loading:true});
-        const apiUrl = 'http://127.0.0.1:8000/api/package/4';
+        const apiUrl = process.env.REACT_APP_BACKEND_URL + '/api/package/4';
         fetch(apiUrl)
         .then((data)=>data.json())
         .then((content)=>{
