@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { Route, HashRouter as Router, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import Menu from './components/Menu';
 import './index.css';
