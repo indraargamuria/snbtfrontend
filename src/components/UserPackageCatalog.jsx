@@ -77,6 +77,10 @@ function UserPackageCatalog(props){
                             <thead>
                                 <tr>
                                     
+                                    {filterTab.map(datalist => {
+                                        return <td key={datalist}>{datalist.toUpperCase()}</td>
+                                    })}
+                                    <td className={activeTab === 1 ? '' : styles.hide}>NAVIGASI</td>
                                     {/* {this.state.mobile_displayed_tab.map(datalist => {
                                         return <td key={datalist}>{datalist.toUpperCase()}</td>
                                     })}
@@ -84,6 +88,14 @@ function UserPackageCatalog(props){
                                 </tr>
                             </thead>
                             <tbody>
+                                {displayUserPackageList.map((row, index) => {
+                                    return <tr key={index}>
+                                        {filterTab.map((key, index) => {
+                                            return <td className='mobilecatalogcontentpackage' key={row[key]}>{row[key]}</td>
+                                        })}
+                                        <td className={activeTab === 1 ? '' : styles.hide}><a onClick={()=> startTryOut()}>MULAI TRY OUT</a></td>
+                                    </tr>
+                                })}
                                 {/* {this.state.displayed_user_package.map((row, index) => {
                                     return <tr key={index}>
                                         {this.state.mobile_displayed_tab.map((key, index) => {
