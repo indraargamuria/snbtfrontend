@@ -27,7 +27,7 @@ function PackageBox(props) {
         .then((content)=>{
             console.log(content.filter(c=>c.user === sessionUserID && c.package === id));
             // alert(content.filter(c=>c.user === sessionUserID && c.package === id).length)
-            const packageRegistered = content.filter(c=>c.user === sessionUserID && c.package === id).length;
+            const packageRegistered = content.filter(c=>c.user === sessionUserID && c.package === id && c.status === 1).length;
             if(packageRegistered===1){
                 alert('Paket Sudah Kamu Pesan Sebelumnya dan Statusnya Masih Aktif, Yuk Langsung Try Out!')
                 navigate('/catalog')

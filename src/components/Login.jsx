@@ -40,7 +40,7 @@ function Login(props) {
             .catch(error => {
                 console.error('There was an error!', error);
                 alert("Kredensial Tidak Terdaftar")
-            });;
+            });
     }
     return (
         <Fragment>

@@ -6,7 +6,7 @@ function UserPackageCatalog(props){
     const navigate = useNavigate();
     const userPackageList = props.content;
     const [displayUserPackageList, setDisplayUserPackageList] = useState([]);
-    const filterTab = ['package','user'];
+    const filterTab = ['id','package'];
     const [activeTab, setActiveTab] = useState(1);
   
     const tabList = [
@@ -32,8 +32,11 @@ function UserPackageCatalog(props){
         setActiveTab(id);
     }
 
-    function startTryOut(){
-        navigate('/exam');
+    function startTryOut(userPackageID,packageID){
+        console.log(userPackageID, '-', packageID)
+        localStorage.setItem('sessionUserPackageID', userPackageID);
+        localStorage.setItem('sessionPackageID', packageID);
+        navigate('/exam')
     }
     
     return (
@@ -66,7 +69,7 @@ function UserPackageCatalog(props){
                                         {filterTab.map((key, index) => {
                                             return <td key={row[key]}>{row[key]}</td>
                                         })}
-                                        <td className={activeTab === 1 ? '' : styles.hide}><a onClick={()=> startTryOut(row.id)}>MULAI TRY OUT</a></td>
+                                        <td className={activeTab === 1 ? '' : styles.hide}><a onClick={()=> startTryOut(row.id,row.package)}>MULAI TRY OUT</a></td>
                                     </tr>
                                 })}
                             </tbody>
@@ -93,7 +96,7 @@ function UserPackageCatalog(props){
                                         {filterTab.map((key, index) => {
                                             return <td key={row[key]}>{row[key]}</td>
                                         })}
-                                        <td className={activeTab === 1 ? '' : styles.hide}><a onClick={()=> startTryOut()}>MULAI TRY OUT</a></td>
+                                        <td className={activeTab === 1 ? '' : styles.hide}><a onClick={()=> startTryOut(row.id,row.package)}>MULAI TRY OUT</a></td>
                                     </tr>
                                 })}
                                 {/* {this.state.displayed_user_package.map((row, index) => {

@@ -18,7 +18,7 @@ function Package(props) {
         .then((data)=>data.json())
         .then((content)=>{
             // console.log(timelinedata);
-            setDataState({loading: false, content: content});
+            setDataState({loading: false, content: content.filter(c => c.status === 1)});
         })
     }, [setDataState])
     return (

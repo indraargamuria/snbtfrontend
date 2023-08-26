@@ -1,11 +1,14 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PackageAttributeComponent from './PackageAttribute';
 import TryOutSheetComponent from './TryOutSheet';
+import jwt from 'jwt-decode';
+import axios from 'axios';
 
 
 function TryOut(props) {
         
     const tryOutData = props.content;
+    const userInfoData = props.userinfo;
     // const [isExamEngaged, setIsExamEngaged] = useState(1);
     // const [goSectionID, setGoSectionID] = useState(6);
     const firstSection = tryOutData.section_related[0].id;
@@ -13,7 +16,7 @@ function TryOut(props) {
 
     const [sectionActive, setSectionActive] = useState(()=>{
       const localValue = localStorage.getItem("sectionActive")
-      if(localValue == null) return tryOutData.section_related[0].id
+      if(localValue == null) return tryOutData.section_related[userInfoData.sectiondone].id
   
       return JSON.parse(localValue)
     })
@@ -33,6 +36,7 @@ function TryOut(props) {
 
     useEffect(()=>{
         console.log(sectionActive);
+        localStorage.setItem("sectionActive", JSON.stringify(tryOutData.section_related[userInfoData.sectiondone].id))
     },[sectionActive])
     // useEffect(()=>{
     //     if(stateData!==undefined&&stateData.length!==0){
@@ -56,10 +60,27 @@ function TryOut(props) {
             setGoSectionID(sectionID);
         }
         else if(isExamEngaged===1){
-            setIsExamEngaged(engageFlag);
-            setGoSectionID(sectionID);
-            setSectionActive(tryOutData.section_related[1].id)
-            localStorage.setItem("sectionActive", JSON.stringify(tryOutData.section_related[1].id))
+            console.log(userInfoData.sectiondone+1)
+            console.log(jwt(localStorage.getItem("access_token")).user_id)
+            console.log(localStorage.getItem("sessionPackageID"))
+            axios
+            .put(process.env.REACT_APP_BACKEND_URL + '/api/userpackage/' + localStorage.getItem("sessionUserPackageID") + '/',{           
+                "status": 1,
+                "sectiondone": userInfoData.sectiondone+1,
+                "user": jwt(localStorage.getItem("access_token")).user_id,
+                "package": localStorage.getItem("sessionPackageID")
+            })
+            .then((response) => {
+            //   setPosts([response.data, ...posts]);
+                setIsExamEngaged(engageFlag);
+                setGoSectionID(sectionID);
+                setSectionActive(tryOutData.section_related[userInfoData.sectiondone+1].id)
+                localStorage.setItem("sectionActive", JSON.stringify(tryOutData.section_related[1].id))
+
+            })
+            .catch(error => {
+                alert("Jawaban Tidak Berhasil Tersimpan")
+            });
         }
         else if(isExamEngaged===0&&sectionID!==sectionActive){
             if(sectionID===firstSection){
@@ -87,11 +108,11 @@ function TryOut(props) {
         <Fragment>
             {isExamEngaged === 0 ?
                 <div>
-                    <PackageAttributeComponent handleEngageExam = {engageExam} sectionActive = {sectionActive} tryOutContent = {tryOutData}/>
+                    <PackageAttributeComponent handleEngageExam = {engageExam} userContent = {userInfoData} sectionActive = {sectionActive} tryOutContent = {tryOutData}/>
                 </div>
                 :
                 <div>
-                    <TryOutSheetComponent tryOutContent = {tryOutData} tryOutSection = {goSectionID} handleEngageExam = {engageExam}/>
+                    <TryOutSheetComponent tryOutContent = {tryOutData} userContent = {userInfoData} tryOutSection = {goSectionID} handleEngageExam = {engageExam}/>
                 </div>
             }
         </Fragment>

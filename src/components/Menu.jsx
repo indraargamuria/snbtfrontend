@@ -74,12 +74,13 @@ function Menu() {
                                             </Fragment>
                                             )
                                     })}
+                                    {/* <li><i onClick={() => logout()} className={styles.logout}><FontAwesomeIcon icon={faDoorOpen}></FontAwesomeIcon></i></li> */}
+                            
                                 </ul>
                                 {/* <ul className={styles.navicon}>
                                     <li><i><FontAwesomeIcon icon={faHamburger}></FontAwesomeIcon></i></li>
                                 </ul> */}
-                                <li><i onClick={() => logout()} className={styles.logout}><FontAwesomeIcon icon={faDoorOpen}></FontAwesomeIcon></i></li>
-                            </div>
+                                </div>
                             :
                             <div>
                                 <ul className={styles.navmenu}>

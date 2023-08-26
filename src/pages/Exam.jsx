@@ -37,21 +37,35 @@ function Exam(){
     const [dataState, setDataState] = useState({
         loading: false,
         content: null,
+        userinfo: null
     });
     
     useEffect(()=>{
         setDataState({loading:true});
-        const apiUrl = process.env.REACT_APP_BACKEND_URL + '/api/package/1';
+        const execUserPackageID = localStorage.getItem('sessionUserPackageID');
+        const execPackageID = localStorage.getItem('sessionPackageID');
+        console.log(execUserPackageID, '-', execPackageID)
+        const apiUrl = process.env.REACT_APP_BACKEND_URL + '/api/package/' + execPackageID;
         fetch(apiUrl)
         .then((data)=>data.json())
         .then((content)=>{
             // console.log(timelinedata);
-            setDataState({loading: false, content: content});
+            
+            const apiUrlUserPackage = process.env.REACT_APP_BACKEND_URL + '/api/userpackage/' + execUserPackageID;
+            fetch(apiUrlUserPackage)
+            .then((userdata)=>userdata.json())
+            .then((userpackagecontent)=>{
+                // console.log(timelinedata);
+
+                setDataState({loading: false, content: content, userinfo: userpackagecontent});
+                // console.log(content, userpackagecontent)
+            })
+
         })
     }, [setDataState])
     return (
         <Fragment>
-            <Loading isLoading={dataState.loading} content={dataState.content}/>
+            <Loading isLoading={dataState.loading} content={dataState.content} userinfo={dataState.userinfo}/>
             {/* <UserPackageCatalog></UserPackageCatalog> */}
             
         </Fragment>

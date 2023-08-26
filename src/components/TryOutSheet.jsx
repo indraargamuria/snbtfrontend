@@ -4,9 +4,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightToBracket } from "@fortawesome/free-solid-svg-icons";
 import QuestionBoxComponent from "./QuestionBox";
 import QuestionBoxMobileComponent from "./QuestionBoxMobile";
+import jwt from 'jwt-decode';
+import axios from "axios";
 
 function TryOutSheet(props) {
     const tryOutData = props.tryOutContent;
+    const userData = props.userContent;
     const tryOutDisplayData = props.tryOutContent.section_related.filter(a=>a.id === props.tryOutSection)[0];
 
     const [subTestSelected, setSubTestSelected] = useState(()=>{
@@ -29,6 +32,76 @@ function TryOutSheet(props) {
     })
     // const [subTestSelectedTimer, setSubTestSelectedTimer] = useState(tryOutDisplayData.subtest_related[subTestSelected].duration)
     
+    const [sessionUserID, setSessionUserID] = useState(()=>{
+        const localValue = localStorage.getItem("access_token")
+        if(localValue == null) return "Unauthorized"
+  
+      //   return JSON.parse(jwt(localValue))
+          return jwt(localStorage.getItem("access_token")).user_id;
+      })
+      const [stateSubmitExam, setStateSubmitExam] = useState(()=>{
+          
+          let lengthSubTest = tryOutDisplayData.subtest_related.length;
+          let lengthQuestion = 0;
+          let lengthAnswer = 0;
+          let loopStateSubTest = 0;
+          let loopStateQuestion = 0;
+          let loopStateAnswer = 0;
+          let totalData = 0;
+          let loopData = 0;
+  
+          while (loopStateSubTest < lengthSubTest) {
+              lengthQuestion = tryOutDisplayData.subtest_related[loopStateSubTest].question_related.length;
+              while (loopStateQuestion < lengthQuestion) {
+                  lengthAnswer = tryOutDisplayData.subtest_related[loopStateSubTest].question_related[loopStateQuestion].answer_related.length
+                  while(loopStateAnswer < lengthAnswer){
+                      totalData++
+                      loopStateAnswer++
+                  }
+                  loopStateAnswer = 0;
+                  loopStateQuestion++
+              }
+              loopStateQuestion = 0;
+              loopStateSubTest++;
+          }
+          loopStateSubTest = 0;
+  
+          // console.log(totalData);
+          let compileArray = new Array(totalData);
+          let compileSubmitArray = new Array(totalData);
+          
+          while (loopStateSubTest < lengthSubTest) {
+              lengthQuestion = tryOutDisplayData.subtest_related[loopStateSubTest].question_related.length;
+              while (loopStateQuestion < lengthQuestion) {
+                  lengthAnswer = tryOutDisplayData.subtest_related[loopStateSubTest].question_related[loopStateQuestion].answer_related.length
+                  while(loopStateAnswer < lengthAnswer){
+                      compileSubmitArray[loopData] = {
+                                  'user':sessionUserID,
+                                  'userpackage':localStorage.getItem("sessionUserPackageID"),
+                                  'package':localStorage.getItem("sessionPackageID"),
+                                  'section':localStorage.getItem("sectionActive"),
+                                  'subtest':tryOutDisplayData.subtest_related[loopStateSubTest].id,
+                                  'question':tryOutDisplayData.subtest_related[loopStateSubTest].question_related[loopStateQuestion].id,
+                                  'answer':tryOutDisplayData.subtest_related[loopStateSubTest].question_related[loopStateQuestion].answer_related[loopStateAnswer].id,
+                                  'isselected':0
+                              }
+                      loopData++
+                      loopStateAnswer++
+                  }
+                  loopStateAnswer = 0;
+                  loopStateQuestion++
+              }
+              loopStateQuestion = 0;
+              loopStateSubTest++;
+          }
+          loopStateSubTest = 0;
+  
+          // setStateExam(compileArray);
+          const localValue = localStorage.getItem("stateSubmitExam")
+          if(localValue == null) return compileSubmitArray
+      
+          return JSON.parse(localValue)
+        })
     const [stateExam, setStateExam] = useState(()=>{
         
         let lengthSubTest = tryOutDisplayData.subtest_related.length;
@@ -58,6 +131,7 @@ function TryOutSheet(props) {
 
         // console.log(totalData);
         let compileArray = new Array(totalData);
+        let compileSubmitArray = new Array(totalData);
         
         while (loopStateSubTest < lengthSubTest) {
             lengthQuestion = tryOutDisplayData.subtest_related[loopStateSubTest].question_related.length;
@@ -94,6 +168,10 @@ function TryOutSheet(props) {
         localStorage.setItem("stateExam", JSON.stringify(stateExam))
     },[stateExam])
 
+    useEffect(()=>{
+        // console.log(stateExam.filter(a=>a.questionID===9));
+        localStorage.setItem("stateSubmitExam", JSON.stringify(stateSubmitExam))
+    },[stateSubmitExam])
     
     useEffect(()=>{
         // console.log(stateExam.filter(a=>a.questionID===9));
@@ -135,12 +213,31 @@ function TryOutSheet(props) {
                 return state
               })
             })
+            setStateSubmitExam(currentState => {
+              return currentState.map(state => {
+                if(state.question === selectedQuestionID && state.answer === selectedAnswerID){
+                  return { ...state, isselected:selectedFlag}
+                }
+                else if(state.question === selectedQuestionID && state.answer !== selectedAnswerID){
+                  return { ...state, isselected:0}
+                }
+                return state
+              })
+            })
         }
         else if (selectedQuestionType === 2){
             setStateExam(currentState => {
               return currentState.map(state => {
                 if(state.questionID === selectedQuestionID && state.answerID === selectedAnswerID){
                   return { ...state, isSelected:selectedFlag}
+                }
+                return state
+              })
+            })
+            setStateSubmitExam(currentState => {
+              return currentState.map(state => {
+                if(state.question === selectedQuestionID && state.answer === selectedAnswerID){
+                  return { ...state, isselected:selectedFlag}
                 }
                 return state
               })
@@ -158,17 +255,40 @@ function TryOutSheet(props) {
                 return state
               })
             })
+            setStateSubmitExam(currentState => {
+              return currentState.map(state => {
+                if(state.question === selectedQuestionID && state.answer === selectedAnswerID && state.isselected === 0){
+                  return { ...state, isselected:1}
+                }
+                else if(state.question === selectedQuestionID && state.answer === selectedAnswerID && state.isselected === 1){
+                  return { ...state, isselected:0}
+                }
+                return state
+              })
+            })
         }
       }
     function nextSubTest(){
         const previousSubTestSelected = subTestSelected;
         if(previousSubTestSelected + 1 === tryOutDisplayData.subtest_related.length){
-            alert('Submit');
-            localStorage.removeItem('questionSelected');
-            localStorage.removeItem('subTestSelected');
-            localStorage.removeItem('stateExam');
-            props.handleEngageExam(0,0);
+            // alert('Submit');
+            // console.log(stateExam)
+            // console.log(stateSubmitExam)
+            axios
+            .post(process.env.REACT_APP_BACKEND_URL + '/api/useranswer/', stateSubmitExam)
+            .then((response) => {
+            //   setPosts([response.data, ...posts]);
+                localStorage.removeItem('questionSelected');
+                localStorage.removeItem('subTestSelected');
+                localStorage.removeItem('stateExam');
+                localStorage.removeItem('stateSubmitExam');
+                props.handleEngageExam(0,0);
 
+
+            })
+            .catch(error => {
+                alert("Jawaban Tidak Berhasil Tersimpan")
+            });
         }
         else {
             setSubTestSelected(previousSubTestSelected+1);

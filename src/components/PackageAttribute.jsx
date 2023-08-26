@@ -5,9 +5,12 @@ import { faClose, faPlay } from '@fortawesome/free-solid-svg-icons';
 function PackageAttribute(props) {
 
     const tryOutDisplayData = props.tryOutContent;
+    const userDisplayData = props.userContent;
 
     useEffect(()=>{
-        // console.log(tryOutDisplayData.section_related);
+        console.log(tryOutDisplayData.section_related);
+        console.log(userDisplayData)
+        console.log(props.sectionActive)
     },[tryOutDisplayData])
 
     return <Fragment>
