@@ -30,7 +30,7 @@ function Exam(){
         .catch(error => {
             console.error('There was an error!', error);
             navigate('/welcome')
-            alert("Session Habis, Harap Login Ulang")
+            alert("Session Habis/Tidak Ada, Harap Login")
         });;
     },[sessionUserID])
     const Loading = LoadingComponent(TryOutWrapperComponent);

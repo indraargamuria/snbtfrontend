@@ -7,6 +7,7 @@ import SectionImage from './SectionImage';
 
 function Hero(){
     library.add(faCalendarAlt,faBoxesStacked, faUserGraduate,faUniversity,faStar)
+    
     const tagpoint = [
         {
             tagpoint_id: 1,

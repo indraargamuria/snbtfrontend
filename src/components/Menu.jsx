@@ -1,10 +1,14 @@
 import { faHamburger } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { Fragment, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styles from '../stylescomponents/Menu.module.css';
+import { faDoorOpen } from '@fortawesome/free-solid-svg-icons';
+import { library } from '@fortawesome/fontawesome-svg-core';
+
 function Menu() {
-    
+    const navigate = useNavigate();
+    library.add(faDoorOpen)
     const location = useLocation();
     const menu = [
         {
@@ -28,6 +32,13 @@ function Menu() {
     //   console.log(location.pathname)
       // console.log(allQuestion);
     } ,[location]);
+
+    function logout() {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+        alert('Sampai Jumpa Kembali! Semangat Terus Ya!');
+        navigate('/welcome');
+    }
 
     return (
         <Fragment>
@@ -64,9 +75,10 @@ function Menu() {
                                             )
                                     })}
                                 </ul>
-                                <ul className={styles.navicon}>
+                                {/* <ul className={styles.navicon}>
                                     <li><i><FontAwesomeIcon icon={faHamburger}></FontAwesomeIcon></i></li>
-                                </ul>
+                                </ul> */}
+                                <li><i onClick={() => logout()} className={styles.logout}><FontAwesomeIcon icon={faDoorOpen}></FontAwesomeIcon></i></li>
                             </div>
                             :
                             <div>
@@ -77,10 +89,11 @@ function Menu() {
                                                 <Link to={menu.path} className={location.pathname === menu.path ? styles.navbuttonactive : styles.navbuttoninactive}>{menu.label}</Link></li>                    
                                         )
                                     })}
+                                    <li><i onClick={() => logout()} className={styles.logout}><FontAwesomeIcon icon={faDoorOpen}></FontAwesomeIcon></i></li>
                                 </ul>
-                                <ul className={styles.navicon}>
+                                {/* <ul className={styles.navicon}>
                                     <li><i><FontAwesomeIcon icon={faHamburger}></FontAwesomeIcon></i></li>
-                                </ul>
+                                </ul> */}
                             </div>
                             }
                         </Fragment>  

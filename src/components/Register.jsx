@@ -32,8 +32,24 @@ function Register(props) {
                 password: formData.password
             })
             .then((res)=>{
-                navigate('/');
-                console.log(res);
+                axiosInstance
+                    .post('token/', {
+                        email: formData.email,
+                        password: formData.password
+                    })
+                    .then((res)=>{
+                        console.log(res.data);
+                        localStorage.setItem('access_token', res.data.access);
+                        localStorage.setItem('refresh_token', res.data.refresh);
+                        axiosInstance.defaults.headers['Authorization'] = 
+                            'JWT ' + localStorage.getItem('access_token');
+                            navigate('/');
+                            alert("Selamat Datang di Aplikasi USS SNBT, Happy Learning!")
+                    })
+                    .catch(error => {
+                        console.error('There was an error!', error);
+                        alert("Kredensial Tidak Terdaftar")
+                    });;
             })
             .catch(error => {
                 console.error('There was an error!', error);

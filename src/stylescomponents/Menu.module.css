@@ -66,6 +66,16 @@
     color: #FFFFFF;
 }
 
+.logout {
+    color: rgb(166, 0, 0);
+    padding: 10px;
+}
+
+.logout:hover {
+    background-color:  rgb(166, 0, 0);
+    color: #FFFFFF;
+}
+
 
 @media (max-width: 900px) {
 
@@ -74,28 +84,48 @@
         width: 100vw;
         /* background-color: #093139; */
         display: grid;
-        grid-template-columns: 5vw 45vw 45vw 5vw;
+        grid-template-columns: 5vw 10vw 80vw 5vw;
         /* border-bottom: 1px solid #0058A7; */
     }
     .navmenu {
-        display: none;
+        display: block;
 
     }
-    .navright ul li i {
+    .logout {
+        color: rgb(166, 0, 0);
+        padding: 5px;
+    }
+    /* .navright ul li i {
         padding: 5px 10px;
         color: #0058A7;
         border: 1px solid #0058A7;
         border-radius: 10px;
         cursor: pointer;
 
-    }
-    .navright ul li i:hover {
+    } */
+    /* .navright ul li i:hover {
         color: white;
         background-color: #0058A7;
 
-    }
+    } */
     .navicon {
-        display: block;
+        display: none;
         font-size: 30px;
+    }
+    .navbuttonactive {
+        padding: 5px 10px;
+        border-radius: 5px;
+        transition: 0.3s;
+        color: #FFFFFF;
+        text-decoration: none;
+        background-color: #0058A7;
+    }
+    .navbuttoninactive {
+        padding: 5px 10px;
+        border-radius: 5px;
+        transition: 0.3s;
+        color: #0058A7;
+        text-decoration: none;
+        background-color: #FFFFFF;
     }
 }

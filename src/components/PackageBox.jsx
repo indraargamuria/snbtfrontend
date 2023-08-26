@@ -84,7 +84,7 @@ function PackageBox(props) {
                     
                 </div>
                 <div className={styles.packageboxfooter}>
-                    <div className={styles.packageboxprice}><span>Rp {props.price},-</span></div>
+                    <div className={styles.packageboxprice}><span>Rp {0},- </span></div>
                     <div className={styles.packageboxnavigation}><button onClick={() => addUserPackage(props.id)}><i><FontAwesomeIcon icon={faCartPlus}></FontAwesomeIcon></i> Pesan</button>
                     </div>
                 </div>

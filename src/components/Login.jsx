@@ -35,7 +35,7 @@ function Login(props) {
                 axiosInstance.defaults.headers['Authorization'] = 
                     'JWT ' + localStorage.getItem('access_token');
                     navigate('/');
-                    alert("Selamat Datang di Aplikasi USS SNBT, Happy Learning!")
+                    alert("Selamat Datang Kembali di Aplikasi USS SNBT, Happy Learning Again!")
             })
             .catch(error => {
                 console.error('There was an error!', error);
