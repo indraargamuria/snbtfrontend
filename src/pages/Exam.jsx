@@ -17,18 +17,14 @@ function Exam(){
 
     useEffect(()=>{
 
-        // console.log(accessToken);
-        // console.log(localStorage.getItem("access_token"));
         axiosInstance
         .post('token/verify/', {
             token: localStorage.getItem("access_token")
         })
         .then((res)=>{
-            console.log('Mantap');
             // alert("Selamat Datang di Aplikasi USS SNBT, Happy Learning!")
         })
         .catch(error => {
-            console.error('There was an error!', error);
             navigate('/welcome')
             alert("Session Habis/Tidak Ada, Harap Login")
         });;
@@ -44,21 +40,17 @@ function Exam(){
         setDataState({loading:true});
         const execUserPackageID = localStorage.getItem('sessionUserPackageID');
         const execPackageID = localStorage.getItem('sessionPackageID');
-        console.log(execUserPackageID, '-', execPackageID)
         const apiUrl = process.env.REACT_APP_BACKEND_URL + '/api/package/' + execPackageID;
         fetch(apiUrl)
         .then((data)=>data.json())
         .then((content)=>{
-            // console.log(timelinedata);
             
             const apiUrlUserPackage = process.env.REACT_APP_BACKEND_URL + '/api/userpackage/' + execUserPackageID;
             fetch(apiUrlUserPackage)
             .then((userdata)=>userdata.json())
             .then((userpackagecontent)=>{
-                // console.log(timelinedata);
 
                 setDataState({loading: false, content: content, userinfo: userpackagecontent});
-                // console.log(content, userpackagecontent)
             })
 
         })

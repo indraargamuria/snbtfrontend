@@ -280,6 +280,7 @@ function TryOutSheet(props) {
             //   setPosts([response.data, ...posts]);
                 localStorage.removeItem('questionSelected');
                 localStorage.removeItem('subTestSelected');
+                localStorage.removeItem('subTestSelectedTimer');
                 localStorage.removeItem('stateExam');
                 localStorage.removeItem('stateSubmitExam');
                 props.handleEngageExam(0,0);

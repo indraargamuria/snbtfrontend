@@ -3,12 +3,16 @@ import PackageAttributeComponent from './PackageAttribute';
 import TryOutSheetComponent from './TryOutSheet';
 import jwt from 'jwt-decode';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 
 function TryOut(props) {
         
+    const navigate = useNavigate();
     const tryOutData = props.content;
-    const userInfoData = props.userinfo;
+    // const userInfoData = props.userinfo;
+
+    const [userInfoData, setUserInfoData] = useState(props.userinfo)
     // const [isExamEngaged, setIsExamEngaged] = useState(1);
     // const [goSectionID, setGoSectionID] = useState(6);
     const firstSection = tryOutData.section_related[0].id;
@@ -52,8 +56,6 @@ function TryOut(props) {
     },[isExamEngaged])
     
     function engageExam(engageFlag, sectionID){
-        // localStorage.setItem("engageFlag", JSON.stringify(engageFlag))
-        // alert(engageFlag+'-'+sectionID)
         console.log(sectionActive);
         if(isExamEngaged===0&&sectionID===sectionActive){
             setIsExamEngaged(engageFlag);
@@ -65,17 +67,25 @@ function TryOut(props) {
             console.log(localStorage.getItem("sessionPackageID"))
             axios
             .put(process.env.REACT_APP_BACKEND_URL + '/api/userpackage/' + localStorage.getItem("sessionUserPackageID") + '/',{           
-                "status": 1,
+                "status": userInfoData.sectiondone+1===2?2:1,
                 "sectiondone": userInfoData.sectiondone+1,
                 "user": jwt(localStorage.getItem("access_token")).user_id,
                 "package": localStorage.getItem("sessionPackageID")
             })
             .then((response) => {
             //   setPosts([response.data, ...posts]);
+                setUserInfoData(userInfoData.sectiondone+1);
                 setIsExamEngaged(engageFlag);
                 setGoSectionID(sectionID);
                 setSectionActive(tryOutData.section_related[userInfoData.sectiondone+1].id)
-                localStorage.setItem("sectionActive", JSON.stringify(tryOutData.section_related[1].id))
+                localStorage.setItem("sectionActive", JSON.stringify(tryOutData.section_related[userInfoData.sectiondone+1].id))
+                if(userInfoData===2){
+                    localStorage.removeItem('sectionID');
+                    localStorage.removeItem('sectionUserPackageID');
+                    localStorage.removeItem('sectionActive');
+                    localStorage.removeItem('sessionPackagaID');
+                    navigate('/catalog')
+                }
 
             })
             .catch(error => {

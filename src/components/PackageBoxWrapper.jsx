@@ -3,7 +3,7 @@ import PackageBoxComponent from './PackageBox'
 
 const PackageBoxWrapper = (props) => {
     const {content} = props;
-    if(!content || content.length === 0) return <p>Tidak ada Package Active</p>
+    if(!content || content.length === 0) return <p>Tidak ada Paket Aktif yang dapat dipesan</p>
     // console.log(Package.length);
     return (
         <Fragment>{content.map(t => {

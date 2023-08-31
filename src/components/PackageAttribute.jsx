@@ -8,9 +8,9 @@ function PackageAttribute(props) {
     const userDisplayData = props.userContent;
 
     useEffect(()=>{
-        console.log(tryOutDisplayData.section_related);
-        console.log(userDisplayData)
-        console.log(props.sectionActive)
+        // console.log(tryOutDisplayData.section_related);
+        // console.log(userDisplayData)
+        // console.log(props.sectionActive)
     },[tryOutDisplayData])
 
     return <Fragment>

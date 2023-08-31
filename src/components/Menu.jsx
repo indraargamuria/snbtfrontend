@@ -34,8 +34,7 @@ function Menu() {
     } ,[location]);
 
     function logout() {
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('refresh_token');
+        localStorage.clear();
         alert('Sampai Jumpa Kembali! Semangat Terus Ya!');
         navigate('/welcome');
     }

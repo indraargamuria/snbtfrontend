@@ -10,17 +10,18 @@ import Welcome from './pages/Welcome';
 import Catalog from './pages/Catalog';
 import Exam from "./pages/Exam";
 import Maintenance from "./pages/Maintenance";
+import Profile from"./pages/Profile";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Router>
     {/* <React.StrictMode> */}
-      <Header/>
-      <Menu/>
+      {/* <Header/>
+      <Menu/> */}
       <Routes>
         <Route exact path="/welcome" element={<Welcome/>}/>
-        {/* <Route exact path="/" element={<Maintenance/>}/> */}
-        <Route exact path="/" element={<Homepage/>}/>
+        <Route exact path="/" element={<Maintenance/>}/>
+        {/* <Route exact path="/" element={<Homepage/>}/> */}
         <Route exact path="/catalog" element={<Catalog/>}/>
         <Route exact path="/exam" element={<Exam/>}/>
       </Routes>

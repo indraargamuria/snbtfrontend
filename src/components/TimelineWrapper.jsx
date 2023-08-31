@@ -3,7 +3,7 @@ import TimelineComponent from './Timeline'
 
 const TimelineWrapper = (props) => {
     const {timeline} = props;
-    if(!timeline || timeline.length === 0) return <p>Tidak ada Timeline Active</p>
+    if(!timeline || timeline.length === 0) return <p>Belum ada Timeline Try Out yang dapat dilampirkan</p>
     console.log(timeline);
     return (
         <Fragment>{timeline.map(t => {
