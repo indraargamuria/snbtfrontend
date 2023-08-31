@@ -5,7 +5,7 @@ function Maintenance(){
     return (
         <Fragment>
             <div className={styles.container}>
-                <div className={styles.message}>Try Out SNBT baru bisa dimulai pada tanggal 26 Agustus 2023 pukul 13:00 ya
+                <div className={styles.message}>Sedang Dalam Persiapan User Acceptance Test SG, Jum'at 1 September 2023, Pukul 14:00
                     </div>
             </div>
         </Fragment>
