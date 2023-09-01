@@ -34,7 +34,8 @@ function Profile(){
     const Loading = LoadingComponent(ProfileFormWrapperComponent);
     const [dataState, setDataState] = useState({
         loading: false,
-        content: null
+        content: null,
+        university: null
     });
     
     useEffect(()=>{
@@ -44,13 +45,18 @@ function Profile(){
         .then((data)=>data.json())
         .then((content)=>{
             
-            setDataState({loading: false, content: content});
+            const apiUrl = process.env.REACT_APP_BACKEND_URL + '/api/university/';
+            fetch(apiUrl)
+            .then((data)=>data.json())
+            .then((university)=>{
+                setDataState({loading: false, content: content, university: university});
+            })
 
         })
     }, [setDataState])
     return (
         <Fragment>
-            <Loading isLoading={dataState.loading} content={dataState.content}/>
+            <Loading isLoading={dataState.loading} content={dataState.content}  university={dataState.university}/>
         </Fragment>
     )
 }

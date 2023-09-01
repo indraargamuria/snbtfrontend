@@ -34,21 +34,24 @@
 }
 .formwrapper {
     display: grid;
-    grid-template-columns: repeat(4,  1fr);
+    grid-template-columns: 25% 25% 25% 25%;
 }
 .formbox {
     background-color: white;
     margin-right: 10px;
     border-radius: 10px;
-    padding: 40px 40px;
     /* height: auto; */
     box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     /* border: 0.1px solid #0058A7; */
     margin-bottom: 12px;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+    padding: 40px 40px;
+    
 }
 .formboxtitle {
-    display: grid;
-    place-content: center;
+    text-align: center;
     margin-bottom: 32px;
     font-size: 18px;
     font-weight: bold;
@@ -68,9 +71,13 @@
     margin-bottom: 12px;
     outline: none;
     padding: 0.5rem 0.5rem;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
     font-size: 14px;
     border-radius: 6px;
     border: 1px solid #000;
+    width: 100%;
 }
 .inputwrapper select {
     margin-top: 12px;
@@ -80,6 +87,7 @@
     font-size: 14px;
     border-radius: 6px;
     border: 1px solid #000;
+    width: 100%;
 }
 @media (max-width: 900px) {
     .formwrapper {

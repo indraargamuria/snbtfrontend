@@ -9,6 +9,7 @@ function ProfileForm(props) {
         
     const navigate = useNavigate();
     const data = props.content;
+    const universityData = props.university;
     // const userInfoData = props.userinfo;
 
     const [sessionUserID, setSessionUserID] = useState(()=>{
@@ -43,6 +44,9 @@ function ProfileForm(props) {
         studentnumber : data.studentnumber === null ? undefined : data.studentnumber
     })
 
+    const [optionStudyProgram1, setOptionStudyProgram1] = useState([]);
+    const [optionStudyProgram2, setOptionStudyProgram2] = useState([]);
+
     useEffect(()=>{
         const apiUrl = process.env.REACT_APP_BACKEND_URL + '/api/useraccount/' + sessionUserID;
         fetch(apiUrl)
@@ -52,7 +56,7 @@ function ProfileForm(props) {
             setSessionUserInformation(content);
             setUserData({
                 ...userData,
-                fullname: content.fullname,
+                fullname: content.fullname
             });
         })
     },[sessionUserID])
@@ -61,32 +65,58 @@ function ProfileForm(props) {
     const handleUserDataChange = (e) => {
         setUserData({
             ...userData,
-            [e.target.name]: e.target.value.trim(),
+            [e.target.name]: e.target.value.trim() === '-----' ? null : e.target.value.trim(),
         });
 
     }
+
+    const [buttonFlag, setButtonFlag] = useState(0)
+
+    useEffect(()=>{
+        
+        if(userData.university1 === null || userData.university1 === '-----' || userData.university1 === undefined){
+            setOptionStudyProgram1([])
+            
+        }
+        else {
+            setOptionStudyProgram1(universityData[userData.university1-1].studyprogram_related)
+        }
+        if(userData.university2 === null || userData.university2 === '-----' || userData.university2 === undefined){
+            setOptionStudyProgram2([])
+        }
+        else {
+            setOptionStudyProgram2(universityData[userData.university2-1].studyprogram_related)
+        }
+    },[userData])
     function profileSubmit(){
-        // console.log(userData)
+        setButtonFlag(1);
+        console.log(userData)
+        axios
+        .put(process.env.REACT_APP_BACKEND_URL + '/api/userprofile/' + sessionUserID + '/',{           
+            user: sessionUserID,
+            nickname: userData.nickname,
+            birthdate: userData.birthdate,
+            gender: userData.gender,
+            phonenumber: userData.phonenumber,
+            instagramaccount: userData.instagramaccount,
+            instagramfollower: userData.instagramfollower,
+            schoolname: userData.schoolname,
+            schoolgrade: userData.schoolgrade,
+            schoolprogram: userData.schoolprogram,
+            schoolfinishyear: userData.schoolfinishyear,
+            university1: userData.university1,
+            studyprogram1: userData.studyprogram1,
+            university2: userData.university2,
+            studyprogram2: userData.studyprogram2,
+            studentnumber: userData.studentnumber
+            
+        })
+        .then((response)=>{
+            alert('Profil Berhasil Terupdate, Terima Kasih, Kamu akan Otomatis Pindah ke Homepage ya!')
+            navigate('/');
+            setButtonFlag(0);
+        })
     }
-    // useEffect(()=>{
-    //     console.log(userData);
-    // },[userData])
-    // user = models.ForeignKey(UserAccount, on_delete=models.CASCADE, related_name="user_profile_related")
-    // nickname = models.CharField(max_length=200)
-    // birthdate = models.DateField()
-    // gender = models.IntegerField(choices=genderoptions)
-    // phonenumber = models.CharField(max_length=100)
-    // instagramaccount = models.CharField(max_length=100)
-    // instagramfollower = models.IntegerField()
-    // schoolname = models.CharField(max_length=200)
-    // schoolgrade = models.IntegerField(choices=schoolgradeoptions)
-    // schoolprogram = models.IntegerField(choices=schoolprogramoptions)
-    // schoolfinishyear = models.CharField(max_length=10)
-    // university1 = models.ForeignKey(ref_models.University, on_delete=models.PROTECT, related_name="university1_related")
-    // studyprogram1 = models.ForeignKey(ref_models.StudyProgram, on_delete=models.PROTECT, related_name="studyprogram1_related")
-    // university2 = models.ForeignKey(ref_models.University, on_delete=models.PROTECT, related_name="university2_related")
-    // studyprogram2 = models.ForeignKey(ref_models.StudyProgram, on_delete=models.PROTECT, related_name="studyprogram2_related")
-    // studentnumber = models.CharField(max_length=200)
     return (
         <Fragment>
             <div className={styles.profile}>
@@ -115,6 +145,7 @@ function ProfileForm(props) {
                             <div className={styles.inputwrapper}>
                                 <label htmlFor="gender">Jenis Kelamin</label>
                                 <select id="gender" name="gender" onChange={handleUserDataChange} value={userData.gender}>
+                                <option value={null}>-----</option>
                                 <option value={1}>Laki-Laki</option>
                                 <option value={2}>Perempuan</option>
                                 </select>
@@ -143,6 +174,7 @@ function ProfileForm(props) {
                             <div className={styles.inputwrapper}>
                                 <label htmlFor="schoolgrade">Kelas</label>
                                 <select id="schoolgrade" name="schoolgrade" onChange={handleUserDataChange} value={userData.schoolgrade}>
+                                <option value={null}>-----</option>
                                 <option value={1}>1 SMA/SMK/Sederajat</option>
                                 <option value={2}>2 SMA/SMK/Sederajat</option>
                                 <option value={3}>3 SMA/SMK/Sederajat</option>
@@ -153,6 +185,7 @@ function ProfileForm(props) {
                             <div className={styles.inputwrapper}>
                                 <label htmlFor="schoolprogram">Jurusan</label>
                                 <select id="schoolprogram" name="schoolprogram" onChange={handleUserDataChange} value={userData.schoolprogram}>
+                                <option value={null}>-----</option>
                                 <option value={1}>Ilmu Pengetahuan Alam</option>
                                 <option value={2}>Ilmu Pengetahuan Sosial</option>
                                 <option value={3}>Bahasa</option>
@@ -173,15 +206,24 @@ function ProfileForm(props) {
                             <div className={styles.inputwrapper}>
                                 <label htmlFor="university1">Opsi 1 | Universitas</label>
                                 <select id="university1" name="university1" onChange={handleUserDataChange} value={userData.university1}>
-                                <option value={1}>Universitas Indonesia</option>
-                                
+                                <option value={null}>-----</option>
+                                {/* <option value={1}>Universitas Indonesia</option> */}
+                                {universityData.map(data=>{
+                                    return <option key={data.id} value={data.id}>{data.name}</option>
+                                })}
                                 </select>
                             </div>
                             <div className={styles.inputwrapper}>
                                 <label htmlFor="studyprogram1">Opsi 1 | Program Studi</label>
-                                <select id="studyprogram1" name="studyprogram1" onChange={handleUserDataChange} value={userData.studyprogram1}>
-                                <option value={1}>Hukum</option>
+                                <select 
+                                // disabled={optionStudyProgram1.length === 0 ? 1 : 0} 
+                                id="studyprogram1" name="studyprogram1" onChange={handleUserDataChange} value={userData.studyprogram1}>
+                                {/* <option value={1}>Hukum</option> */}
+                                <option value={null}>-----</option>
                                 
+                                {optionStudyProgram1.map(data=>{
+                                    return <option key={data.id} value={data.id}>{data.name}</option>
+                                })}
                                 </select>
                             </div>
                             <br/>
@@ -190,15 +232,23 @@ function ProfileForm(props) {
                             <div className={styles.inputwrapper}>
                                 <label htmlFor="university2">Opsi 2 | Universitas</label>
                                 <select id="university2" name="university2" onChange={handleUserDataChange} value={userData.university2}>
-                                <option value={1}>Universitas Indonesia</option>
-                                
+                                <option value={null}>-----</option>
+                                {universityData.map(data=>{
+                                    return <option key={data.id} value={data.id}>{data.name}</option>
+                                })}
                                 </select>
                             </div>
                             <div className={styles.inputwrapper}>
                                 <label htmlFor="studyprogram2">Opsi 2 | Program Studi</label>
-                                <select id="studyprogram2" name="studyprogram2" onChange={handleUserDataChange} value={userData.studyprogram2}>
-                                <option value={1}>Hukum</option>
-                                
+                                <select 
+                                // disabled={optionStudyProgram2.length === 0 ? 1 : 0} 
+                                id="studyprogram2" name="studyprogram2" onChange={handleUserDataChange} value={userData.studyprogram2}>
+                                {/* <option value={1}>Hukum</option>*/}
+                                <option value={null}>-----</option>
+                                 
+                                {optionStudyProgram2.map(data=>{
+                                    return <option key={data.id} value={data.id}>{data.name}</option>
+                                })}
                                 </select>
                             </div>
                         </div>
@@ -212,7 +262,7 @@ function ProfileForm(props) {
                             </div>
                         </div>
                     </div>
-                    <button onClick={() => profileSubmit()}>SIMPAN PROFIL</button>
+                    <button disabled={buttonFlag} onClick={() => profileSubmit()}>SIMPAN PROFIL</button>
                 </div>
                 <div className={styles.profileright}>
                     
