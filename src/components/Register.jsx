@@ -43,7 +43,7 @@ function Register(props) {
                         localStorage.setItem('refresh_token', res.data.refresh);
                         axiosInstance.defaults.headers['Authorization'] = 
                             'JWT ' + localStorage.getItem('access_token');
-                            navigate('/');
+                            navigate('/profile');
                             alert("Selamat Datang di Aplikasi USS SNBT, Happy Learning!")
                     })
                     .catch(error => {

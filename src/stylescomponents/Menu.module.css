@@ -84,6 +84,7 @@
         width: 100vw;
         /* background-color: #093139; */
         display: grid;
+        margin-bottom: 60px;
         grid-template-columns: 5vw 10vw 80vw 5vw;
         /* border-bottom: 1px solid #0058A7; */
     }

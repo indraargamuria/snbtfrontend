@@ -1,0 +1,97 @@
+
+.profile {
+    /* background-color: red; */
+    /* min-height: 300px; */
+    width: 100vw;
+    /* margin-top: 10px;kk */
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 10vw 80vw 10vw;
+    
+}
+.profilemid {
+    display: grid;
+}
+.profilemid button {
+    background-color: #0058A7;
+    border: none;
+    outline: none;
+    color: #FFF;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 24px;
+    cursor: pointer;
+}
+.profileleft {
+    /* background-color: yellow; */
+    /* display: block; */
+    display: none;
+}
+.profileright {
+    /* background-color: blue; */
+    display: none;
+    
+}
+.formwrapper {
+    display: grid;
+    grid-template-columns: repeat(4,  1fr);
+}
+.formbox {
+    background-color: white;
+    margin-right: 10px;
+    border-radius: 10px;
+    padding: 40px 40px;
+    /* height: auto; */
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    /* border: 0.1px solid #0058A7; */
+    margin-bottom: 12px;
+}
+.formboxtitle {
+    display: grid;
+    place-content: center;
+    margin-bottom: 32px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #0058A7;
+}
+.inputwrapper {
+    display: grid;
+    grid-template-columns: repeat(1,  1fr);
+}
+.inputwrapper label {
+    font-size: 14px;
+}
+.inputwrapper input {
+    margin-top: 12px;
+    margin-bottom: 12px;
+    outline: none;
+    padding: 0.5rem 0.5rem;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid #000;
+}
+.inputwrapper select {
+    margin-top: 12px;
+    margin-bottom: 12px;
+    outline: none;
+    padding: 0.5rem 0.5rem;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid #000;
+}
+@media (max-width: 900px) {
+    .formwrapper {
+        display: grid;
+        grid-template-columns: repeat(1,  1fr);
+    }
+    .formbox {
+        background-color: white;
+        margin-right: 10px;
+        border-radius: 10px;
+        padding: 40px 40px;
+        /* height: auto; */
+        box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        /* border: 0.1px solid #0058A7; */
+        margin-bottom: 24px;
+    }
+}

@@ -29,6 +29,7 @@ function Exam(){
             alert("Session Habis/Tidak Ada, Harap Login")
         });;
     },[sessionUserID])
+    
     const Loading = LoadingComponent(TryOutWrapperComponent);
     const [dataState, setDataState] = useState({
         loading: false,
