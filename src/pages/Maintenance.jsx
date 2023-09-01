@@ -5,7 +5,7 @@ function Maintenance(){
     return (
         <Fragment>
             <div className={styles.container}>
-                <div className={styles.message}>Sedang Dalam Persiapan User Acceptance Test SG, Jum'at 1 September 2023, Pukul 14:00
+                <div className={styles.message}>Sedang Dalam Persiapan Live Try Out, Sabtu 2 September 2023, Pukul 10:00
                     </div>
             </div>
         </Fragment>

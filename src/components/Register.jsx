@@ -54,33 +54,31 @@ function Register(props) {
                             axiosInstance.defaults.headers['Authorization'] = 
                                 'JWT ' + localStorage.getItem('access_token');
                                 
+                                axiosInstance
+                                .post('userprofile/', {
+                                    // user : jwt(localStorage.getItem("access_token")).user_id,
+                                    user: jwt(localStorage.getItem("access_token")).user_id,
+                                    nickname: null,
+                                    birthdate: null,
+                                    gender: null,
+                                    phonenumber: null,
+                                    instagramaccount: null,
+                                    instagramfollower: null,
+                                    schoolname: null,
+                                    schoolgrade: null,
+                                    schoolprogram: null,
+                                    schoolfinishyear: null,
+                                    studentnumber: null,
+                                    university1: null,
+                                    studyprogram1: null,
+                                    university2: null,
+                                    studyprogram2: null
+                                })
+                                .then((res)=>{
                                     navigate('/profile');
                                     alert("Selamat Datang di Aplikasi USS SNBT, Happy Learning!");
                                     setButtonFlag(0);
-                                // axiosInstance
-                                // .post('userprofile/', {
-                                //     user : jwt(localStorage.getItem("access_token")).user_id,
-                                //     nickname : undefined,
-                                //     birthdate : undefined,
-                                //     gender : undefined,
-                                //     phonenumber : undefined,
-                                //     instagramaccount : undefined,
-                                //     instagramfollower : undefined,
-                                //     schoolname : undefined,
-                                //     schoolgrade : undefined,
-                                //     schoolprogram : undefined,
-                                //     schoolfinishyear : undefined,
-                                //     university1 : undefined,
-                                //     studyprogram1 : undefined,
-                                //     university2 : undefined,
-                                //     studyprogram2 : undefined,
-                                //     studentnumber : undefined
-                                // })
-                                // .then((res)=>{
-                                //     navigate('/profile');
-                                //     alert("Selamat Datang di Aplikasi USS SNBT, Happy Learning!");
-                                //     setButtonFlag(0);
-                                // })
+                                })
                                 
                         })
                         .catch(error => {

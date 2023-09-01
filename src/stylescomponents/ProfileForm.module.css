@@ -60,6 +60,8 @@
 }
 .inputwrapper label {
     font-size: 14px;
+    color: #1f1f1f;
+    font-weight: bold;
 }
 .inputwrapper input {
     margin-top: 12px;

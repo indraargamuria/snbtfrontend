@@ -26,21 +26,21 @@ function ProfileForm(props) {
 
     const [userData, setUserData] = useState({
         fullname : sessionUserInformation !== undefined ? sessionUserInformation.fullname : '',
-        nickname : data.nickname,
-        birthdate : data.birthdate,
-        gender : data.gender,
-        phonenumber : data.phonenumber,
-        instagramaccount : data.instagramaccount,
-        instagramfollower : data.instagramfollower,
-        schoolname : data.schoolname,
-        schoolgrade : data.schoolgrade,
-        schoolprogram : data.schoolprogram,
-        schoolfinishyear : data.schoolfinishyear,
-        university1 : data.university1,
-        studyprogram1 : data.studyprogram1,
-        university2 : data.university2,
-        studyprogram2 : data.studyprogram2,
-        studentnumber : data.studentnumber
+        nickname : data.nickname === null ? undefined : data.nickname,
+        birthdate : data.birthdate === null ? undefined : data.birthdate,
+        gender : data.gender === null ? undefined : data.gender,
+        phonenumber : data.phonenumber === null ? undefined : data.phonenumber,
+        instagramaccount : data.instagramaccount === null ? undefined : data.instagramaccount,
+        instagramfollower : data.instagramfollower === null ? undefined : data.instagramfollower,
+        schoolname : data.schoolname === null ? undefined : data.schoolname,
+        schoolgrade : data.schoolgrade === null ? undefined : data.schoolgrade,
+        schoolprogram : data.schoolprogram === null ? undefined : data.schoolprogram,
+        schoolfinishyear : data.schoolfinishyear === null ? undefined : data.schoolfinishyear,
+        university1 : data.university1 === null ? undefined : data.university1,
+        studyprogram1 : data.studyprogram1 === null ? undefined : data.studyprogram1,
+        university2 : data.university2 === null ? undefined : data.university2,
+        studyprogram2 : data.studyprogram2 === null ? undefined : data.studyprogram2,
+        studentnumber : data.studentnumber === null ? undefined : data.studentnumber
     })
 
     useEffect(()=>{
