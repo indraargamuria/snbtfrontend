@@ -351,7 +351,7 @@ function TryOutSheet(props) {
                     <div className={styles.questionnavtitle}>Navigasi</div>
                     <div className={styles.questionnavcontent}>
 
-                        {packageData.section_related[userPackage.sectiondone].subtest_related[activeSubTest].question_related.map((c,i)=>{
+                        {packageData.section_related[userPackage.sectiondone].subtest_related[activeSubTest].question_related.sort((a, b) => (a.id > b.id) ? 1 : -1).map((c,i)=>{
                             return <div className={styles.questionnavbox} onClick={() => changeQuestion(i)} key={c.id} >
                             <div className={styles.questionnavboxwrapper}>
                                 

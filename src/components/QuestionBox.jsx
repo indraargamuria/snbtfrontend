@@ -6,7 +6,7 @@ import styles from '../stylescomponents/QuestionBox.module.css';
 function QuestionBox(props){
     const questionData = props.questionContent;
     const stateData = props.stateContent;
-    const prefixEmbedImage = '<img src="';
+    const prefixEmbedImage = '<img style="max-width:100%" src="';
     // const [ref,setRef] = useState([]);
 
     // useEffect(()=>{
@@ -28,7 +28,7 @@ function QuestionBox(props){
     <div className={styles.questiontitle}>Soal No {questionData.number}</div>
     <div className={styles.questioncontent}>
         <div className={styles.questioncontentmain}>
-            <div dangerouslySetInnerHTML={{ __html: questionData.name.replace('<img>','<img src="').replace('</img>','"/>')}}></div>
+            <div dangerouslySetInnerHTML={{ __html: questionData.name.replace('<img>','<img style="max-width:100%" src="').replace('</img>','"/>')}}></div>
         </div>
         <div className={questionData.type === 1 ? styles.questioncontentsub : styles.questioncontentsub}>
             {questionData.type === 1 ? 
@@ -74,7 +74,7 @@ function QuestionBox(props){
                                             {d.name.substring(0, 5)==='https'?
                                                 <div dangerouslySetInnerHTML={{ __html: prefixEmbedImage.concat(d.name,'"/>')}}></div>
                                                 :
-                                                <div>{d.name}</div>
+                                                <div dangerouslySetInnerHTML={{ __html: d.name}}></div>
                                             }
                                         </span>
                                         <label className={styles.answertruefalseradiowrapper}>
@@ -125,7 +125,16 @@ function QuestionBox(props){
                                     </label>
                                     <span className={styles.answermultiplecheckcontent}>
                                         {stateData[i].isSelected===0 && stateData.filter(f=>f.isSelected===1).length === 2 ? 
-                                        '[Opsi dinonaktifkan] ' +d.name:d.name}
+                                        '[Opsi dinonaktifkan] ' +
+                                        d.name.substring(0, 5)==='https'?
+                                                <div dangerouslySetInnerHTML={{ __html: prefixEmbedImage.concat(d.name,'"/>')}}></div>
+                                                :
+                                                <div dangerouslySetInnerHTML={{ __html: d.name}}></div>
+                                            :d.name.substring(0, 5)==='https'?
+                                            <div dangerouslySetInnerHTML={{ __html: prefixEmbedImage.concat(d.name,'"/>')}}></div>
+                                            :
+                                            <div dangerouslySetInnerHTML={{ __html: d.name}}></div>
+                                        }
                                         </span>
                                 </div>
                                 :

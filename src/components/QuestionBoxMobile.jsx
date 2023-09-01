@@ -6,7 +6,7 @@ import styles from '../stylescomponents/QuestionBox.module.css';
 function QuestionBoxMobile(props){
     const questionData = props.questionContent;
     const stateData = props.stateContent;
-    const prefixEmbedImage = '<img src="';
+    const prefixEmbedImage = '<img style="max-width:100%" src="';
     // const [ref,setRef] = useState([]);
 
     // useEffect(()=>{
@@ -28,7 +28,7 @@ function QuestionBoxMobile(props){
     <div className={styles.questiontitle}>Potensi Kognitif Soal No {questionData.number}</div>
     <div className={styles.questioncontent}>
         <div className={styles.questioncontentmain}>
-            <div dangerouslySetInnerHTML={{ __html: questionData.name.replace('<img>','<img src="').replace('</img>','"/>')}}></div>
+            <div dangerouslySetInnerHTML={{ __html: questionData.name.replace('<img>','<img style="max-width:100%" src="').replace('</img>','"/>')}}></div>
         </div>
         <div className={questionData.type === 1 ? styles.questioncontentsub : styles.questioncontentsub}>
             {questionData.type === 1 ? 
