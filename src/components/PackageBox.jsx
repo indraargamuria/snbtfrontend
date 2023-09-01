@@ -11,6 +11,8 @@ function PackageBox(props) {
     
     const navigate = useNavigate();
     
+    const [buttonFlag, setButtonFlag] = useState(0)
+
     const [sessionUserID, setSessionUserID] = useState(()=>{
         const localValue = localStorage.getItem("access_token")
         if(localValue == null) return "Unauthorized"
@@ -19,6 +21,7 @@ function PackageBox(props) {
           return jwt(localStorage.getItem("access_token")).user_id;
       })
     function addUserPackage(id){
+        setButtonFlag(1);
 
         
         const apiUrl = process.env.REACT_APP_BACKEND_URL + '/api/userpackage/';
@@ -31,6 +34,7 @@ function PackageBox(props) {
             if(packageRegistered===1){
                 alert('Paket Sudah Kamu Pesan Sebelumnya dan Statusnya Masih Aktif, Yuk Langsung Try Out!')
                 navigate('/catalog')
+                setButtonFlag(0);
             }
             else {
                 axios
@@ -43,6 +47,7 @@ function PackageBox(props) {
                     //   setPosts([response.data, ...posts]);
                     alert('Paket Berhasil Ditambahkan!')
                     navigate('/catalog')
+                    setButtonFlag(0);
         
                     });
             }
@@ -85,7 +90,7 @@ function PackageBox(props) {
                 </div>
                 <div className={styles.packageboxfooter}>
                     <div className={styles.packageboxprice}><span>Rp {0},- </span></div>
-                    <div className={styles.packageboxnavigation}><button onClick={() => addUserPackage(props.id)}><i><FontAwesomeIcon icon={faCartPlus}></FontAwesomeIcon></i> Pesan</button>
+                    <div className={styles.packageboxnavigation}><button disabled={buttonFlag} onClick={() => addUserPackage(props.id)}><i><FontAwesomeIcon icon={faCartPlus}></FontAwesomeIcon></i> Pesan</button>
                     </div>
                 </div>
             </div>

@@ -62,9 +62,13 @@ function TryOut(props) {
             setGoSectionID(sectionID);
         }
         else if(isExamEngaged===1){
-            console.log(userInfoData.sectiondone+1)
-            console.log(jwt(localStorage.getItem("access_token")).user_id)
-            console.log(localStorage.getItem("sessionPackageID"))
+            // console.log(userInfoData.sectiondone+1)
+            // console.log(jwt(localStorage.getItem("access_token")).user_id)
+            // console.log(localStorage.getItem("sessionPackageID"))
+            console.log(userInfoData.sectiondone+1===2?2:1);
+            console.log(userInfoData.sectiondone+1);
+            console.log(jwt(localStorage.getItem("access_token")).user_id);
+            console.log(localStorage.getItem("sessionPackageID"));
             axios
             .put(process.env.REACT_APP_BACKEND_URL + '/api/userpackage/' + localStorage.getItem("sessionUserPackageID") + '/',{           
                 "status": userInfoData.sectiondone+1===2?2:1,
@@ -80,16 +84,24 @@ function TryOut(props) {
                 setSectionActive(tryOutData.section_related[userInfoData.sectiondone+1].id)
                 localStorage.setItem("sectionActive", JSON.stringify(tryOutData.section_related[userInfoData.sectiondone+1].id))
                 if(userInfoData===2){
+                    alert('Selesai 2 Sub Test')
                     localStorage.removeItem('sectionID');
                     localStorage.removeItem('sectionUserPackageID');
                     localStorage.removeItem('sectionActive');
-                    localStorage.removeItem('sessionPackagaID');
+                    localStorage.removeItem('sessionPackageID');
+                    localStorage.removeItem('stateExam');
+                    localStorage.removeItem('questionSelected');
+                    localStorage.removeItem('engageFlag');
+                    localStorage.removeItem('subTestSelected');
+                    localStorage.removeItem('stateSubmitExam');
+                    localStorage.removeItem('subTestSelectedTimer');
+                    // localStorage.removeItem('stateExam');
                     navigate('/catalog')
                 }
 
             })
             .catch(error => {
-                alert("Jawaban Tidak Berhasil Tersimpan")
+                // alert("Jawaban Tidak Berhasil Tersimpan")
             });
         }
         else if(isExamEngaged===0&&sectionID!==sectionActive){

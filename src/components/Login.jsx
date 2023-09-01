@@ -11,6 +11,7 @@ function Login(props) {
         password: ''
     });
 
+    const [buttonFlag, setButtonFlag] = useState(0)
     const handleChange = (e) => {
         setFormData({
             ...formData,
@@ -21,26 +22,36 @@ function Login(props) {
     const [formData, setFormData] = useState(initialFormData);
 
     const handleSubmit =  (e) => {
+        setButtonFlag(1);
         e.preventDefault();
-        console.log(formData);
-        axiosInstance
-            .post('token/', {
-                email: formData.email,
-                password: formData.password
-            })
-            .then((res)=>{
-                console.log(res.data);
-                localStorage.setItem('access_token', res.data.access);
-                localStorage.setItem('refresh_token', res.data.refresh);
-                axiosInstance.defaults.headers['Authorization'] = 
-                    'JWT ' + localStorage.getItem('access_token');
-                    navigate('/');
-                    alert("Selamat Datang Kembali di Aplikasi USS SNBT, Happy Learning Again!")
-            })
-            .catch(error => {
-                console.error('There was an error!', error);
-                alert("Kredensial Tidak Terdaftar")
-            });
+        // console.log(formData);
+        if(formData.email === '' ||  formData.password === ''){
+            alert("Seluruh Field wajib Terisi");
+            setButtonFlag(0);
+        }
+        else {
+            axiosInstance
+                .post('token/', {
+                    email: formData.email,
+                    password: formData.password
+                })
+                .then((res)=>{
+                    console.log(res.data);
+                    localStorage.setItem('access_token', res.data.access);
+                    localStorage.setItem('refresh_token', res.data.refresh);
+                    axiosInstance.defaults.headers['Authorization'] = 
+                        'JWT ' + localStorage.getItem('access_token');
+                        navigate('/');
+                        alert("Selamat Datang Kembali di Aplikasi USS SNBT, Happy Learning Again!")
+                        setButtonFlag(0);
+                })
+                .catch(error => {
+                    console.error('There was an error!', error);
+                    alert("Kredensial Tidak Terdaftar")
+                    setButtonFlag(0);
+                });
+
+        }
     }
     return (
         <Fragment>
@@ -56,7 +67,7 @@ function Login(props) {
                         <input type="password" onChange={handleChange} name="password" id="password" placeholder='Password'/>
                     </div>
                     <div className={styles.loginbuttonwrapper}>
-                        <button className={styles.loginbuttonsignin} onClick={handleSubmit} type="submit">Masuk</button>
+                        <button disabled={buttonFlag} className={styles.loginbuttonsignin} onClick={handleSubmit} type="submit">Masuk</button>
                         <button className={styles.loginbuttonregister} onClick={() => props.handleChangeForm(1)}>Belum Punya Akun? Daftar Sekarang</button>
                     </div>
                 </form>

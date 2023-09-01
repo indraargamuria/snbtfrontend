@@ -41,6 +41,22 @@
     transition: 0.5s;
 
 }
+
+.registerbuttonsignin:disabled {
+    background-color: #2d2d2d;
+    color: #FFF;
+    padding: 10px 20px;
+    border: none;
+    font-size: 16px;
+    border-radius: 5px;
+    outline:none;
+    transition: 0.5s;
+
+}
+.registerbuttonsignin:disabled:hover {
+    background-color: #2d2d2d;
+
+}
 .registerbuttonsignin:hover {
     background-color: #ff7b53;
     cursor: pointer;

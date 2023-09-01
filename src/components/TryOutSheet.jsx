@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
 import styles from "../stylescomponents/TryOutSheet.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRightToBracket } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRightToBracket, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import QuestionBoxComponent from "./QuestionBox";
 import QuestionBoxMobileComponent from "./QuestionBoxMobile";
 import jwt from 'jwt-decode';
@@ -11,6 +11,9 @@ function TryOutSheet(props) {
     const tryOutData = props.tryOutContent;
     const userData = props.userContent;
     const tryOutDisplayData = props.tryOutContent.section_related.filter(a=>a.id === props.tryOutSection)[0];
+
+    
+    const [buttonFlag, setButtonFlag] = useState(0)
 
     const [subTestSelected, setSubTestSelected] = useState(()=>{
         const localValue = localStorage.getItem("subTestSelected")
@@ -30,6 +33,8 @@ function TryOutSheet(props) {
 
         return JSON.parse(localValue)
     })
+    
+    const [nextSubTestDelayTimeout, setNextSubTestDelayTimeout] = useState(0)
     // const [subTestSelectedTimer, setSubTestSelectedTimer] = useState(tryOutDisplayData.subtest_related[subTestSelected].duration)
     
     const [sessionUserID, setSessionUserID] = useState(()=>{
@@ -183,6 +188,7 @@ function TryOutSheet(props) {
         localStorage.setItem("subTestSelected", JSON.stringify(subTestSelected))
     },[subTestSelected])
 
+
     useEffect(() => {
         const timeout = setTimeout(() => {
           setSubTestSelectedTimer(progress => progress - 1);
@@ -194,6 +200,17 @@ function TryOutSheet(props) {
         }
         return () => clearTimeout(timeout);
       }, [subTestSelectedTimer]);
+
+      
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+          setNextSubTestDelayTimeout(progress => progress - 1);
+        }, 1000);
+        if (nextSubTestDelayTimeout === 0) {
+          setButtonFlag(0)
+        }
+        return () => clearTimeout(timeout);
+      }, [nextSubTestDelayTimeout]);
     // console.log(progress);
 
 
@@ -269,6 +286,8 @@ function TryOutSheet(props) {
         }
       }
     function nextSubTest(){
+        setButtonFlag(1);
+        setNextSubTestDelayTimeout(5);
         const previousSubTestSelected = subTestSelected;
         if(previousSubTestSelected + 1 === tryOutDisplayData.subtest_related.length){
             // alert('Submit');
@@ -283,12 +302,14 @@ function TryOutSheet(props) {
                 localStorage.removeItem('subTestSelectedTimer');
                 localStorage.removeItem('stateExam');
                 localStorage.removeItem('stateSubmitExam');
+                alert('Submit Berhasil');
+                setButtonFlag(0);
                 props.handleEngageExam(0,0);
 
 
             })
             .catch(error => {
-                alert("Jawaban Tidak Berhasil Tersimpan")
+                // alert("Jawaban Tidak Berhasil Tersimpan")
             });
         }
         else {
@@ -421,8 +442,8 @@ function TryOutSheet(props) {
                             
                     </div>
                     <div className={styles.questionnavchangepage}>
-                        <button onClick={() => nextSubTest()} className={styles.nextpage}>
-                             <i><FontAwesomeIcon icon={faArrowRightToBracket}></FontAwesomeIcon> {subTestSelected + 1 === tryOutDisplayData.subtest_related.length ? 'Submit Ujian' : 'Sub Test Berikutnya'}</i>
+                        <button disabled={buttonFlag} onClick={() => nextSubTest()} className={styles.nextpage}>
+                             <i><FontAwesomeIcon icon={buttonFlag === 1 ? faSpinner : faArrowRightToBracket}></FontAwesomeIcon> {subTestSelected + 1 === tryOutDisplayData.subtest_related.length ? 'Submit Ujian' : 'Sub Test Berikutnya'}</i>
                         </button>
                     </div>
                 </div>
@@ -435,7 +456,7 @@ function TryOutSheet(props) {
 
                     <div className={styles.questionnavtitle}>{tryOutDisplayData.subtest_related[subTestSelected].name}</div>
                     <div className={styles.questionnavcontent}>
-
+                        {/* {nextSubTestDelayTimeout} */}
                         {tryOutDisplayData.subtest_related[subTestSelected].question_related.map((c,i)=>{
                             return <div className={styles.questionnavbox} onClick={() => changeQuestion(i)} key={c.id} >
                             <div className={styles.questionnavboxwrapper}>
@@ -514,8 +535,8 @@ function TryOutSheet(props) {
                                     return <div key={i}>{d.subTestID+'-'+d.questionID+'-'+d.answerID+'-'+d.isSelected}</div>
                                 })} */}
                     <div className={styles.questionnavchangepage}>
-                        <button onClick={() => nextSubTest()} className={styles.nextpage}>
-                             <i><FontAwesomeIcon icon={faArrowRightToBracket}></FontAwesomeIcon> {subTestSelected + 1 === tryOutDisplayData.subtest_related.length ? 'Submit Ujian' : 'Sub Test Berikutnya'}</i>
+                        <button disabled={buttonFlag} onClick={() => nextSubTest()} className={styles.nextpage}>
+                             <i><FontAwesomeIcon icon={buttonFlag === 1 ? faSpinner : faArrowRightToBracket}></FontAwesomeIcon> {subTestSelected + 1 === tryOutDisplayData.subtest_related.length ? 'Submit Ujian' : 'Sub Test Berikutnya'}</i>
                         </button>
                     </div>
                 </div>
