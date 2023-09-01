@@ -8,122 +8,108 @@ import jwt from 'jwt-decode';
 import axios from "axios";
 
 function TryOutSheet(props) {
+    const tryOutData = props.tryOutContent;
+    const userData = props.userContent;
+    const tryOutDisplayData = props.tryOutContent.section_related.filter(a=>a.id === props.tryOutSection)[0];
+
     
-    const userPackage = props.userPackage;
-    const packageData = props.packageData;
     const [buttonFlag, setButtonFlag] = useState(0)
+
+    const [subTestSelected, setSubTestSelected] = useState(()=>{
+        const localValue = localStorage.getItem("subTestSelected")
+        if(localValue == null) return 0
+
+        return JSON.parse(localValue)
+    })
+    const [questionSelected, setQuestionSelected] = useState(()=>{
+        const localValue = localStorage.getItem("questionSelected")
+        if(localValue == null) return 0
+
+        return JSON.parse(localValue)
+    })
+    const [subTestSelectedTimer, setSubTestSelectedTimer] = useState(()=>{
+        const localValue = localStorage.getItem("subTestSelectedTimer")
+        if(localValue == null) return tryOutDisplayData.subtest_related[subTestSelected].duration
+
+        return JSON.parse(localValue)
+    })
+    
     const [nextSubTestDelayTimeout, setNextSubTestDelayTimeout] = useState(0)
-
-    const [activeSubTest, setActiveSubTest] = useState(()=>{
-        const localValue = localStorage.getItem("nActiveSubTest")
-        if(localValue == null) return 0
-
-        return JSON.parse(localValue)
-    })
-    const [activeQuestion, setActiveQuestion] = useState(()=>{
-        const localValue = localStorage.getItem("nActiveQuestion")
-        if(localValue == null) return 0
-
-        return JSON.parse(localValue)
-    })
+    // const [subTestSelectedTimer, setSubTestSelectedTimer] = useState(tryOutDisplayData.subtest_related[subTestSelected].duration)
     
-    const [activeSubTestTimer, setActiveSubTestTimer] = useState(()=>{
-        const localValue = localStorage.getItem("nActiveSubTestTimer")
-        if(localValue == null) return packageData.section_related[userPackage.sectiondone].subtest_related[activeSubTest].duration
-
-        return JSON.parse(localValue)
-    })
-    const [stateSubmitExam, setStateSubmitExam] = useState(()=>{
-        
-        let lengthSubTest = packageData.section_related[userPackage.sectiondone].subtest_related.length;
-        let lengthQuestion = 0;
-        let lengthAnswer = 0;
-        let loopStateSubTest = 0;
-        let loopStateQuestion = 0;
-        let loopStateAnswer = 0;
-        let totalData = 0;
-        let loopData = 0;
-
-        while (loopStateSubTest < lengthSubTest) {
-            lengthQuestion = packageData.section_related[userPackage.sectiondone].subtest_related[loopStateSubTest].question_related.length;
-            while (loopStateQuestion < lengthQuestion) {
-                lengthAnswer = packageData.section_related[userPackage.sectiondone].subtest_related[loopStateSubTest].question_related[loopStateQuestion].answer_related.length
-                while(loopStateAnswer < lengthAnswer){
-                    totalData++
-                    loopStateAnswer++
-                }
-                loopStateAnswer = 0;
-                loopStateQuestion++
-            }
-            loopStateQuestion = 0;
-            loopStateSubTest++;
-        }
-        loopStateSubTest = 0;
-
-        // console.log(totalData);
-        let compileArray = new Array(totalData);
-        let compileSubmitArray = new Array(totalData);
-        
-        while (loopStateSubTest < lengthSubTest) {
-            lengthQuestion = packageData.section_related[userPackage.sectiondone].subtest_related[loopStateSubTest].question_related.length;
-            while (loopStateQuestion < lengthQuestion) {
-                lengthAnswer = packageData.section_related[userPackage.sectiondone].subtest_related[loopStateSubTest].question_related[loopStateQuestion].answer_related.length
-                while(loopStateAnswer < lengthAnswer){
-                    compileSubmitArray[loopData] = {
-                                'user':userPackage.user,
-                                'userpackage':localStorage.getItem("nUserPackageID"),
-                                'package':localStorage.getItem("nPackageID"),
-                                'section':packageData.section_related[userPackage.sectiondone].id,
-                                'subtest':packageData.section_related[userPackage.sectiondone].subtest_related[loopStateSubTest].id,
-                                'question':packageData.section_related[userPackage.sectiondone].subtest_related[loopStateSubTest].question_related[loopStateQuestion].id,
-                                'answer':packageData.section_related[userPackage.sectiondone].subtest_related[loopStateSubTest].question_related[loopStateQuestion].answer_related[loopStateAnswer].id,
-                                'isselected':0
-                            }
-                    loopData++
-                    loopStateAnswer++
-                }
-                loopStateAnswer = 0;
-                loopStateQuestion++
-            }
-            loopStateQuestion = 0;
-            loopStateSubTest++;
-        }
-        loopStateSubTest = 0;
-        
-        // console.log(progress);
-
-        // setStateExam(compileArray);
-        const localValue = localStorage.getItem("nStateSubmitExam")
-        if(localValue == null) return compileSubmitArray
-    
-        return JSON.parse(localValue)
+    const [sessionUserID, setSessionUserID] = useState(()=>{
+        const localValue = localStorage.getItem("access_token")
+        if(localValue == null) return "Unauthorized"
+  
+      //   return JSON.parse(jwt(localValue))
+          return jwt(localStorage.getItem("access_token")).user_id;
       })
+      const [stateSubmitExam, setStateSubmitExam] = useState(()=>{
+          
+          let lengthSubTest = tryOutDisplayData.subtest_related.length;
+          let lengthQuestion = 0;
+          let lengthAnswer = 0;
+          let loopStateSubTest = 0;
+          let loopStateQuestion = 0;
+          let loopStateAnswer = 0;
+          let totalData = 0;
+          let loopData = 0;
+  
+          while (loopStateSubTest < lengthSubTest) {
+              lengthQuestion = tryOutDisplayData.subtest_related[loopStateSubTest].question_related.length;
+              while (loopStateQuestion < lengthQuestion) {
+                  lengthAnswer = tryOutDisplayData.subtest_related[loopStateSubTest].question_related[loopStateQuestion].answer_related.length
+                  while(loopStateAnswer < lengthAnswer){
+                      totalData++
+                      loopStateAnswer++
+                  }
+                  loopStateAnswer = 0;
+                  loopStateQuestion++
+              }
+              loopStateQuestion = 0;
+              loopStateSubTest++;
+          }
+          loopStateSubTest = 0;
+  
+          // console.log(totalData);
+          let compileArray = new Array(totalData);
+          let compileSubmitArray = new Array(totalData);
+          
+          while (loopStateSubTest < lengthSubTest) {
+              lengthQuestion = tryOutDisplayData.subtest_related[loopStateSubTest].question_related.length;
+              while (loopStateQuestion < lengthQuestion) {
+                  lengthAnswer = tryOutDisplayData.subtest_related[loopStateSubTest].question_related[loopStateQuestion].answer_related.length
+                  while(loopStateAnswer < lengthAnswer){
+                      compileSubmitArray[loopData] = {
+                                  'user':sessionUserID,
+                                  'userpackage':localStorage.getItem("sessionUserPackageID"),
+                                  'package':localStorage.getItem("sessionPackageID"),
+                                  'section':localStorage.getItem("sectionActive"),
+                                  'subtest':tryOutDisplayData.subtest_related[loopStateSubTest].id,
+                                  'question':tryOutDisplayData.subtest_related[loopStateSubTest].question_related[loopStateQuestion].id,
+                                  'answer':tryOutDisplayData.subtest_related[loopStateSubTest].question_related[loopStateQuestion].answer_related[loopStateAnswer].id,
+                                  'isselected':0
+                              }
+                      loopData++
+                      loopStateAnswer++
+                  }
+                  loopStateAnswer = 0;
+                  loopStateQuestion++
+              }
+              loopStateQuestion = 0;
+              loopStateSubTest++;
+          }
+          loopStateSubTest = 0;
+  
+          // setStateExam(compileArray);
+          const localValue = localStorage.getItem("stateSubmitExam")
+          if(localValue == null) return compileSubmitArray
       
-      useEffect(() => {
-        const timeout = setTimeout(() => {
-        setActiveSubTestTimer(progress => progress - 1);
-        localStorage.setItem("nActiveSubTestTimer", JSON.stringify(activeSubTestTimer-1))
-        }, 1000);
-        if (activeSubTestTimer === 0) {
-        clearTimeout(timeout);
-        nextSubTest();
-        }
-        return () => clearTimeout(timeout);
-    }, [activeSubTestTimer]);
-
-    
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-        setNextSubTestDelayTimeout(progress => progress - 1);
-        }, 1000);
-        if (nextSubTestDelayTimeout === 0) {
-        setButtonFlag(0)
-        }
-        return () => clearTimeout(timeout);
-    }, [nextSubTestDelayTimeout]);
+          return JSON.parse(localValue)
+        })
     const [stateExam, setStateExam] = useState(()=>{
         
-        let lengthSubTest = packageData.section_related[userPackage.sectiondone].subtest_related.length;
+        let lengthSubTest = tryOutDisplayData.subtest_related.length;
         let lengthQuestion = 0;
         let lengthAnswer = 0;
         let loopStateSubTest = 0;
@@ -133,9 +119,9 @@ function TryOutSheet(props) {
         let loopData = 0;
 
         while (loopStateSubTest < lengthSubTest) {
-            lengthQuestion = packageData.section_related[userPackage.sectiondone].subtest_related[loopStateSubTest].question_related.length;
+            lengthQuestion = tryOutDisplayData.subtest_related[loopStateSubTest].question_related.length;
             while (loopStateQuestion < lengthQuestion) {
-                lengthAnswer = packageData.section_related[userPackage.sectiondone].subtest_related[loopStateSubTest].question_related[loopStateQuestion].answer_related.length
+                lengthAnswer = tryOutDisplayData.subtest_related[loopStateSubTest].question_related[loopStateQuestion].answer_related.length
                 while(loopStateAnswer < lengthAnswer){
                     totalData++
                     loopStateAnswer++
@@ -153,14 +139,14 @@ function TryOutSheet(props) {
         let compileSubmitArray = new Array(totalData);
         
         while (loopStateSubTest < lengthSubTest) {
-            lengthQuestion = packageData.section_related[userPackage.sectiondone].subtest_related[loopStateSubTest].question_related.length;
+            lengthQuestion = tryOutDisplayData.subtest_related[loopStateSubTest].question_related.length;
             while (loopStateQuestion < lengthQuestion) {
-                lengthAnswer = packageData.section_related[userPackage.sectiondone].subtest_related[loopStateSubTest].question_related[loopStateQuestion].answer_related.length
+                lengthAnswer = tryOutDisplayData.subtest_related[loopStateSubTest].question_related[loopStateQuestion].answer_related.length
                 while(loopStateAnswer < lengthAnswer){
                     compileArray[loopData] = {
-                                'subTestID':packageData.section_related[userPackage.sectiondone].subtest_related[loopStateSubTest].id,
-                                'questionID':packageData.section_related[userPackage.sectiondone].subtest_related[loopStateSubTest].question_related[loopStateQuestion].id,
-                                'answerID':packageData.section_related[userPackage.sectiondone].subtest_related[loopStateSubTest].question_related[loopStateQuestion].answer_related[loopStateAnswer].id,
+                                'subTestID':tryOutDisplayData.subtest_related[loopStateSubTest].id,
+                                'questionID':tryOutDisplayData.subtest_related[loopStateSubTest].question_related[loopStateQuestion].id,
+                                'answerID':tryOutDisplayData.subtest_related[loopStateSubTest].question_related[loopStateQuestion].answer_related[loopStateAnswer].id,
                                 'isSelected':0
                             }
                     loopData++
@@ -175,138 +161,169 @@ function TryOutSheet(props) {
         loopStateSubTest = 0;
 
         // setStateExam(compileArray);
-        const localValue = localStorage.getItem("nStateExam")
+        const localValue = localStorage.getItem("stateExam")
         if(localValue == null) return compileArray
     
         return JSON.parse(localValue)
       })
-      function changeAnswer(selectedQuestionID, selectedAnswerID, selectedQuestionType, selectedFlag){
-          // console.log(questionID, answerID)
-          console.log(selectedQuestionType)
-          if (selectedQuestionType === 1 ){
-              setStateExam(currentState => {
-                return currentState.map(state => {
-                  if(state.questionID === selectedQuestionID && state.answerID === selectedAnswerID){
-                    return { ...state, isSelected:selectedFlag}
-                  }
-                  else if(state.questionID === selectedQuestionID && state.answerID !== selectedAnswerID){
-                    return { ...state, isSelected:0}
-                  }
-                  return state
-                })
-              })
-              setStateSubmitExam(currentState => {
-                return currentState.map(state => {
-                  if(state.question === selectedQuestionID && state.answer === selectedAnswerID){
-                    return { ...state, isselected:selectedFlag}
-                  }
-                  else if(state.question === selectedQuestionID && state.answer !== selectedAnswerID){
-                    return { ...state, isselected:0}
-                  }
-                  return state
-                })
-              })
-          }
-          else if (selectedQuestionType === 2){
-              setStateExam(currentState => {
-                return currentState.map(state => {
-                  if(state.questionID === selectedQuestionID && state.answerID === selectedAnswerID){
-                    return { ...state, isSelected:selectedFlag}
-                  }
-                  return state
-                })
-              })
-              setStateSubmitExam(currentState => {
-                return currentState.map(state => {
-                  if(state.question === selectedQuestionID && state.answer === selectedAnswerID){
-                    return { ...state, isselected:selectedFlag}
-                  }
-                  return state
-                })
-              })
-          }
-          else if (selectedQuestionType === 3){
-              setStateExam(currentState => {
-                return currentState.map(state => {
-                  if(state.questionID === selectedQuestionID && state.answerID === selectedAnswerID && state.isSelected === 0){
-                    return { ...state, isSelected:1}
-                  }
-                  else if(state.questionID === selectedQuestionID && state.answerID === selectedAnswerID && state.isSelected === 1){
-                    return { ...state, isSelected:0}
-                  }
-                  return state
-                })
-              })
-              setStateSubmitExam(currentState => {
-                return currentState.map(state => {
-                  if(state.question === selectedQuestionID && state.answer === selectedAnswerID && state.isselected === 0){
-                    return { ...state, isselected:1}
-                  }
-                  else if(state.question === selectedQuestionID && state.answer === selectedAnswerID && state.isselected === 1){
-                    return { ...state, isselected:0}
-                  }
-                  return state
-                })
-              })
-          }
-        }
-      function nextSubTest(){
-          setButtonFlag(1);
-          if((activeSubTest + 1) === packageData.section_related[userPackage.sectiondone].subtest_related.length){
-            alert('Proses Submit Dimulai')
-            // console.log(userPackage)
-            // console.log(packageData.section_related[userPackage.sectiondone].id)
-              axios
-              .post(process.env.REACT_APP_BACKEND_URL + '/api/useranswer/', stateSubmitExam)
-              .then((response) => {
-              //   setPosts([response.data, ...posts]);
-                  alert('Proses Submit Berhasil');
-                  props.childChangeExamInProgress(0,userPackage.sectiondone + 1, (userPackage.sectiondone + 1) === 2 ? 2 : 1);
-                  setButtonFlag(0);
-                  localStorage.removeItem("nActiveSubTestTimer")
-              })
-              .catch(error => {
-                //   console.error('There was an error!', error);
-                  alert("Kemungkinan Terdapat Kendala Jaringan di PC Kamu, Tenang Saja, Ganti Akses Jaringan yang Lebih Baik dan Buka Kembali Halaman Ini, Jawaban Kamu Masih Tersimpan!, Jadi Tinggal Submit Lagi Ya")
-                  setButtonFlag(0);
-              });
-  
-          }
-          else {
-            // alert('Next Sub Test');
-            setNextSubTestDelayTimeout(5);
-            
-            setActiveSubTest(activeSubTest+1);
-            setActiveSubTestTimer(packageData.section_related[userPackage.sectiondone].subtest_related[activeSubTest].duration);
-            localStorage.setItem("nActiveSubTestTimer", JSON.stringify(activeSubTestTimer))
-            setActiveQuestion(0);
-            
-          }
-      }
-      function changeQuestion(index){
-          setActiveQuestion(index)
-      }
-      
-        
-        useEffect(()=>{
-            // console.log(stateExam.filter(a=>a.questionID===9));
-            localStorage.setItem("nStateExam", JSON.stringify(stateExam))
-        },[stateExam])
 
-        useEffect(()=>{
-            // console.log(stateExam.filter(a=>a.questionID===9));
-            localStorage.setItem("nStateSubmitExam", JSON.stringify(stateSubmitExam))
-        },[stateSubmitExam])
-        
-        useEffect(()=>{
-            // console.log(stateExam.filter(a=>a.questionID===9));
-            localStorage.setItem("nActiveQuestion", JSON.stringify(activeQuestion))
-        },[activeQuestion])
-        
-        useEffect(()=>{
-            // console.log(stateExam.filter(a=>a.questionID===9));
-            localStorage.setItem("nActiveSubTest", JSON.stringify(activeSubTest))
-        },[activeSubTest])
+      
+    useEffect(()=>{
+        // console.log(stateExam.filter(a=>a.questionID===9));
+        localStorage.setItem("stateExam", JSON.stringify(stateExam))
+    },[stateExam])
+
+    useEffect(()=>{
+        // console.log(stateExam.filter(a=>a.questionID===9));
+        localStorage.setItem("stateSubmitExam", JSON.stringify(stateSubmitExam))
+    },[stateSubmitExam])
+    
+    useEffect(()=>{
+        // console.log(stateExam.filter(a=>a.questionID===9));
+        localStorage.setItem("questionSelected", JSON.stringify(questionSelected))
+    },[questionSelected])
+    
+    useEffect(()=>{
+        // console.log(stateExam.filter(a=>a.questionID===9));
+        localStorage.setItem("subTestSelected", JSON.stringify(subTestSelected))
+    },[subTestSelected])
+
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+          setSubTestSelectedTimer(progress => progress - 1);
+          localStorage.setItem("subTestSelectedTimer", JSON.stringify(subTestSelectedTimer-1))
+        }, 1000);
+        if (subTestSelectedTimer === 0) {
+          clearTimeout(timeout);
+          nextSubTest();
+        }
+        return () => clearTimeout(timeout);
+      }, [subTestSelectedTimer]);
+
+      
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+          setNextSubTestDelayTimeout(progress => progress - 1);
+        }, 1000);
+        if (nextSubTestDelayTimeout === 0) {
+          setButtonFlag(0)
+        }
+        return () => clearTimeout(timeout);
+      }, [nextSubTestDelayTimeout]);
+    // console.log(progress);
+
+
+
+    function changeAnswer(selectedQuestionID, selectedAnswerID, selectedQuestionType, selectedFlag){
+        // console.log(questionID, answerID)
+        console.log(selectedQuestionType)
+        if (selectedQuestionType === 1 ){
+            setStateExam(currentState => {
+              return currentState.map(state => {
+                if(state.questionID === selectedQuestionID && state.answerID === selectedAnswerID){
+                  return { ...state, isSelected:selectedFlag}
+                }
+                else if(state.questionID === selectedQuestionID && state.answerID !== selectedAnswerID){
+                  return { ...state, isSelected:0}
+                }
+                return state
+              })
+            })
+            setStateSubmitExam(currentState => {
+              return currentState.map(state => {
+                if(state.question === selectedQuestionID && state.answer === selectedAnswerID){
+                  return { ...state, isselected:selectedFlag}
+                }
+                else if(state.question === selectedQuestionID && state.answer !== selectedAnswerID){
+                  return { ...state, isselected:0}
+                }
+                return state
+              })
+            })
+        }
+        else if (selectedQuestionType === 2){
+            setStateExam(currentState => {
+              return currentState.map(state => {
+                if(state.questionID === selectedQuestionID && state.answerID === selectedAnswerID){
+                  return { ...state, isSelected:selectedFlag}
+                }
+                return state
+              })
+            })
+            setStateSubmitExam(currentState => {
+              return currentState.map(state => {
+                if(state.question === selectedQuestionID && state.answer === selectedAnswerID){
+                  return { ...state, isselected:selectedFlag}
+                }
+                return state
+              })
+            })
+        }
+        else if (selectedQuestionType === 3){
+            setStateExam(currentState => {
+              return currentState.map(state => {
+                if(state.questionID === selectedQuestionID && state.answerID === selectedAnswerID && state.isSelected === 0){
+                  return { ...state, isSelected:1}
+                }
+                else if(state.questionID === selectedQuestionID && state.answerID === selectedAnswerID && state.isSelected === 1){
+                  return { ...state, isSelected:0}
+                }
+                return state
+              })
+            })
+            setStateSubmitExam(currentState => {
+              return currentState.map(state => {
+                if(state.question === selectedQuestionID && state.answer === selectedAnswerID && state.isselected === 0){
+                  return { ...state, isselected:1}
+                }
+                else if(state.question === selectedQuestionID && state.answer === selectedAnswerID && state.isselected === 1){
+                  return { ...state, isselected:0}
+                }
+                return state
+              })
+            })
+        }
+      }
+    function nextSubTest(){
+        setButtonFlag(1);
+        setNextSubTestDelayTimeout(5);
+        const previousSubTestSelected = subTestSelected;
+        if(previousSubTestSelected + 1 === tryOutDisplayData.subtest_related.length){
+            // alert('Submit');
+            // console.log(stateExam)
+            // console.log(stateSubmitExam)
+            axios
+            .post(process.env.REACT_APP_BACKEND_URL + '/api/useranswer/', stateSubmitExam)
+            .then((response) => {
+            //   setPosts([response.data, ...posts]);
+                localStorage.removeItem('questionSelected');
+                localStorage.removeItem('subTestSelected');
+                localStorage.removeItem('subTestSelectedTimer');
+                localStorage.removeItem('stateExam');
+                localStorage.removeItem('stateSubmitExam');
+                alert('Submit Berhasil');
+                setButtonFlag(0);
+                props.handleEngageExam(0,0);
+
+
+            })
+            .catch(error => {
+                // alert("Jawaban Tidak Berhasil Tersimpan")
+            });
+        }
+        else {
+            setSubTestSelected(previousSubTestSelected+1);
+            setSubTestSelectedTimer(tryOutDisplayData.subtest_related[subTestSelected].duration);
+            localStorage.setItem("subTestSelectedTimer", JSON.stringify(subTestSelectedTimer))
+            setQuestionSelected(0);
+
+        }
+    }
+    function changeQuestion(index){
+        setQuestionSelected(index)
+    }
+    
 
     return <Fragment>
         <div className={styles.prepare}>
@@ -315,14 +332,14 @@ function TryOutSheet(props) {
             <div className={styles.preparemid}>
                 <div className={styles.breadcrumbs}>
                     <ul>
-                        <li className={styles.breadcrumbsparent}>TRY OUT {packageData.name}</li>
+                        <li className={styles.breadcrumbsparent}>TRY OUT {tryOutData.name}</li>
                         <li className={styles.breadcrumbsdivider}>&#62;</li>
                         <li className={styles.breadcrumbsmenu}>PENGERJAAN</li>
                     </ul>
                 </div>
                 
                 <div className={styles.timerwrapper}>
-                    {new Date(activeSubTestTimer * 1000).toISOString().slice(14, 19)}
+                    {new Date(subTestSelectedTimer * 1000).toISOString().slice(14, 19)}
                 </div>
                 
             </div>
@@ -333,32 +350,32 @@ function TryOutSheet(props) {
             <div className={styles.tryoutblank}></div>
             <div className={styles.tryoutleft}>
                 <QuestionBoxComponent 
-                    stateContent={stateExam.filter(f=>f.questionID===packageData.section_related[userPackage.sectiondone].subtest_related[activeSubTest].question_related[activeQuestion].id)} 
+                    stateContent={stateExam.filter(f=>f.questionID===tryOutDisplayData.subtest_related[subTestSelected].question_related[questionSelected].id)} 
                     handleChangeAnswer={changeAnswer} 
-                    key={packageData.section_related[userPackage.sectiondone].subtest_related[activeSubTest].question_related[activeQuestion].id} 
-                    questionContent={packageData.section_related[userPackage.sectiondone].subtest_related[activeSubTest].question_related[activeQuestion]}/>
+                    key={tryOutDisplayData.subtest_related[subTestSelected].question_related[questionSelected].id} 
+                    questionContent={tryOutDisplayData.subtest_related[subTestSelected].question_related[questionSelected]}/>
           
             </div>
             <div className={styles.tryoutmid}>
                 <QuestionBoxMobileComponent 
-                    stateContent={stateExam.filter(f=>f.questionID===packageData.section_related[userPackage.sectiondone].subtest_related[activeSubTest].question_related[activeQuestion].id)} 
+                    stateContent={stateExam.filter(f=>f.questionID===tryOutDisplayData.subtest_related[subTestSelected].question_related[questionSelected].id)} 
                     handleChangeAnswer={changeAnswer} 
-                    key={packageData.section_related[userPackage.sectiondone].subtest_related[activeSubTest].question_related[activeQuestion].id} 
-                    questionContent={packageData.section_related[userPackage.sectiondone].subtest_related[activeSubTest].question_related[activeQuestion]}/>
+                    key={tryOutDisplayData.subtest_related[subTestSelected].question_related[questionSelected].id} 
+                    questionContent={tryOutDisplayData.subtest_related[subTestSelected].question_related[questionSelected]}/>
           
                 <div className={styles.questionnavwrapper}>
 
                     <div className={styles.questionnavtitle}>Navigasi</div>
                     <div className={styles.questionnavcontent}>
 
-                        {packageData.section_related[userPackage.sectiondone].subtest_related[activeSubTest].question_related.map((c,i)=>{
+                        {tryOutDisplayData.subtest_related[subTestSelected].question_related.map((c,i)=>{
                             return <div className={styles.questionnavbox} onClick={() => changeQuestion(i)} key={c.id} >
                             <div className={styles.questionnavboxwrapper}>
                                 
                                 
                                 {stateExam!==undefined ?
                                     // stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length+'-'+
-                                    // packageData.section_related[userPackage.sectiondone].subtest_related[activeSubTest].question_related[i].answer_related.length
+                                    // tryOutDisplayData.subtest_related[subTestSelected].question_related[i].answer_related.length
                                     <div className={
                                         stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length === 0 ? 
                                         styles.questionanswerbasestate :
@@ -406,7 +423,7 @@ function TryOutSheet(props) {
                                 
                                 }
 
-                                <div className={i === activeQuestion ? 
+                                <div className={i === questionSelected ? 
                                     c.type === 1 ? styles.questionnumberactivemultiplechoice : 
                                     c.type === 2 ? styles.questionnumberactivetruefalse :
                                     styles.questionnumberactivemultiplecheck
@@ -426,7 +443,7 @@ function TryOutSheet(props) {
                     </div>
                     <div className={styles.questionnavchangepage}>
                         <button disabled={buttonFlag} onClick={() => nextSubTest()} className={styles.nextpage}>
-                             <i><FontAwesomeIcon icon={buttonFlag === 1 ? faSpinner : faArrowRightToBracket}></FontAwesomeIcon> {activeSubTest + 1 === packageData.section_related[userPackage.sectiondone].subtest_related.length ? 'Submit Ujian' : 'Sub Test Berikutnya'}</i>
+                             <i><FontAwesomeIcon icon={buttonFlag === 1 ? faSpinner : faArrowRightToBracket}></FontAwesomeIcon> {subTestSelected + 1 === tryOutDisplayData.subtest_related.length ? 'Submit Ujian' : 'Sub Test Berikutnya'}</i>
                         </button>
                     </div>
                 </div>
@@ -437,17 +454,17 @@ function TryOutSheet(props) {
                 {/* <button>Batalkan</button> */}
                 <div className={styles.questionnavwrapper}>
 
-                    <div className={styles.questionnavtitle}>{packageData.section_related[userPackage.sectiondone].subtest_related[activeSubTest].name}</div>
+                    <div className={styles.questionnavtitle}>{tryOutDisplayData.subtest_related[subTestSelected].name}</div>
                     <div className={styles.questionnavcontent}>
                         {/* {nextSubTestDelayTimeout} */}
-                        {packageData.section_related[userPackage.sectiondone].subtest_related[activeSubTest].question_related.map((c,i)=>{
+                        {tryOutDisplayData.subtest_related[subTestSelected].question_related.map((c,i)=>{
                             return <div className={styles.questionnavbox} onClick={() => changeQuestion(i)} key={c.id} >
                             <div className={styles.questionnavboxwrapper}>
                                 
                                 
                                 {stateExam!==undefined ?
                                     // stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length+'-'+
-                                    // packageData.section_related[userPackage.sectiondone].subtest_related[activeSubTest].question_related[i].answer_related.length
+                                    // tryOutDisplayData.subtest_related[subTestSelected].question_related[i].answer_related.length
                                     <div className={
                                         stateExam.filter(f=>f.questionID === c.id && f.isSelected !== 0).length === 0 ? 
                                         styles.questionanswerbasestate :
@@ -495,7 +512,7 @@ function TryOutSheet(props) {
                                 
                                 }
 
-                                <div className={i === activeQuestion ? 
+                                <div className={i === questionSelected ? 
                                     c.type === 1 ? styles.questionnumberactivemultiplechoice : 
                                     c.type === 2 ? styles.questionnumberactivetruefalse :
                                     styles.questionnumberactivemultiplecheck
@@ -519,7 +536,7 @@ function TryOutSheet(props) {
                                 })} */}
                     <div className={styles.questionnavchangepage}>
                         <button disabled={buttonFlag} onClick={() => nextSubTest()} className={styles.nextpage}>
-                             <i><FontAwesomeIcon icon={buttonFlag === 1 ? faSpinner : faArrowRightToBracket}></FontAwesomeIcon> {activeSubTest + 1 === packageData.section_related[userPackage.sectiondone].subtest_related.length ? 'Submit Ujian' : 'Sub Test Berikutnya'}</i>
+                             <i><FontAwesomeIcon icon={buttonFlag === 1 ? faSpinner : faArrowRightToBracket}></FontAwesomeIcon> {subTestSelected + 1 === tryOutDisplayData.subtest_related.length ? 'Submit Ujian' : 'Sub Test Berikutnya'}</i>
                         </button>
                     </div>
                 </div>

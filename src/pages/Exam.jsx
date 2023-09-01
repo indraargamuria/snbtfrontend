@@ -38,15 +38,14 @@ function Exam(){
     });
     
     useEffect(()=>{
-        setDataState({loading:true});
-        const execUserPackageID = localStorage.getItem('sessionUserPackageID');
-        const execPackageID = localStorage.getItem('sessionPackageID');
-        const apiUrl = process.env.REACT_APP_BACKEND_URL + '/api/package/' + execPackageID;
+        const nUserPackageID = localStorage.getItem('nUserPackageID');
+        const nPackageID = localStorage.getItem('nPackageID');
+        const apiUrl = process.env.REACT_APP_BACKEND_URL + '/api/package/' + nPackageID;
         fetch(apiUrl)
         .then((data)=>data.json())
         .then((content)=>{
             
-            const apiUrlUserPackage = process.env.REACT_APP_BACKEND_URL + '/api/userpackage/' + execUserPackageID;
+            const apiUrlUserPackage = process.env.REACT_APP_BACKEND_URL + '/api/userpackage/' + nUserPackageID;
             fetch(apiUrlUserPackage)
             .then((userdata)=>userdata.json())
             .then((userpackagecontent)=>{

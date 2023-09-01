@@ -34,8 +34,8 @@ function UserPackageCatalog(props){
 
     function startTryOut(userPackageID,packageID){
         console.log(userPackageID, '-', packageID)
-        localStorage.setItem('sessionUserPackageID', userPackageID);
-        localStorage.setItem('sessionPackageID', packageID);
+        localStorage.setItem('nUserPackageID', userPackageID);
+        localStorage.setItem('nPackageID', packageID);
         navigate('/exam')
     }
     

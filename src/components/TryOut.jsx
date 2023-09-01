@@ -7,134 +7,112 @@ import { useNavigate } from 'react-router-dom';
 
 
 function TryOut(props) {
-        
     const navigate = useNavigate();
-    const tryOutData = props.content;
-    // const userInfoData = props.userinfo;
-
-    const [userInfoData, setUserInfoData] = useState(props.userinfo)
-    // const [isExamEngaged, setIsExamEngaged] = useState(1);
-    // const [goSectionID, setGoSectionID] = useState(6);
-    const firstSection = tryOutData.section_related[0].id;
-    // const [sectionActive, setSectionActive] = useState(tryOutData.section_related[0].id);
-
-    const [sectionActive, setSectionActive] = useState(()=>{
-      const localValue = localStorage.getItem("sectionActive")
-      if(localValue == null) return tryOutData.section_related[userInfoData.sectiondone].id
-  
-      return JSON.parse(localValue)
-    })
-    const [isExamEngaged, setIsExamEngaged] = useState(()=>{
-      const localValue = localStorage.getItem("engageFlag")
-      if(localValue == null) return 0
-  
-      return JSON.parse(localValue)
-    })
-
-    const [goSectionID, setGoSectionID] = useState(()=>{
-      const localValue = localStorage.getItem("sectionID")
-      if(localValue == null) return 0
-  
-      return JSON.parse(localValue)
-    })
-
-    useEffect(()=>{
-        console.log(sectionActive);
-        localStorage.setItem("sectionActive", JSON.stringify(tryOutData.section_related[userInfoData.sectiondone].id))
-    },[sectionActive])
-    // useEffect(()=>{
-    //     if(stateData!==undefined&&stateData.length!==0){
-    //         console.log(stateData[3].subTestID)
-    //         setRef(stateData);
-    //     }
-    // },[stateData])
-    useEffect(()=>{
-        localStorage.setItem("engageFlag", JSON.stringify(isExamEngaged))
-        localStorage.setItem("sectionID", JSON.stringify(goSectionID))
-        // console.log(isExamEngaged);
-        // console.log(props.content);
-    },[isExamEngaged])
     
-    function engageExam(engageFlag, sectionID){
-        console.log(sectionActive);
-        if(isExamEngaged===0&&sectionID===sectionActive){
-            setIsExamEngaged(engageFlag);
-            setGoSectionID(sectionID);
+    const packageData = props.content;
+    const [userPackage, setUserPackage] = useState(props.userinfo);
+    const [examInProgress, setExamInProgress] = useState(()=>{
+        const localValue = localStorage.getItem("nExamInProgress")
+        if(localValue == null) return 0
+    
+        return JSON.parse(localValue)
+    });
+
+    function changeExamInProgress(passExamInProgress, passUserPackageSectionDone, passUserPackageStatus){
+        if(passExamInProgress === 1 && passUserPackageSectionDone === 0 && passUserPackageStatus === 1){
+            alert ('Start Skolastik')
+            localStorage.setItem("nExamInProgress", JSON.stringify(passExamInProgress))
+            setExamInProgress(passExamInProgress);
         }
-        else if(isExamEngaged===1){
-            // console.log(userInfoData.sectiondone+1)
-            // console.log(jwt(localStorage.getItem("access_token")).user_id)
-            // console.log(localStorage.getItem("sessionPackageID"))
-            console.log(userInfoData.sectiondone+1===2?2:1);
-            console.log(userInfoData.sectiondone+1);
-            console.log(jwt(localStorage.getItem("access_token")).user_id);
-            console.log(localStorage.getItem("sessionPackageID"));
+        else if (passExamInProgress === 0 && passUserPackageSectionDone === 1 && passUserPackageStatus === 1){
             axios
-            .put(process.env.REACT_APP_BACKEND_URL + '/api/userpackage/' + localStorage.getItem("sessionUserPackageID") + '/',{           
-                "status": userInfoData.sectiondone+1===2?2:1,
-                "sectiondone": userInfoData.sectiondone+1,
+            .put(process.env.REACT_APP_BACKEND_URL + '/api/userpackage/' + localStorage.getItem("nUserPackageID") + '/',{           
+                "status": passUserPackageStatus,
+                "sectiondone": passUserPackageSectionDone,
                 "user": jwt(localStorage.getItem("access_token")).user_id,
-                "package": localStorage.getItem("sessionPackageID")
+                "package": localStorage.getItem("nPackageID")
             })
             .then((response) => {
-            //   setPosts([response.data, ...posts]);
-                setUserInfoData(userInfoData.sectiondone+1);
-                setIsExamEngaged(engageFlag);
-                setGoSectionID(sectionID);
-                setSectionActive(tryOutData.section_related[userInfoData.sectiondone+1].id)
-                localStorage.setItem("sectionActive", JSON.stringify(tryOutData.section_related[userInfoData.sectiondone+1].id))
-                if(userInfoData===2){
-                    alert('Selesai 2 Sub Test')
-                    localStorage.removeItem('sectionID');
-                    localStorage.removeItem('sectionUserPackageID');
-                    localStorage.removeItem('sectionActive');
-                    localStorage.removeItem('sessionPackageID');
-                    localStorage.removeItem('stateExam');
-                    localStorage.removeItem('questionSelected');
-                    localStorage.removeItem('engageFlag');
-                    localStorage.removeItem('subTestSelected');
-                    localStorage.removeItem('stateSubmitExam');
-                    localStorage.removeItem('subTestSelectedTimer');
-                    // localStorage.removeItem('stateExam');
-                    navigate('/catalog')
-                }
-
+                localStorage.setItem("nExamInProgress", JSON.stringify(passExamInProgress))
+                setExamInProgress(passExamInProgress);
+                alert ('Skolastik sudah Selesai, Silakan Melanjutkan ke Literasi')
+    
+                setUserPackage({
+                    ...userPackage,
+                    sectiondone: passUserPackageSectionDone,
+                    status: passUserPackageStatus
+                });
+                localStorage.removeItem("nActiveSubTest")
+                localStorage.removeItem("nActiveSubTestTimer")
+                localStorage.removeItem("nActiveQuestion")
+                localStorage.removeItem("nStateExam")
+                localStorage.removeItem("nStateSubmitExam")
             })
             .catch(error => {
-                // alert("Jawaban Tidak Berhasil Tersimpan")
+              //   console.error('There was an error!', error);
+                alert("Kemungkinan Terdapat Kendala Jaringan di PC Kamu, Tenang Saja, Ganti Akses Jaringan yang Lebih Baik dan Buka Kembali Halaman Ini, Jawaban Kamu Masih Tersimpan!, Jadi Tinggal Submit Lagi Ya")
+                
             });
         }
-        else if(isExamEngaged===0&&sectionID!==sectionActive){
-            if(sectionID===firstSection){
-                alert('Kamu sudah pernah menyelesaikan Sub Test ini');
-            }
-            else {
-                alert('Kamu harus menyelesaikan Skolastik terlebih dahulu');
-            }
+        else if(passExamInProgress === 1 && passUserPackageSectionDone === 1 && passUserPackageStatus === 1){
+            alert ('Start Literasi')
+            console.log(userPackage)
+            localStorage.setItem("nExamInProgress", JSON.stringify(passExamInProgress))
+            setExamInProgress(passExamInProgress);
         }
-        // if(engageFlag===0 && sectionID===sectionActive){
-        //     setIsExamEngaged(engageFlag);
-        //     setGoSectionID(sectionID);
-        // }
-        // else if (engageFlag===1){
-        //     setIsExamEngaged(engageFlag);
-        //     setGoSectionID(sectionID);
-        // }
-        // else {
-        //     if(sectionID!==firstSection){
-        //         alert('Selesaikan Sub Test sebelumnya')
-        //     }
-        // }
+        else if (passExamInProgress === 0 && passUserPackageSectionDone === 2 && passUserPackageStatus === 2){
+            axios
+            .put(process.env.REACT_APP_BACKEND_URL + '/api/userpackage/' + localStorage.getItem("nUserPackageID") + '/',{           
+                "status": passUserPackageStatus,
+                "sectiondone": passUserPackageSectionDone,
+                "user": jwt(localStorage.getItem("access_token")).user_id,
+                "package": localStorage.getItem("nPackageID")
+            })
+            .then((response) => {
+                localStorage.setItem("nExamInProgress", JSON.stringify(passExamInProgress))
+                setExamInProgress(passExamInProgress);
+                alert ('Skolastik dan Literasi sudah Selesai, Kamu akan Langsung diarahkan ke Halaman Katalog, Sekarang Kamu Tinggal Menunggu Hasil Try Out mu Keluar ya, Terima Kasih')
+
+                setUserPackage({
+                    ...userPackage,
+                    sectiondone: passUserPackageSectionDone,
+                    status: passUserPackageStatus
+                });
+                localStorage.removeItem("nActiveSubTest")
+                localStorage.removeItem("nActiveSubTestTimer")
+                localStorage.removeItem("nActiveQuestion")
+                localStorage.removeItem("nStateExam")
+                localStorage.removeItem("nStateSubmitExam")
+                localStorage.removeItem("nPackageID")
+                localStorage.removeItem("nUserPackageID")
+                localStorage.removeItem("nExamInProgress")
+                navigate('/catalog')
+            })
+        }
     }
+    // useEffect(()=>{
+    //     if(userPackage.status === 1 && userPackage.sectiondone === 1){
+    //         alert('Skolastik Done, Literasi Here We Go')
+
+    //     }
+    //     else if (userPackage.status === 2 && userPackage.sectiondone === 2){
+    //         alert('All Done Brother')
+    //     }
+    // },[userPackage])
+
     return (
         <Fragment>
-            {isExamEngaged === 0 ?
+            {/* <button onClick={()=>changeExamInProgress(0,1)}>Skolastik</button>
+            <button onClick={()=>changeExamInProgress(1,1)}>Literasi</button>
+            <button onClick={()=>changeExamInProgress(2,2)}>Exam Done</button> */}
+            {examInProgress === 0 ?
                 <div>
-                    <PackageAttributeComponent handleEngageExam = {engageExam} userContent = {userInfoData} sectionActive = {sectionActive} tryOutContent = {tryOutData}/>
+                    <PackageAttributeComponent childChangeExamInProgress = {changeExamInProgress} userPackage = {userPackage} packageData = {packageData}/>
                 </div>
                 :
+                
                 <div>
-                    <TryOutSheetComponent tryOutContent = {tryOutData} userContent = {userInfoData} tryOutSection = {goSectionID} handleEngageExam = {engageExam}/>
+                    <TryOutSheetComponent  userPackage = {userPackage} packageData = {packageData} childChangeExamInProgress = {changeExamInProgress}/>
                 </div>
             }
         </Fragment>

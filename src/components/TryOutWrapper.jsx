@@ -3,7 +3,7 @@ import TryOutComponent from './TryOut'
 
 const TryOutWrapper = (props) => {
     const {content, userinfo} = props;
-    if(!content || content.length === 0) return <p>Tidak Ada Paket Aktif</p>
+    if(!content || content.length === 0) return <p>Paket Tidak Ditemukan</p>
     // console.log(Package.length);
     return (
         <Fragment>{<TryOutComponent content={content} userinfo={userinfo}/>}
