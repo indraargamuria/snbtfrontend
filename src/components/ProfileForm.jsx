@@ -65,7 +65,7 @@ function ProfileForm(props) {
     const handleUserDataChange = (e) => {
         setUserData({
             ...userData,
-            [e.target.name]: e.target.value.trim() === '-----' ? null : e.target.value.trim(),
+            [e.target.name]: e.target.value === '-----' ? null : e.target.value,
         });
 
     }
