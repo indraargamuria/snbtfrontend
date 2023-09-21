@@ -12,7 +12,7 @@ function Hero(){
         {
             tagpoint_id: 1,
             tagpoint_icon: faCalendarAlt.iconName,
-            tagpoint_text: 'Paket Soal Menarik & Up to Date'
+            tagpoint_text: 'Paket Soal Menarik & Up to Date!'
         },
         {
             tagpoint_id: 2,

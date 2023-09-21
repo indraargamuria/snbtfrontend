@@ -254,19 +254,26 @@ function TryOutSheet(props) {
           setButtonFlag(1);
           if((activeSubTest + 1) === packageData.section_related[userPackage.sectiondone].subtest_related.length){
             alert('Proses Submit Dimulai')
-            // console.log(userPackage)
+            console.log('1. Submit')
             // console.log(packageData.section_related[userPackage.sectiondone].id)
+                  props.childChangeExamInProgress(0,userPackage.sectiondone + 1, (userPackage.sectiondone + 1) === 2 ? 2 : 1);
+                  setButtonFlag(0);
+                    localStorage.removeItem("nActiveSubTestTimer")
               axios
               .post(process.env.REACT_APP_BACKEND_URL + '/api/useranswer/', stateSubmitExam)
               .then((response) => {
               //   setPosts([response.data, ...posts]);
+                    console.log(response)
+                    console.log('2. Respon Submit')
                   alert('Proses Submit Berhasil');
-                  props.childChangeExamInProgress(0,userPackage.sectiondone + 1, (userPackage.sectiondone + 1) === 2 ? 2 : 1);
-                  setButtonFlag(0);
-                  localStorage.removeItem("nActiveSubTestTimer")
+                  // Test Pindah ke luar Promise
+                //   props.childChangeExamInProgress(0,userPackage.sectiondone + 1, (userPackage.sectiondone + 1) === 2 ? 2 : 1);
+                //   setButtonFlag(0);
+                //   localStorage.removeItem("nActiveSubTestTimer")
               })
               .catch(error => {
                 //   console.error('There was an error!', error);
+                    console.log('3. Gagal Submit')
                   alert("Kemungkinan Terdapat Kendala Jaringan di PC Kamu, Tenang Saja, Ganti Akses Jaringan yang Lebih Baik dan Buka Kembali Halaman Ini, Jawaban Kamu Masih Tersimpan!, Jadi Tinggal Submit Lagi Ya")
                   setButtonFlag(0);
               });
