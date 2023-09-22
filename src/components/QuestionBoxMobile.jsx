@@ -28,7 +28,7 @@ function QuestionBoxMobile(props){
     <div className={styles.questiontitle}>Potensi Kognitif Soal No {questionData.number}</div>
     <div className={styles.questioncontent}>
         <div className={styles.questioncontentmain}>
-            <div dangerouslySetInnerHTML={{ __html: questionData.name.replace('<img>','<img style="max-width:100%" src="').replace('</img>','"/>')}}></div>
+            <div dangerouslySetInnerHTML={{ __html: questionData.name.replaceAll('/view?usp=drive_link','').replaceAll('/view','').replaceAll('file/d/','uc?export=view&id=').replaceAll('<img>','<img style="max-width:100%" src="').replaceAll('</img>','"/>')}}></div>
         </div>
         <div className={questionData.type === 1 ? styles.questioncontentsub : styles.questioncontentsub}>
             {questionData.type === 1 ? 
@@ -42,12 +42,15 @@ function QuestionBoxMobile(props){
                                 checked={stateData[i].isSelected===1?1:0} 
                                 type="radio" name="answermobile"/>
                                 <span className={styles.answerradiobutton}>
-                                    {d.name.substring(0, 5)==='https'?
-                                        <div dangerouslySetInnerHTML={{ __html: prefixEmbedImage.concat(d.name,'"/>')}}></div>
-                                        :
-                                        <div dangerouslySetInnerHTML={{ __html: d.name}}></div>
+                                    {d.name.indexOf("drive.google")>0?
+                                            <div dangerouslySetInnerHTML={{ __html: prefixEmbedImage.concat(d.name.substring(0,d.name.indexOf("/view")).replaceAll('file/d/','uc?export=view&id='),'"/>')}}></div>
+                                            :
+                                            d.name.substring(0, 5)==='https'?
+                                            <div dangerouslySetInnerHTML={{ __html: prefixEmbedImage.concat(d.name,'"/>')}}></div>
+                                            :
+                                            <div dangerouslySetInnerHTML={{ __html: d.name}}></div>
                                     }
-                                    {/* <div dangerouslySetInnerHTML={{ __html: questionData.name.replace('<img>','<img src="').replace('</img>','"/>')}}></div>-{d.id}_{stateData[i].isSelected} */}
+                                    {/* <div dangerouslySetInnerHTML={{ __html: questionData.name.replaceAll('<img>','<img src="').replaceAll('</img>','"/>')}}></div>-{d.id}_{stateData[i].isSelected} */}
                                 </span>
                             </label>:<div></div>}
                             
@@ -71,10 +74,13 @@ function QuestionBoxMobile(props){
                                     <div className={styles.answertruefalsewrapper}>
                                         <span className={styles.answertruefalsecontent}>
                                             
-                                            {d.name.substring(0, 5)==='https'?
-                                                <div dangerouslySetInnerHTML={{ __html: prefixEmbedImage.concat(d.name,'"/>')}}></div>
-                                                :
-                                                <div>{d.name}</div>
+                                            {d.name.indexOf("drive.google")>0?
+                                            <div dangerouslySetInnerHTML={{ __html: prefixEmbedImage.concat(d.name.substring(0,d.name.indexOf("/view")).replaceAll('file/d/','uc?export=view&id='),'"/>')}}></div>
+                                            :
+                                            d.name.substring(0, 5)==='https'?
+                                            <div dangerouslySetInnerHTML={{ __html: prefixEmbedImage.concat(d.name,'"/>')}}></div>
+                                            :
+                                            <div dangerouslySetInnerHTML={{ __html: d.name}}></div>
                                             }
                                         </span>
                                         <label className={styles.answertruefalseradiowrapper}>
@@ -125,7 +131,19 @@ function QuestionBoxMobile(props){
                                     </label>
                                     <span className={styles.answermultiplecheckcontent}>
                                         {stateData[i].isSelected===0 && stateData.filter(f=>f.isSelected===1).length === 2 ? 
-                                        '[Opsi dinonaktifkan] ' +d.name:d.name}
+                                        '[Opsi dinonaktifkan] ' +d.name.indexOf("drive.google")>0?
+                                        <div dangerouslySetInnerHTML={{ __html: prefixEmbedImage.concat(d.name.substring(0,d.name.indexOf("/view")).replaceAll('file/d/','uc?export=view&id='),'"/>')}}></div>
+                                        :
+                                        d.name.substring(0, 5)==='https'?
+                                        <div dangerouslySetInnerHTML={{ __html: prefixEmbedImage.concat(d.name,'"/>')}}></div>
+                                        :
+                                        <div dangerouslySetInnerHTML={{ __html: d.name}}></div>:d.name.indexOf("drive.google")>0?
+                                        <div dangerouslySetInnerHTML={{ __html: prefixEmbedImage.concat(d.name.substring(0,d.name.indexOf("/view")).replaceAll('file/d/','uc?export=view&id='),'"/>')}}></div>
+                                        :
+                                        d.name.substring(0, 5)==='https'?
+                                        <div dangerouslySetInnerHTML={{ __html: prefixEmbedImage.concat(d.name,'"/>')}}></div>
+                                        :
+                                        <div dangerouslySetInnerHTML={{ __html: d.name}}></div>}
                                         </span>
                                 </div>
                                 :
