@@ -22,37 +22,82 @@ function PackageBox(props) {
       })
     function addUserPackage(id){
         setButtonFlag(1);
+        axios
+            .get(process.env.REACT_APP_BACKEND_URL + '/api/userprofile/' + sessionUserID + '/')
+            .then((response) => {
+                // console.log(response.data.studentnumber);
+                axios
+                    .get(process.env.REACT_APP_BACKEND_URL + '/api/studentnumber/')
+                    .then((nis) => {
+                        if(nis.data.filter(c => c.studentnumber === response.data.studentnumber).length>0){
+
+                            const apiUrl = process.env.REACT_APP_BACKEND_URL + '/api/userpackage/';
+                            fetch(apiUrl)
+                            .then((data)=>data.json())
+                            .then((content)=>{
+                                console.log(content.filter(c=>c.user === sessionUserID && c.package === id));
+                                // alert(content.filter(c=>c.user === sessionUserID && c.package === id).length)
+                                const packageRegistered = content.filter(c=>c.user === sessionUserID && c.package === id && c.status === 1).length;
+                                if(packageRegistered===1){
+                                    alert('Paket Sudah Kamu Pesan Sebelumnya dan Statusnya Masih Aktif, Yuk Langsung Try Out!')
+                                    navigate('/catalog')
+                                    setButtonFlag(0);
+                                }
+                                else {
+                                    axios
+                                        .post(process.env.REACT_APP_BACKEND_URL + '/api/userpackage/', {
+                                            package: id,
+                                            user: sessionUserID,
+                                            status: 1
+                                        })
+                                        .then((response) => {
+                                        //   setPosts([response.data, ...posts]);
+                                        alert('Paket Berhasil Ditambahkan!')
+                                        navigate('/catalog')
+                                        setButtonFlag(0);
+                            
+                                        });
+                                }
+                            })
+                        }
+                        else {
+                            alert('NIS Tidak Valid, Lengkapi NIS pada Halaman Profil');
+                            navigate('/profile')
+                            setButtonFlag(0);
+                        };
+                    })
+            })
+        // setButtonFlag(1);
 
         
-        const apiUrl = process.env.REACT_APP_BACKEND_URL + '/api/userpackage/';
-        fetch(apiUrl)
-        .then((data)=>data.json())
-        .then((content)=>{
-            console.log(content.filter(c=>c.user === sessionUserID && c.package === id));
-            // alert(content.filter(c=>c.user === sessionUserID && c.package === id).length)
-            const packageRegistered = content.filter(c=>c.user === sessionUserID && c.package === id && c.status === 1).length;
-            if(packageRegistered===1){
-                alert('Paket Sudah Kamu Pesan Sebelumnya dan Statusnya Masih Aktif, Yuk Langsung Try Out!')
-                navigate('/catalog')
-                setButtonFlag(0);
-            }
-            else {
-                axios
-                    .post(process.env.REACT_APP_BACKEND_URL + '/api/userpackage/', {
-                        package: id,
-                        user: sessionUserID,
-                        status: 1
-                    })
-                    .then((response) => {
-                    //   setPosts([response.data, ...posts]);
-                    alert('Paket Berhasil Ditambahkan!')
-                    navigate('/catalog')
-                    setButtonFlag(0);
+        // const apiUrl = process.env.REACT_APP_BACKEND_URL + '/api/userpackage/';
+        // fetch(apiUrl)
+        // .then((data)=>data.json())
+        // .then((content)=>{
+        //     console.log(content.filter(c=>c.user === sessionUserID && c.package === id));
+        //     // alert(content.filter(c=>c.user === sessionUserID && c.package === id).length)
+        //     const packageRegistered = content.filter(c=>c.user === sessionUserID && c.package === id && c.status === 1).length;
+        //     if(packageRegistered===1){
+        //         alert('Paket Sudah Kamu Pesan Sebelumnya dan Statusnya Masih Aktif, Yuk Langsung Try Out!')
+        //         navigate('/catalog')
+        //         setButtonFlag(0);
+        //     }
+        //     else {
+        //         axios
+        //             .post(process.env.REACT_APP_BACKEND_URL + '/api/userpackage/', {
+        //                 package: id,
+        //                 user: sessionUserID,
+        //                 status: 1
+        //             })
+        //             .then((response) => {
+        //             //   setPosts([response.data, ...posts]);
+        //             alert('Paket Berhasil Ditambahkan!')
+        //             navigate('/catalog')
+        //             setButtonFlag(0);
         
-                    });
-            }
-        })
-        // console.log(id);
+        //             });
+        //     }
+        // })
     }
     // const addUserPackage = (props) => {
     //     console.log(props);
