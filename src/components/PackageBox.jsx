@@ -25,7 +25,7 @@ function PackageBox(props) {
         axios
             .get(process.env.REACT_APP_BACKEND_URL + '/api/userprofile/' + sessionUserID + '/')
             .then((response) => {
-                // console.log(response.data.studentnumber);
+                console.log(response.data.studentnumber);
                 axios
                     .get(process.env.REACT_APP_BACKEND_URL + '/api/studentnumber/')
                     .then((nis) => {
@@ -67,7 +67,7 @@ function PackageBox(props) {
                         };
                     })
             })
-        // setButtonFlag(1);
+        setButtonFlag(1);
 
         
         // const apiUrl = process.env.REACT_APP_BACKEND_URL + '/api/userpackage/';

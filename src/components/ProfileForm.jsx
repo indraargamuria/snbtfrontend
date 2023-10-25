@@ -89,33 +89,37 @@ function ProfileForm(props) {
         }
     },[userData])
     function profileSubmit(){
-        setButtonFlag(1);
-        console.log(userData)
+        // setButtonFlag(1);    
         axios
-        .put(process.env.REACT_APP_BACKEND_URL + '/api/userprofile/' + sessionUserID + '/',{           
-            user: sessionUserID,
-            nickname: userData.nickname,
-            birthdate: userData.birthdate,
-            gender: userData.gender,
-            phonenumber: userData.phonenumber,
-            instagramaccount: userData.instagramaccount,
-            instagramfollower: userData.instagramfollower,
-            schoolname: userData.schoolname,
-            schoolgrade: userData.schoolgrade,
-            schoolprogram: userData.schoolprogram,
-            schoolfinishyear: userData.schoolfinishyear,
-            university1: userData.university1,
-            studyprogram1: userData.studyprogram1,
-            university2: userData.university2,
-            studyprogram2: userData.studyprogram2,
-            studentnumber: userData.studentnumber
-            
-        })
-        .then((response)=>{
-            alert('Profil Berhasil Terupdate, Terima Kasih, Kamu akan Otomatis Pindah ke Homepage ya!')
-            navigate('/');
-            setButtonFlag(0);
-        })
+            .get(process.env.REACT_APP_BACKEND_URL + '/api/userprofile/' + sessionUserID + '/')
+            .then((response) => {
+                console.log(response.data)
+            })
+            axios
+            .put(process.env.REACT_APP_BACKEND_URL + '/api/userprofile/' + sessionUserID + '/',{           
+                user: sessionUserID,
+                nickname: userData.nickname,
+                birthdate: userData.birthdate,
+                gender: userData.gender,
+                phonenumber: userData.phonenumber,
+                instagramaccount: userData.instagramaccount,
+                instagramfollower: userData.instagramfollower,
+                schoolname: userData.schoolname,
+                schoolgrade: userData.schoolgrade,
+                schoolprogram: userData.schoolprogram,
+                schoolfinishyear: userData.schoolfinishyear,
+                university1: userData.university1,
+                studyprogram1: userData.studyprogram1,
+                university2: userData.university2,
+                studyprogram2: userData.studyprogram2,
+                studentnumber: userData.studentnumber
+                
+            })
+            .then((response)=>{
+                alert('Profil Berhasil Terupdate, Terima Kasih, Kamu akan Otomatis Pindah ke Homepage ya!')
+                navigate('/');
+                setButtonFlag(0);
+            })
     }
     return (
         <Fragment>
